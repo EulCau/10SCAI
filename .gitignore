@@ -1,0 +1,9 @@
+build/
+bin/
+libs/
+Tmp/
+libtorch support/
+Eigen/
+
+.vscode
+Thumbs.db

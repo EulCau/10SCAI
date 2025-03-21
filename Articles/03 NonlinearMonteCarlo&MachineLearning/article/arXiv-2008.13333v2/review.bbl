@@ -1,0 +1,883 @@
+\begin{thebibliography}{100}
+
+\bibitem{arjovsky2017towards}
+{\sc Arjovsky, M., and Bottou, L.}
+\newblock Towards principled methods for training generative adversarial
+  networks.
+\newblock {\em arXiv preprint arXiv: 170104862\/} (2017).
+
+\bibitem{arjovsky2017wgan}
+{\sc Arjovsky, M., Chintala, S., and Bottou, L.}
+\newblock {W}asserstein generative adversarial networks.
+\newblock In {\em Proceedings of the 34th International Conference on Machine
+  Learning\/} (International Convention Centre, Sydney, Australia, 06--11 Aug
+  2017), D.~Precup and Y.~W. Teh, Eds., vol.~70 of {\em Proceedings of Machine
+  Learning Research}, PMLR, pp.~214--223.
+
+\bibitem{bally2003quantization}
+{\sc Bally, V., Pages, G., et~al.}
+\newblock A quantization algorithm for solving multidimensional discrete-time
+  optimal stopping problems.
+\newblock {\em Bernoulli 9}, 6 (2003), 1003--1049.
+
+\bibitem{BeckBeckerCheridito2019}
+{\sc Beck, C., Becker, S., Cheridito, P., Jentzen, A., and Neufeld, A.}
+\newblock {Deep splitting method for parabolic PDEs}.
+\newblock {\em arXiv:1907.03452\/} (2019).
+
+\bibitem{beck2019machine}
+{\sc Beck, C., E, W., and Jentzen, A.}
+\newblock Machine learning approximation algorithms for high-dimensional fully
+  nonlinear partial differential equations and second-order backward stochastic
+  differential equations.
+\newblock {\em Journal of Nonlinear Science 29}, 4 (2019), 1563--1619.
+
+\bibitem{beck2020arxiv2003}
+{\sc Beck, C., Gonon, L., and Jentzen, A.}
+\newblock Overcoming the curse of dimensionality in the numerical approximation
+  of high-dimensional semilinear elliptic partial differential equations.
+\newblock {\em arXiv preprint arXiv:2003.00596\/} (2020).
+
+\bibitem{Becketal2019MLP_nonlip_arXiv}
+{\sc Beck, C., Hornung, F., Hutzenthaler, M., Jentzen, A., and Kruse, T.}
+\newblock Overcoming the curse of dimensionality in the numerical approximation
+  of {A}llen-{C}ahn partial differential equations via truncated full-history
+  recursive multilevel {P}icard approximations.
+\newblock {\em arXiv preprint arXiv:1907.06729\/} (2019).
+
+\bibitem{beck2020nonlinear}
+{\sc Beck, C., Hutzenthaler, M., and Jentzen, A.}
+\newblock On nonlinear {Feynman-Kac} formulas for viscosity solutions of
+  semilinear parabolic partial differential equations.
+\newblock {\em arXiv preprint arXiv:2004.03389\/} (2020).
+
+\bibitem{becker2020arxiv2005}
+{\sc Becker, S., Braunwarth, R., Hutzenthaler, M., Jentzen, A., and von
+  Wurstemberger, P.}
+\newblock Numerical simulations for full history recursive multilevel {P}icard
+  approximations for systems of high-dimensional partial differential
+  equations.
+\newblock {\em arXiv preprint arXiv:2005.10206\/} (2020).
+
+\bibitem{BeckerCheridito2019}
+{\sc Becker, S., Cheridito, P., and Jentzen, A.}
+\newblock Deep optimal stopping.
+\newblock {\em Journal of Machine Learning Research 20}, 74 (2019), 1--25.
+
+\bibitem{becker2020pricing}
+{\sc Becker, S., Cheridito, P., and Jentzen, A.}
+\newblock Pricing and hedging {A}merican-style options with deep learning.
+\newblock {\em Journal of Risk and Financial Management 13}, 7 (2020), 158.
+
+\bibitem{BeckerCheriditoJentzen2019}
+{\sc Becker, S., Cheridito, P., Jentzen, A., and Welti, T.}
+\newblock Solving high-dimensional optimal stopping problems using deep
+  learning.
+\newblock {\em Minor revision requested from European Journal of Applied
+  Mathematics, arXiv:1908.01602\/} (2019).
+
+\bibitem{Bellman1957}
+{\sc Bellman, R.~E.}
+\newblock {\em Dynamic Programming}.
+\newblock Princeton University Press, 1957.
+
+\bibitem{bender2007forward}
+{\sc Bender, C., and Denk, R.}
+\newblock A forward scheme for backward {SDEs}.
+\newblock {\em Stochastic Processes and their Applications 117}, 12 (2007),
+  1793--1812.
+
+\bibitem{Bender2017}
+{\sc Bender, C., Schweizer, N., and Zhuo, J.}
+\newblock A primal--dual algorithm for {BSDEs}.
+\newblock {\em Mathematical Finance 27}, 3 (2017), 866--901.
+
+\bibitem{berg2018unified}
+{\sc Berg, J., and Nystr{\"o}m, K.}
+\newblock A unified deep artificial neural network approach to partial
+  differential equations in complex geometries.
+\newblock {\em Neurocomputing 317\/} (2018), 28--41.
+
+\bibitem{berner2018analysis}
+{\sc Berner, J., Grohs, P., and Jentzen, A.}
+\newblock Analysis of the generalization error: {Empirical} risk minimization
+  over deep artificial neural networks overcomes the curse of dimensionality in
+  the numerical approximation of {Black}-{Scholes} partial differential
+  equations.
+\newblock {\em arXiv preprint arXiv:1809.03062\/} (2018).
+
+\bibitem{billaud2018stochastic}
+{\sc Billaud-Friess, M., Macherey, A., Nouy, A., and Prieur, C.}
+\newblock Stochastic methods for solving high-dimensional partial differential
+  equations.
+\newblock In {\em International Conference on Monte Carlo and Quasi-Monte Carlo
+  Methods in Scientific Computing\/} (2018), Springer, pp.~125--141.
+
+\bibitem{bouchard2004discrete}
+{\sc Bouchard, B., and Touzi, N.}
+\newblock Discrete-time approximation and {Monte-Carlo} simulation of backward
+  stochastic differential equations.
+\newblock {\em Stochastic Processes and their Applications 111}, 2 (2004),
+  175--206.
+
+\bibitem{briand2014simulation}
+{\sc Briand, P., Labart, C., et~al.}
+\newblock Simulation of {BSDEs} by {Wiener} chaos expansion.
+\newblock {\em The Annals of Applied Probability 24}, 3 (2014), 1129--1171.
+
+\bibitem{cai2018approximating}
+{\sc Cai, Z., and Liu, J.}
+\newblock Approximating quantum many-body wave functions using artificial
+  neural networks.
+\newblock {\em Physical Review B 97}, 3 (2018), 035116.
+
+\bibitem{carleo2017solving}
+{\sc Carleo, G., and Troyer, M.}
+\newblock Solving the quantum many-body problem with artificial neural
+  networks.
+\newblock {\em Science 355}, 6325 (2017), 602--606.
+
+\bibitem{Carmona2019convergence1}
+{\sc Carmona, R., and Lauri{\`e}re, M.}
+\newblock Convergence analysis of machine learning algorithms for the numerical
+  solution of mean field control and games: I--the ergodic case.
+\newblock {\em arXiv preprint arXiv:1907.05980\/} (2019).
+
+\bibitem{Carmona2019convergence2}
+{\sc Carmona, R., and Lauri{\`e}re, M.}
+\newblock Convergence analysis of machine learning algorithms for the numerical
+  solution of mean field control and games: {II}--the finite horizon case.
+\newblock {\em arXiv preprint arXiv:1908.01613\/} (2019).
+
+\bibitem{ChanMikaelWarin2019}
+{\sc Chan-Wai-Nam, Q., Mikael, J., and Warin, X.}
+\newblock Machine learning for semi linear {PDE}s.
+\newblock {\em Journal of Scientific Computing 79}, 3 (2019), 1667--1712.
+
+\bibitem{chang2016branching}
+{\sc Chang, D., Liu, H., and Xiong, J.}
+\newblock A branching particle system approximation for a class of {FBSDEs}.
+\newblock {\em Probability, Uncertainty and Quantitative Risk 1}, 1 (2016),
+  1--34.
+
+\bibitem{chen2020physics}
+{\sc Chen, Y., Lu, L., Karniadakis, G.~E., and Dal~Negro, L.}
+\newblock Physics-informed neural networks for inverse problems in nano-optics
+  and metamaterials.
+\newblock {\em Optics Express 28}, 8 (2020), 11618--11633.
+
+\bibitem{crisan2010probabilistic}
+{\sc Crisan, D., and Manolarakis, K.}
+\newblock Probabilistic methods for semilinear partial differential equations.
+  {A}pplications to finance.
+\newblock {\em ESAIM: Mathematical Modelling and Numerical Analysis 44}, 5
+  (2010), 1107--1133.
+
+\bibitem{crisan2012solving}
+{\sc Crisan, D., and Manolarakis, K.}
+\newblock Solving backward stochastic differential equations using the cubature
+  method: application to nonlinear pricing.
+\newblock {\em SIAM Journal on Financial Mathematics 3}, 1 (2012), 534--571.
+
+\bibitem{crisan2014second}
+{\sc Crisan, D., Manolarakis, K., et~al.}
+\newblock Second order discretization of backward {SDEs} and simulation with
+  the cubature method.
+\newblock {\em The Annals of Applied Probability 24}, 2 (2014), 652--678.
+
+\bibitem{crisan2010monte}
+{\sc Crisan, D., Manolarakis, K., and Touzi, N.}
+\newblock On the {Monte} {Carlo} simulation of {BSDEs}: An improvement on the
+  {Malliavin} weights.
+\newblock {\em Stochastic Processes and their Applications 120}, 7 (2010),
+  1133--1158.
+
+\bibitem{DarbonOsher2016}
+{\sc Darbon, J., and Osher, S.}
+\newblock Algorithms for overcoming the curse of dimensionality for certain
+  {H}amilton--{J}acobi equations arising in control theory and elsewhere.
+\newblock {\em Research in the Mathematical Sciences 3}, 1 (2016), 19.
+
+\bibitem{delarue2006forward}
+{\sc Delarue, F., Menozzi, S., et~al.}
+\newblock A forward--backward stochastic algorithm for quasi-linear {PDEs}.
+\newblock {\em The Annals of Applied Probability 16}, 1 (2006), 140--184.
+
+\bibitem{dockhorn2019discussion}
+{\sc Dockhorn, T.}
+\newblock A discussion on solving partial differential equations using neural
+  networks.
+\newblock {\em arXiv preprint arXiv:1904.07200\/} (2019).
+
+\bibitem{Duffie1996}
+{\sc Duffie, D., Schroder, M., and Skiadas, C.}
+\newblock Recursive valuation of defaultable securities and the timing of
+  resolution of uncertainty.
+\newblock {\em The Annals of Applied Probability 6}, 4 (1996), 1075--1090.
+
+\bibitem{EHanJentzen2017}
+{\sc E, W., Han, J., and Jentzen, A.}
+\newblock Deep learning-based numerical methods for high-dimensional parabolic
+  partial differential equations and backward stochastic differential
+  equations.
+\newblock {\em Communications in Mathematics and Statistics 5}, 4 (2017),
+  349--380.
+
+\bibitem{E2016multilevel}
+{\sc E, W., Hutzenthaler, M., Jentzen, A., and Kruse, T.}
+\newblock Multilevel {Picard} iterations for solving smooth semilinear
+  parabolic heat equations.
+\newblock {\em arXiv preprint arXiv:1607.03295\/} (2016).
+
+\bibitem{E2019multilevel}
+{\sc E, W., Hutzenthaler, M., Jentzen, A., and Kruse, T.}
+\newblock On multilevel {Picard} numerical approximations for high-dimensional
+  nonlinear parabolic partial differential equations and high-dimensional
+  nonlinear backward stochastic differential equations.
+\newblock {\em Journal of Scientific Computing 79}, 3 (2019), 1534--1571.
+
+\bibitem{EMaWu2019barron}
+{\sc E, W., Ma, C., and Wu, L.}
+\newblock Barron spaces and the compositional function spaces for neural
+  network models.
+\newblock {\em arXiv preprint arXiv:1906.08039\/} (2019).
+
+\bibitem{EMaWu2019machine}
+{\sc E, W., Ma, C., and Wu, L.}
+\newblock Machine learning from a continuous viewpoint.
+\newblock {\em arXiv preprint arXiv:1912.12777\/} (2019).
+
+\bibitem{E2018deep}
+{\sc E, W., and Yu, B.}
+\newblock The deep {Ritz} method: a deep learning-based numerical algorithm for
+  solving variational problems.
+\newblock {\em Communications in Mathematics and Statistics 6}, 1 (2018),
+  1--12.
+
+\bibitem{elbrachter2018dnn}
+{\sc Elbr{\"a}chter, D., Grohs, P., Jentzen, A., and Schwab, C.}
+\newblock {DNN} expression rate analysis of high-dimensional {PDEs}:
+  {Application} to option pricing.
+\newblock {\em arXiv preprint arXiv:1809.07669\/} (2018).
+
+\bibitem{Evans2010partial}
+{\sc Evans, L.~C.}
+\newblock {\em Partial Differential Equations}, vol.~19.
+\newblock American Mathematical Soc., 2010.
+
+\bibitem{fahim2011probabilistic}
+{\sc Fahim, A., Touzi, N., Warin, X., et~al.}
+\newblock A probabilistic numerical method for fully nonlinear parabolic
+  {PDEs}.
+\newblock {\em The Annals of Applied Probability 21}, 4 (2011), 1322--1364.
+
+\bibitem{fan2019solving}
+{\sc Fan, Y., and Ying, L.}
+\newblock Solving inverse wave scattering with deep learning.
+\newblock {\em arXiv preprint arXiv:1911.13202\/} (2019).
+
+\bibitem{fan2020solving}
+{\sc Fan, Y., and Ying, L.}
+\newblock Solving electrical impedance tomography with deep learning.
+\newblock {\em Journal of Computational Physics 404\/} (2020), 109119.
+
+\bibitem{farahmand2017deep}
+{\sc Farahmand, A.-m., Nabi, S., and Nikovski, D.~N.}
+\newblock Deep reinforcement learning for partial differential equation
+  control.
+\newblock In {\em 2017 American Control Conference (ACC)\/} (2017), IEEE,
+  pp.~3120--3127.
+
+\bibitem{Fisher1937wave}
+{\sc Fisher, R.~A.}
+\newblock The wave of advance of advantageous genes.
+\newblock {\em Annals of Eugenics 7}, 4 (1937), 355--369.
+
+\bibitem{fujii2019asymptotic}
+{\sc Fujii, M., Takahashi, A., and Takahashi, M.}
+\newblock Asymptotic expansion as prior knowledge in deep learning method for
+  high dimensional {BSDEs}.
+\newblock {\em Asia-Pacific Financial Markets 26}, 3 (2019), 391--408.
+
+\bibitem{geiss2016simulation}
+{\sc Geiss, C., and Labart, C.}
+\newblock Simulation of {BSDEs} with jumps by {Wiener} chaos expansion.
+\newblock {\em Stochastic Processes and their Applications 126}, 7 (2016),
+  2123--2162.
+
+\bibitem{giles2008multilevel}
+{\sc Giles, M.~B.}
+\newblock Multilevel {Monte Carlo} path simulation.
+\newblock {\em Operations Research 56}, 3 (2008), 607--617.
+
+\bibitem{giles2015multilevel}
+{\sc Giles, M.~B.}
+\newblock Multilevel {Monte Carlo} methods.
+\newblock {\em Acta Numerica 24\/} (2015), 259.
+
+\bibitem{giles2019generalised}
+{\sc Giles, M.~B., Jentzen, A., and Welti, T.}
+\newblock Generalised multilevel {P}icard approximations.
+\newblock {\em arXiv preprint arXiv:1911.03188\/} (2019).
+
+\bibitem{gnoatto2020deep}
+{\sc Gnoatto, A., Picarelli, A., and Reisinger, C.}
+\newblock Deep {xVA} solver--a neural network based counterparty credit risk
+  management framework.
+\newblock {\em arXiv preprint arXiv:2005.02633\/} (2020).
+
+\bibitem{gobet2010solving}
+{\sc Gobet, E., and Labart, C.}
+\newblock Solving {BSDE} with adaptive control variate.
+\newblock {\em SIAM Journal on Numerical Analysis 48}, 1 (2010), 257--277.
+
+\bibitem{gobet2008numerical}
+{\sc Gobet, E., and Lemor, J.-P.}
+\newblock Numerical simulation of {BSDEs} using empirical regression methods:
+  theory and practice.
+\newblock {\em arXiv preprint arXiv:0806.4447\/} (2008).
+
+\bibitem{gobet2005regression}
+{\sc Gobet, E., Lemor, J.-P., Warin, X., et~al.}
+\newblock A regression-based {Monte Carlo} method to solve backward stochastic
+  differential equations.
+\newblock {\em The Annals of Applied Probability 15}, 3 (2005), 2172--2202.
+
+\bibitem{gobet2016stratified}
+{\sc Gobet, E., L{\'o}pez-Salas, J.~G., Turkedjiev, P., and V{\'a}zquez, C.}
+\newblock Stratified regression {Monte-Carlo} scheme for semilinear {PDEs} and
+  {BSDEs} with large scale parallelization on {GPUs}.
+\newblock {\em SIAM Journal on Scientific Computing 38}, 6 (2016), C652--C677.
+
+\bibitem{gobet2016linear}
+{\sc Gobet, E., and Turkedjiev, P.}
+\newblock Linear regression {MDP} scheme for discrete backward stochastic
+  differential equations under general conditions.
+\newblock {\em Mathematics of Computation 85}, 299 (2016), 1359--1391.
+
+\bibitem{gobet2016approximation}
+{\sc Gobet, E., Turkedjiev, P., et~al.}
+\newblock Approximation of backward stochastic differential equations using
+  {Malliavin} weights and least-squares regression.
+\newblock {\em Bernoulli 22}, 1 (2016), 530--562.
+
+\bibitem{gonon2019uniform}
+{\sc Gonon, L., Grohs, P., Jentzen, A., Kofler, D., and {\v{S}}i{\v{s}}ka, D.}
+\newblock Uniform error estimates for artificial neural network approximations
+  for heat equations.
+\newblock {\em arXiv preprint arXiv:1911.09647\/} (2019).
+
+\bibitem{Goodfellow2014generative}
+{\sc Goodfellow, I., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-Farley, D.,
+  Ozair, S., Courville, A., and Bengio, Y.}
+\newblock Generative adversarial nets.
+\newblock In {\em Advances in Neural Information Processing Systems\/} (2014),
+  pp.~2672--2680.
+
+\bibitem{goudenege2019variance}
+{\sc Gouden{\`e}ge, L., Molent, A., and Zanette, A.}
+\newblock Variance reduction applied to machine learning for pricing
+  {Bermudan/American} options in high dimension.
+\newblock {\em arXiv preprint arXiv:1903.11275\/} (2019).
+
+\bibitem{grohs2018proof}
+{\sc Grohs, P., Hornung, F., Jentzen, A., and Von~Wurstemberger, P.}
+\newblock A proof that artificial neural networks overcome the curse of
+  dimensionality in the numerical approximation of {Black-Scholes} partial
+  differential equations.
+\newblock {\em arXiv preprint arXiv:1809.02362\/} (2018).
+
+\bibitem{grohs2019deep}
+{\sc Grohs, P., Jentzen, A., and Salimova, D.}
+\newblock Deep neural network approximations for {Monte} {Carlo} algorithms.
+\newblock {\em arXiv preprint arXiv:1908.10828\/} (2019).
+
+\bibitem{guo2015monotone}
+{\sc Guo, W., Zhang, J., and Zhuo, J.}
+\newblock A monotone scheme for high-dimensional fully nonlinear {PDEs}.
+\newblock {\em The Annals of Applied Probability 25}, 3 (2015), 1540--1580.
+
+\bibitem{HanE2016deepcontrol}
+{\sc Han, J., and E, W.}
+\newblock Deep learning approximation for stochastic control problems.
+\newblock {\em Deep Reinforcement Learning Workshop, NIPS\/} (2016).
+
+\bibitem{Han2019deep}
+{\sc Han, J., and Hu, R.}
+\newblock Deep fictitious play for finding {Markovian} {Nash} equilibrium in
+  multi-agent games.
+\newblock In {\em Proceedings of The First Mathematical and Scientific Machine
+  Learning Conference (MSML)\/} (2020), vol.~107, pp.~221--245.
+
+\bibitem{han2020convergence}
+{\sc Han, J., Hu, R., and Long, J.}
+\newblock Convergence of deep fictitious play for stochastic differential
+  games.
+\newblock {\em arXiv preprint arXiv:2008.05519\/} (2020).
+
+\bibitem{HanJentzenE2018}
+{\sc Han, J., Jentzen, A., and E, W.}
+\newblock Solving high-dimensional partial differential equations using deep
+  learning.
+\newblock {\em Proceedings of the National Academy of Sciences 115}, 34 (2018),
+  8505--8510.
+
+\bibitem{Han2018convergence}
+{\sc Han, J., and Long, J.}
+\newblock Convergence of the deep {BSDE} method for coupled {FBSDE}s.
+\newblock {\em Probability, Uncertainty and Quantitative Risk 5}, 1 (2020),
+  1--33.
+
+\bibitem{han2020solving}
+{\sc Han, J., Lu, J., and Zhou, M.}
+\newblock Solving high-dimensional eigenvalue problems using deep neural
+  networks: A diffusion {M}onte {C}arlo like approach.
+\newblock {\em Journal of Computational Physics\/} (2020).
+
+\bibitem{han2019solving}
+{\sc Han, J., Zhang, L., and E, W.}
+\newblock Solving many-electron {Schr{\"o}dinger equation} using deep neural
+  networks.
+\newblock {\em Journal of Computational Physics 399\/} (2019), 108929.
+
+\bibitem{heinrich1998monte}
+{\sc Heinrich, S.}
+\newblock {Monte Carlo} complexity of global solution of integral equations.
+\newblock {\em Journal of Complexity 14}, 2 (1998), 151--175.
+
+\bibitem{heinrich2001multilevel}
+{\sc Heinrich, S.}
+\newblock Multilevel {Monte Carlo} methods.
+\newblock In {\em International Conference on Large-Scale Scientific
+  Computing\/} (2001), Springer, pp.~58--67.
+
+\bibitem{heinrich1999monte}
+{\sc Heinrich, S., and Sindambiwe, E.}
+\newblock {Monte Carlo} complexity of parametric integration.
+\newblock {\em Journal of Complexity 15}, 3 (1999), 317--341.
+
+\bibitem{Henry-Labordere2012}
+{\sc Henry-Labord{\`e}re, P.}
+\newblock Counterparty risk valuation: a marked branching diffusion approach.
+\newblock {\em arXiv:1203.2369\/} (2012).
+
+\bibitem{Henry2017deep}
+{\sc Henry-Labord\`ere, P.}
+\newblock Deep {Primal}-{Dual} {Algorithm} for {BSDEs}: {Applications} of
+  {Machine} {Learning} to {CVA} and {IM}.
+\newblock {\em Available at SSRN 3071506\/} (2017).
+
+\bibitem{henry2019branching}
+{\sc Henry-Labordere, P., Oudjane, N., Tan, X., Touzi, N., Warin, X., et~al.}
+\newblock Branching diffusion representation of semilinear {PDEs} and {Monte
+  Carlo} approximation.
+\newblock In {\em Annales de l'Institut Henri Poincar{\'e}, Probabilit{\'e}s et
+  Statistiques\/} (2019), vol.~55, Institut Henri Poincar{\'e}, pp.~184--210.
+
+\bibitem{Henry-Labordere2014}
+{\sc Henry-Labord{\`e}re, P., Tan, X., and Touzi, N.}
+\newblock A numerical algorithm for a class of {BSDE}s via the branching
+  process.
+\newblock {\em Stochastic Processes and their Applications 124}, 2 (2014),
+  1112--1140.
+
+\bibitem{Hermann2019deep}
+{\sc Hermann, J., Sch{\"a}tzle, Z., and No{\'e}, F.}
+\newblock Deep neural network solution of the electronic {Schr{\"o}dinger}
+  equation.
+\newblock {\em arXiv preprint arXiv:1909.08423\/} (2019).
+
+\bibitem{HornungJentzenSalimova2020}
+{\sc Hornung, F., Jentzen, A., and Salimova, D.}
+\newblock Space-time deep neural network approximations for high-dimensional
+  partial differential equations.
+\newblock {\em arXiv preprint arXiv:2006.02199\/} (2020).
+
+\bibitem{HuCaMa:07}
+{\sc Huang, M., Caines, P.~E., and Malham{\'e}, R.~P.}
+\newblock Large-population cost-coupled {LQG} problems with nonuniform agents:
+  individual-mass behavior and decentralized $\epsilon$-{Nash} equilibria.
+\newblock {\em IEEE Transactions on Automatic Control 52}, 9 (2007),
+  1560--1571.
+
+\bibitem{HuMaCa:06}
+{\sc Huang, M., Malham{\'e}, R.~P., and Caines, P.~E.}
+\newblock Large population stochastic dynamic games: closed-loop
+  {McKean-Vlasov} systems and the {Nash} certainty equivalence principle.
+\newblock {\em Communications in Information and Systems 6}, 3 (2006),
+  221--252.
+
+\bibitem{HurePhamWarin2019}
+{\sc Hur{\'e}, C., Pham, H., and Warin, X.}
+\newblock {Some machine learning schemes for high-dimensional nonlinear PDEs}.
+\newblock {\em arXiv:1902.01599\/} (2019).
+
+\bibitem{hutzenthaler2019arxiv1912}
+{\sc Hutzenthaler, M., Jentzen, A., and Kruse, T.}
+\newblock Overcoming the curse of dimensionality in the numerical approximation
+  of parabolic partial differential equations with gradient-dependent
+  nonlinearities.
+\newblock {\em arXiv preprint arXiv:1912.02571\/} (2019).
+
+\bibitem{hutzenthaler2020lipschitz}
+{\sc Hutzenthaler, M., Jentzen, A., Kruse, T., and Nguyen, T.~A.}
+\newblock Multilevel {P}icard approximations for high-dimensional semilinear
+  second-order {PDEs} with {Lipschitz} nonlinearities.
+\newblock {\em arXiv preprint arXiv:2009.02484\/} (2020).
+
+\bibitem{hutzenthaler2020proof}
+{\sc Hutzenthaler, M., Jentzen, A., Kruse, T., and Nguyen, T.~A.}
+\newblock A proof that rectified deep neural networks overcome the curse of
+  dimensionality in the numerical approximation of semilinear heat equations.
+\newblock {\em SN Partial Differential Equations and Applications 1\/} (2020),
+  1--34.
+
+\bibitem{Hutzenthaleretal2018arXiv}
+{\sc Hutzenthaler, M., Jentzen, A., Kruse, T., Nguyen, T.~A., and von
+  Wurstemberger, P.}
+\newblock Overcoming the curse of dimensionality in the numerical approximation
+  of semilinear parabolic partial differential equations.
+\newblock {\em arXiv preprint arXiv:1807.01212, accepted in Proceedings of
+  Royal Society A\/} (2020).
+
+\bibitem{hutzenthaler2019arxiv1903}
+{\sc Hutzenthaler, M., Jentzen, A., and von Wurstemberger, P.}
+\newblock Overcoming the curse of dimensionality in the approximative pricing
+  of financial derivatives with default risks.
+\newblock {\em Electronic Journal of Probability\/} (2019).
+
+\bibitem{hutzenthaler2020multilevel}
+{\sc Hutzenthaler, M., and Kruse, T.}
+\newblock Multilevel {P}icard approximations of high-dimensional semilinear
+  parabolic differential equations with gradient-dependent nonlinearities.
+\newblock {\em SIAM Journal on Numerical Analysis 58}, 2 (2020), 929--961.
+
+\bibitem{jacquier2019deep}
+{\sc Jacquier, A.~J., and Oumgari, M.}
+\newblock Deep {PPDEs} for rough local stochastic volatility.
+\newblock {\em arXiv preprint arXiv:1906.02551\/} (2019).
+
+\bibitem{jentzen2018proofarxiv1809}
+{\sc Jentzen, A., Salimova, D., and Welti, T.}
+\newblock A proof that deep artificial neural networks overcome the curse of
+  dimensionality in the numerical approximation of {Kolmogorov} partial
+  differential equations with constant diffusion and nonlinear drift
+  coefficients.
+\newblock {\em arXiv preprint arXiv:1809.07321\/} (2018).
+
+\bibitem{ji2020three}
+{\sc Ji, S., Peng, S., Peng, Y., and Zhang, X.}
+\newblock Three algorithms for solving high-dimensional fully-coupled {FBSDEs}
+  through deep learning.
+\newblock {\em IEEE Intelligent Systems\/} (2020).
+
+\bibitem{jiang2015approximate}
+{\sc Jiang, D.~R., and Powell, W.~B.}
+\newblock An approximate dynamic programming algorithm for monotone value
+  functions.
+\newblock {\em Operations Research 63}, 6 (2015), 1489--1511.
+
+\bibitem{jianyu2003numerical}
+{\sc Jianyu, L., Siwei, L., Yingjian, Q., and Yaping, H.}
+\newblock Numerical solution of elliptic partial differential equation using
+  radial basis function neural networks.
+\newblock {\em Neural Networks 16}, 5-6 (2003), 729--734.
+
+\bibitem{kang2019algorithms}
+{\sc Kang, W., Gong, Q., and Nakamura-Zimmerer, T.}
+\newblock Algorithms of data development for deep learning and feedback design.
+\newblock {\em arXiv preprint arXiv:1912.00492\/} (2019).
+
+\bibitem{Karatzas1998}
+{\sc Karatzas, I., and Shreve, S.~E.}
+\newblock {\em Brownian Motion and Stochastic Calculus}.
+\newblock Springer New York, 1998.
+
+\bibitem{Khoo2019solving}
+{\sc Khoo, Y., Lu, J., and Ying, L.}
+\newblock Solving for high-dimensional committor functions using artificial
+  neural networks.
+\newblock {\em Research in the Mathematical Sciences 6}, 1 (2019), 1.
+
+\bibitem{Khoo2020solving}
+{\sc Khoo, Y., Lu, J., and Ying, L.}
+\newblock Solving parametric {PDE} problems with artificial neural networks.
+\newblock {\em European Journal of Applied Mathematics\/} (2020), 1–15.
+
+\bibitem{khoo2019switchnet}
+{\sc Khoo, Y., and Ying, L.}
+\newblock {SwitchNet}: a neural network model for forward and inverse
+  scattering problems.
+\newblock {\em SIAM Journal on Scientific Computing 41}, 5 (2019),
+  A3182--A3201.
+
+\bibitem{Kingma2015Adam}
+{\sc Kingma, D., and Ba, J.}
+\newblock Adam: a method for stochastic optimization.
+\newblock In {\em Proceedings of the International Conference on Learning
+  Representations (ICLR)\/} (2015).
+
+\bibitem{KPP1937}
+{\sc Kolmogorov, A., Petrovskii, I., and Piscunov, N.}
+\newblock A study of the equation of diffusion with increase in the quantity of
+  matter, and its application to a biological problem.
+\newblock {\em Moscow University Bulletin of Mathematics}, 1 (1937), 1--26.
+
+\bibitem{kutyniok2019theoretical}
+{\sc Kutyniok, G., Petersen, P., Raslan, M., and Schneider, R.}
+\newblock A theoretical analysis of deep neural networks and parametric {PDEs}.
+\newblock {\em arXiv preprint arXiv:1904.00377\/} (2019).
+
+\bibitem{labart2013parallel}
+{\sc Labart, C., and Lelong, J.}
+\newblock A parallel algorithm for solving {BSDEs}.
+\newblock {\em Monte Carlo Methods and Applications 19}, 1 (2013), 11--39.
+
+\bibitem{lagaris1998artificial}
+{\sc Lagaris, I.~E., Likas, A., and Fotiadis, D.~I.}
+\newblock Artificial neural networks for solving ordinary and partial
+  differential equations.
+\newblock {\em IEEE Transactions on Neural Networks 9}, 5 (1998), 987--1000.
+
+\bibitem{LaLi1:2006}
+{\sc Lasry, J.-M., and Lions, P.-L.}
+\newblock Jeux à champ moyen. {I.} {L}e cas stationnaire.
+\newblock {\em C. R. Math. Acad. Sci. Paris 9\/} (2006), 619--625.
+
+\bibitem{LaLi2:2006}
+{\sc Lasry, J.-M., and Lions, P.-L.}
+\newblock Jeux à champ moyen. {II.} {H}orizon fini et contrôle optimal.
+\newblock {\em C. R. Math. Acad. Sci. Paris 10\/} (2006), 679--684.
+
+\bibitem{LaLi:2007}
+{\sc Lasry, J.-M., and Lions, P.-L.}
+\newblock Mean field games.
+\newblock {\em Japanese Journal of Mathematics 2\/} (2007), 229--260.
+
+\bibitem{lee1990neural}
+{\sc Lee, H., and Kang, I.~S.}
+\newblock Neural algorithm for solving differential equations.
+\newblock {\em Journal of Computational Physics 91}, 1 (1990), 110--131.
+
+\bibitem{Lin2020apac}
+{\sc Lin, A.~T., Fung, S.~W., Li, W., Nurbekyan, L., and Osher, S.~J.}
+\newblock {APAC-Net}: Alternating the population and agent control via two
+  neural networks to solve high-dimensional stochastic mean field games.
+\newblock {\em arXiv preprint arXiv:2002.10113\/} (2020).
+
+\bibitem{luo2019backflow}
+{\sc Luo, D., and Clark, B.~K.}
+\newblock Backflow transformations via neural networks for quantum many-body
+  wave functions.
+\newblock {\em Physical Review Letters 122}, 22 (2019), 226401.
+
+\bibitem{lye2020deep}
+{\sc Lye, K.~O., Mishra, S., and Ray, D.}
+\newblock Deep learning observables in computational fluid dynamics.
+\newblock {\em Journal of Computational Physics\/} (2020), 109339.
+
+\bibitem{magill2018neural}
+{\sc Magill, M., Qureshi, F., and de~Haan, H.}
+\newblock Neural networks trained to solve differential equations learn general
+  representations.
+\newblock In {\em Advances in Neural Information Processing Systems\/} (2018),
+  pp.~4071--4081.
+
+\bibitem{Mckean1975application}
+{\sc McKean, H.~P.}
+\newblock Application of {Brownian} motion to the equation of
+  {Kolmogorov-Petrovskii-Piskunov}.
+\newblock {\em Communications on Pure and Applied Mathematics 28}, 3 (1975),
+  323--331.
+
+\bibitem{muller2019deep}
+{\sc M{\"u}ller, J., and Zeinhofer, M.}
+\newblock Deep {Ritz} revisited.
+\newblock {\em arXiv preprint arXiv:1912.03937\/} (2019).
+
+\bibitem{nakamura2019adaptive}
+{\sc Nakamura-Zimmerer, T., Gong, Q., and Kang, W.}
+\newblock Adaptive deep learning for high dimensional {Hamilton-Jacobi-Bellman}
+  equations.
+\newblock {\em arXiv preprint arXiv:1907.05317\/} (2019).
+
+\bibitem{nusken2020solving}
+{\sc N{\"u}sken, N., and Richter, L.}
+\newblock Solving high-dimensional {Hamilton-Jacobi-Bellman} {PDEs} using
+  neural networks: perspectives from the theory of controlled diffusions and
+  measures on path space.
+\newblock {\em arXiv preprint arXiv:2005.05409\/} (2020).
+
+\bibitem{oksendal2013stochastic}
+{\sc Oksendal, B.}
+\newblock {\em Stochastic Differential Equations: An Introduction with
+  Applications}.
+\newblock Springer Science \& Business Media, 2013.
+
+\bibitem{Pardoux1992}
+{\sc Pardoux, {\'E}., and Peng, S.}
+\newblock Backward stochastic differential equations and quasilinear parabolic
+  partial differential equations.
+\newblock In {\em Stochastic partial differential equations and their
+  applications ({C}harlotte, {NC}, 1991)}, vol.~176 of {\em Lecture Notes in
+  Control and Inform. Sci.} Springer, Berlin, 1992, pp.~200--217.
+
+\bibitem{Pardoux1999}
+{\sc Pardoux, {\'E}., and Tang, S.}
+\newblock Forward-backward stochastic differential equations and quasilinear
+  parabolic {PDE}s.
+\newblock {\em Probab. Theory Related Fields 114}, 2 (1999), 123--150.
+
+\bibitem{pfau2019ab}
+{\sc Pfau, D., Spencer, J.~S., Matthews, A. G. d.~G., and Foulkes, W.}
+\newblock Ab-initio solution of the many-electron {Schr{\"o}dinger} equation
+  with deep neural networks.
+\newblock {\em arXiv preprint arXiv:1909.02487\/} (2019).
+
+\bibitem{pham2015feynman}
+{\sc Pham, H.}
+\newblock {Feynman-Kac} representation of fully nonlinear {PDEs} and
+  applications.
+\newblock {\em Acta Mathematica Vietnamica 40}, 2 (2015), 255--269.
+
+\bibitem{pham2019neural}
+{\sc Pham, H., Pham, H., and Warin, X.}
+\newblock Neural networks-based backward scheme for fully nonlinear {PDEs}.
+\newblock {\em arXiv preprint arXiv:1908.00412\/} (2019).
+
+\bibitem{raissi2018deep}
+{\sc Raissi, M.}
+\newblock Deep hidden physics models: Deep learning of nonlinear partial
+  differential equations.
+\newblock {\em The Journal of Machine Learning Research 19}, 1 (2018),
+  932--955.
+
+\bibitem{raissi2018forward}
+{\sc Raissi, M.}
+\newblock Forward-backward stochastic neural networks: Deep learning of
+  high-dimensional partial differential equations.
+\newblock {\em arXiv preprint arXiv:1804.07010\/} (2018).
+
+\bibitem{raissi2019physics}
+{\sc Raissi, M., Perdikaris, P., and Karniadakis, G.~E.}
+\newblock Physics-informed neural networks: A deep learning framework for
+  solving forward and inverse problems involving nonlinear partial differential
+  equations.
+\newblock {\em Journal of Computational Physics 378\/} (2019), 686--707.
+
+\bibitem{Rao2009survey}
+{\sc Rao, A.~V.}
+\newblock A survey of numerical methods for optimal control.
+\newblock {\em Advances in the Astronautical Sciences 135}, 1 (2009), 497--528.
+
+\bibitem{reisinger2019rectified}
+{\sc Reisinger, C., and Zhang, Y.}
+\newblock Rectified deep neural networks overcome the curse of dimensionality
+  for nonsmooth value functions in zero-sum games of nonlinear stiff systems.
+\newblock {\em arXiv preprint arXiv:1903.06652\/} (2019).
+
+\bibitem{ruszczynski2017dual}
+{\sc Ruszczynski, A., and Yao, J.}
+\newblock A dual method for evaluation of dynamic risk in diffusion processes.
+\newblock {\em arXiv preprint arXiv:1701.06234\/} (2017).
+
+\bibitem{Ruthotto2020machine}
+{\sc Ruthotto, L., Osher, S.~J., Li, W., Nurbekyan, L., and Fung, S.~W.}
+\newblock A machine learning framework for solving high-dimensional mean field
+  game and mean field control problems.
+\newblock {\em Proceedings of the National Academy of Sciences\/} (2020).
+
+\bibitem{Sirignano2018dgm}
+{\sc Sirignano, J., and Spiliopoulos, K.}
+\newblock {DGM}: A deep learning algorithm for solving partial differential
+  equations.
+\newblock {\em Journal of Computational Physics 375\/} (2018), 1339--1364.
+
+\bibitem{skorokhod1964branching}
+{\sc Skorokhod, A.~V.}
+\newblock Branching diffusion processes.
+\newblock {\em Theory of Probability \& Its Applications 9}, 3 (1964),
+  445--449.
+
+\bibitem{strang1973analysis}
+{\sc Strang, G., and Fix, G.~J.}
+\newblock {\em {An Analysis of the Finite Element Method}}.
+\newblock Prentice-Hall, 1973.
+
+\bibitem{sutton2018reinforcement}
+{\sc Sutton, R.~S., and Barto, A.~G.}
+\newblock {\em Reinforcement Learning: An Introduction}.
+\newblock MIT press, 2018.
+
+\bibitem{uchiyama1993solving}
+{\sc Uchiyama, T., and Sonehara, N.}
+\newblock Solving inverse problems in nonlinear {PDEs} by recurrent neural
+  networks.
+\newblock In {\em IEEE International Conference on Neural Networks\/} (1993),
+  IEEE, pp.~99--102.
+
+\bibitem{von2004numerical}
+{\sc Von~Petersdorff, T., and Schwab, C.}
+\newblock Numerical solution of parabolic equations in high dimensions.
+\newblock {\em ESAIM: Mathematical Modelling and Numerical Analysis 38}, 1
+  (2004), 93--127.
+
+\bibitem{wang2018deep}
+{\sc Wang, H., Chen, H., Sudjianto, A., Liu, R., and Shen, Q.}
+\newblock Deep learning-based {BSDE} solver for {LIBOR} market model with
+  application to bermudan swaption pricing and hedging.
+\newblock {\em arXiv preprint arXiv:1807.06622\/} (2018).
+
+\bibitem{warin2017variations}
+{\sc Warin, X.}
+\newblock Variations on branching methods for non linear {PDEs}.
+\newblock {\em arXiv preprint arXiv:1701.07660\/} (2017).
+
+\bibitem{warin2018monte}
+{\sc Warin, X.}
+\newblock {Monte Carlo} for high-dimensional degenerated semi linear and full
+  non linear {PDEs}.
+\newblock {\em arXiv preprint arXiv:1805.05078\/} (2018).
+
+\bibitem{warin2018nesting}
+{\sc Warin, X.}
+\newblock Nesting {Monte Carlo} for high-dimensional non-linear {PDEs}.
+\newblock {\em Monte Carlo Methods and Applications 24}, 4 (2018), 225--247.
+
+\bibitem{watanabe1965branching}
+{\sc Watanabe, S.}
+\newblock On the branching process for {Brownian} particles with an absorbing
+  boundary.
+\newblock {\em Journal of Mathematics of Kyoto University 4}, 2 (1965),
+  385--398.
+
+\bibitem{Zang2020weak}
+{\sc Zang, Y., Bao, G., Ye, X., and Zhou, H.}
+\newblock Weak adversarial networks for high-dimensional partial differential
+  equations.
+\newblock {\em Journal of Computational Physics\/} (2020), 109409.
+
+\bibitem{zhang2020learning}
+{\sc Zhang, D., Guo, L., and Karniadakis, G.~E.}
+\newblock Learning in modal space: Solving time-dependent stochastic {PDE}s
+  using physics-informed neural networks.
+\newblock {\em SIAM Journal on Scientific Computing 42}, 2 (2020), A639--A665.
+
+\bibitem{zhang2019quantifying}
+{\sc Zhang, D., Lu, L., Guo, L., and Karniadakis, G.~E.}
+\newblock Quantifying total uncertainty in physics-informed neural networks for
+  solving forward and inverse stochastic problems.
+\newblock {\em Journal of Computational Physics 397\/} (2019), 108850.
+
+\bibitem{zhang2004numerical}
+{\sc Zhang, J.}
+\newblock A numerical scheme for {BSDEs}.
+\newblock {\em The Annals of Applied Probability 14}, 1 (2004), 459--488.
+
+\bibitem{zhang2020dp}
+{\sc Zhang, Y., Wang, H., Chen, W., Zeng, J., Zhang, L., Wang, H., and E, W.}
+\newblock {DP-GEN}: A concurrent learning platform for the generation of
+  reliable deep learning based potential energy models.
+\newblock {\em Computer Physics Communications\/} (2020), 107206.
+
+\end{thebibliography}

@@ -1,0 +1,125 @@
+\documentclass[aspectratio=169]{beamer}
+\usetheme{Madrid} % 可根据需要更换主题
+\usepackage[utf8]{inputenc}
+\usepackage{ctex, amsmath, amsfonts, amssymb}
+\usepackage{graphicx}
+
+\title{高维 PDE 求解算法：\\从非线性蒙特卡罗到机器学习}
+\author{Weinan E \and Jiequn Han \and Arnulf Jentzen}
+\date{2020年9月14日}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{大纲}
+  \tableofcontents
+\end{frame}
+
+\section{引言与背景}
+\begin{frame}{引言与背景}
+  \begin{itemize}
+    \item 高维偏微分方程（PDEs）在控制理论、金融工程、量子力学等领域有重要应用
+    \item 传统数值方法（如有限差分、有限元）在高维情况下受“维数灾难”限制
+    \item 本论文提出利用非线性蒙特卡罗方法和深度学习技术求解高维 PDE，从而突破维数灾难
+  \end{itemize}
+\end{frame}
+
+\section{主要方法与技术}
+\begin{frame}{深度BSDE方法 (Deep BSDE)}
+  \begin{itemize}
+    \item 将非线性抛物型 PDE
+      \[
+      \frac{\partial u}{\partial t} + \frac{1}{2}\mathrm{Tr}\Bigl(\sigma\sigma^T\,\mathrm{Hess}_x u\Bigr) + \langle \nabla u, \mu \rangle + f(t,x,u,\sigma^T\nabla u)=0,\quad u(T,x)=g(x)
+      \]
+      与后向随机微分方程（BSDE）联系起来
+    \item 通过 Ito 引理可得：
+      \[
+      u(t,X_t)-u(0,X_0) = -\int_0^t f\Bigl(s,X_s,u(s,X_s),\sigma^T\nabla u(s,X_s)\Bigr)ds + \int_0^t (\nabla u(s,X_s))^T\sigma(s,X_s)dW_s.
+      \]
+    \item 利用深度神经网络逼近未知函数：例如用网络 $\psi_0$ 表示 $u(0,X_0)$，用子网络 $\phi_n$ 逼近 $Z_t\ (= \sigma^T\nabla u)$
+    \item 采用时间离散化（Euler 方法）构建网络，末端误差作为损失函数进行训练
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{多层皮卡德方法 (MLP)}
+  \begin{itemize}
+    \item 针对半线性热方程
+      \[
+      \frac{\partial u}{\partial t}(t,x)=\Delta u(t,x)+f(u(t,x))
+      \]
+    \item 将 PDE 写成不动点形式 \(u = \Phi(u)\)，并构造 Picard 迭代
+      \[
+      u_n = \Phi(0) + \sum_{l=1}^{n-1} \bigl[\Phi(u_l)-\Phi(u_{l-1})\bigr].
+      \]
+    \item 利用多层次蒙特卡罗采样逼近期望值，每层使用不同精度的蒙特卡罗估计
+    \item 理论证明：在一定条件下，计算复杂度仅呈多项式增长，克服了维数灾难问题
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{传统方法与神经网络结合}
+  \begin{itemize}
+    \item 利用 Ritz、Galerkin 以及最小二乘方法构造数值方案
+    \item 例如，深度 Ritz 方法将问题转化为求解变分问题：
+      \[
+      \min_{u\in H} I(u),\quad I(u)=\int_\Omega \Bigl(\frac{1}{2}|\nabla u(x)|^2 - f(x)u(x)\Bigr)dx.
+      \]
+    \item 通过神经网络表示试探函数，实现无网格（mesh-free）的近似，具有自然的自适应性
+  \end{itemize}
+\end{frame}
+
+\section{数学公式解析}
+\begin{frame}{关键数学公式解析}
+  \begin{itemize}
+    \item \textbf{Hamilton-Jacobi-Bellman (HJB) 方程:}
+      \[
+      \frac{\partial u}{\partial t}+H(x,\nabla u)=0.
+      \]
+      描述最优控制问题中价值函数的动态规划原理
+    \item \textbf{Black-Scholes 方程:}
+      \[
+      \frac{\partial u}{\partial t}+\frac{1}{2}\sigma^2 \sum_{i=1}^{d}x_i^2 \frac{\partial^2 u}{\partial x_i^2}+r\langle \nabla u,x\rangle-ru+f(u)=0.
+      \]
+      用于金融衍生品定价，考虑违约风险、交易成本等非线性效应
+    \item \textbf{蒙特卡罗积分:}
+      \[
+      I(g)=\int_{[0,1]^d}g(x)dx,\quad I_n(g)=\frac{1}{n}\sum_{j=1}^n g(x_j),
+      \]
+      误差分析：
+      \[
+      \mathbb{E}\Bigl[|I(g)-I_n(g)|^2\Bigr]=\frac{\mathrm{Var}(g)}{n}.
+      \]
+    \item \textbf{神经网络近似表达式:}
+      \[
+      f_m(x,\theta)=\frac{1}{m}\sum_{j=1}^{m}a_j\,\sigma\bigl(\langle w_j,x\rangle\bigr),
+      \]
+      以及 ResNet 形式：
+      \[
+      z_{l+1}=z_l+\frac{1}{L}\sum_{j=1}^{M}a_{j,l}\,\sigma\bigl(\langle z_l,w_{j,l}\rangle\bigr).
+      \]
+  \end{itemize}
+\end{frame}
+
+\section{结论与未来展望}
+\begin{frame}{结论与未来展望}
+  \begin{itemize}
+    \item 利用非线性蒙特卡罗和深度学习方法，设计出不受维数灾难影响的高效数值算法
+    \item 理论与数值实验均证明：对于控制、金融、量子等领域的高维问题，这些方法具有显著优势
+    \item 未来工作：进一步完善理论证明、改进算法效率以及扩展到更广泛的应用场景
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{参考文献}
+  \begin{itemize}
+    \item Weinan E, Jiequn Han, Arnulf Jentzen. \emph{Algorithms for Solving High Dimensional PDEs: From Nonlinear Monte Carlo to Machine Learning}, 2020.
+    \item 其他相关文献……
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \centering \Large 谢谢大家！
+\end{frame}
+
+\end{document}
