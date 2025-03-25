@@ -46,20 +46,40 @@
 		\end{itemize}
 	\end{frame}
 
+	\subsection{深度 BSDE 方法 (Deep BSDE)}
 	\begin{frame}{深度 BSDE 方法 (Deep BSDE)}
-			\begin{itemize}
-				\item Pardoux 和 Peng 提出如果令 $Y_{t} = u\left(t, X_{t}\right), Z_{t} = \left[\sigma\left(t, X_{t}\right)\right]^{\top} \left(\nabla_{x} u \right)\left(t, X_{t}\right)$, 则随机过程 $\left(X_{t}, Y_{t}, Z_{t}\right) \in \mathbb{R}^{d} \times \mathbb{R} \times \mathbb{R}^d, t \in \left[0, T\right]$, 满足下面的 BSDE:
-					\begin{equation*}
-						\left\{\begin{array}{l}
-							X_{t} = \xi + \int_{0}^{t} \mu\left(s, X_{s}\right) \dif s + \int_{0}^{t} \sigma\left(s, X_{s}\right) \dif W_{s} \\
-							Y_{t} = g\left(X_{T}\right) + \int_{t}^{T} f\left(s, X_{s}, Y_{s}, Z_{s}\right) \dif s - \int_{t}^{T} \left(Z_{s}\right)^{\top} \dif W_{s}
-						\end{array}\right.
-					\end{equation*}
-				\item 利用深度神经网络逼近未知函数: 例如用网络 $\psi_{0}$ 表示 $u(0, X_0)$, 用子网络 $\phi_n$ 逼近 $Z_t\ (= \sigma^T\nabla u)$
-				\item 采用时间离散化 (Euler 方法) 构建网络, 末端误差作为损失函数进行训练
-			\end{itemize}
+		\begin{itemize}
+			\item Pardoux 和 Peng 提出如果令 $Y_{t} = u\left(t, X_{t}\right), Z_{t} = \left[\sigma\left(t, X_{t}\right)\right]^{\top} \left(\nabla_{x} u \right)\left(t, X_{t}\right)$, 则随机过程 $\left(X_{t}, Y_{t}, Z_{t}\right) \in \mathbb{R}^{d} \times \mathbb{R} \times \mathbb{R}^d, t \in \left[0, T\right]$, 满足下面的 BSDE:
+				\begin{equation*}
+					\left\{\begin{array}{l}
+						X_{t} = \xi + \int_{0}^{t} \mu\left(s, X_{s}\right) \dif s + \int_{0}^{t} \sigma\left(s, X_{s}\right) \dif W_{s} \\
+						Y_{t} = g\left(X_{T}\right) + \int_{t}^{T} f\left(s, X_{s}, Y_{s}, Z_{s}\right) \dif s - \int_{t}^{T} \left(Z_{s}\right)^{\top} \dif W_{s}
+					\end{array}\right.
+				\end{equation*}
+			\item 利用深度神经网络逼近未知函数: 例如用网络 $\psi_{0}$ 表示 $u(0, X_{0})$, 用子网络 $\phi_{n}$ 逼近 $Z_{t}$. 通过离散化时间构建网络, 将末端误差作为损失函数进行训练.
+		\end{itemize}
 	\end{frame}
 
+	\begin{frame}{深度 BSDE 方法 (Deep BSDE)}
+		\begin{itemize}
+			\item 问题最终转化为
+				\begin{align}
+					\inf_{\psi_{0}, \left\{\phi_{n}\right\}_{n=0}^{N-1}} & \mathbb{E} \left\lvert g\left(X_{T}\right) - Y_{T}\right\rvert^{2}, \\
+					s.t.\quad & X_{0} = \xi, \quad Y_{0} = \psi_{0}\left(\xi\right), \\
+					& X_{t_{n+1}} = X_{t_{i}} + \mu\left(t_{n},X_{t_{n}}\right) \Delta t + \sigma\left(t_{n},X_{t_{n}}\right) \Delta W_{n}, \\
+					& Z_{t_{n}} = \phi_{n}\left(X_{t_{n}}\right), \\
+					& Y_{t_{n+1}} = Y_{t_{n}} - f\left(t_{n}, X_{t_{n}}, Y_{t_{n}}, Z_{t_{n}}\right) \Delta t + \left(Z_{t_{n}}\right)^{\top} \Delta W_{n}
+				\end{align}
+			\item 取误差函数为
+				\begin{equation*}
+					l\left(\theta\right) = \mathbb{E}\left[\left\lvert g\left(X_{t_{N}}\right) - \hat{u}\left(\left\{X_{t_{n}}\right\}_{0 \leq n \leq N}, \left\{W_{t_{n}}\right\}_{0 \leq n \leq N}\right)\right\rvert^2\right].
+				\end{equation*}
+				其中 $\hat{u}\left(\left\{X_{t_{n}}\right\}_{0 \leq n \leq N}, \left\{W_{t_{n}}\right\}_{0 \leq n \leq N}\right)$ 为网络的最后一个输出, 为 $u\left(t_{N}, X_{t_{N}}\right)$ 的近似
+		\end{itemize}
+
+	\end{frame}
+
+	\subsection{多层皮卡德方法 (MLP)}
 	\begin{frame}{多层皮卡德方法 (MLP)}
 		\begin{itemize}
 			\item 针对半线性热方程
@@ -75,6 +95,7 @@
 		\end{itemize}
 	\end{frame}
 
+	\subsection{传统方法与神经网络结合}
 	\begin{frame}{传统方法与神经网络结合}
 		\begin{itemize}
 			\item 利用 Ritz、Galerkin 以及最小二乘方法构造数值方案
@@ -86,6 +107,159 @@
 		\end{itemize}
 	\end{frame}
 
+	\section{Chapter 4: Control Problems in High Dimensions}
+	\begin{frame}{Open-Loop vs Closed-Loop Control}
+		\textbf{控制问题定义}：
+		\[
+		\min_{u} \mathbb{E}\left[ g(x(T)) + \int_0^T L(t,x,u) dt \right]
+		\]
+		\begin{itemize}
+			\item \textbf{开环控制}：$u(t) = u^*(t,x^*(t))$，仅沿最优路径定义
+			\item \textbf{闭环控制}：$u(t) = u^*(t,x)$，全局状态空间定义
+		\end{itemize}
+
+		\textbf{维数灾难来源}：闭环控制需要在高维状态空间中求解值函数$V(t,x)$
+
+		\textbf{Pontryagin极小原理}：
+		\[
+		\begin{cases}
+		\dot{x} = \frac{\partial \tilde{H}}{\partial \lambda} \\
+		\dot{\lambda} = -\frac{\partial \tilde{H}}{\partial x} \\
+		\tilde{H} = L + \lambda^T f
+		\end{cases}
+		\]
+	\end{frame}
+
+	\begin{frame}{Deep Learning Approach for Control}
+		\textbf{策略函数参数化}：
+		\[
+		a_t(s_t) \approx a_t(s_t|\theta_t) \quad (\text{神经网络近似})
+		\]
+
+		\textbf{损失函数}：
+		\[
+		L(\{\theta_t\}) = \mathbb{E}\left[ \sum_{t=0}^{T-1} c_t(s_t,a_t) + c_T(s_T) \right]
+		\]
+
+		\textbf{关键创新}：
+		\begin{itemize}
+			\item 使用SGD优化高维策略空间
+			\item 自适应采样技术选择训练数据
+			\item "Warm start"初始化提升收敛性
+		\end{itemize}
+	\end{frame}
+
+	\section{Chapter 5: Ritz, Galerkin \& Least Squares}
+	\begin{frame}{Deep Ritz Method}
+		\textbf{变分问题}：
+		\[
+		\min_{u \in H} \int_\Omega \left( \frac{1}{2}|\nabla u|^2 - fu \right) dx
+		\]
+
+		\textbf{实现步骤}：
+		\begin{enumerate}
+			\item 用DNN参数化$u(x;\theta)$
+			\item 蒙特卡洛离散积分：
+			\[
+			I(u) \approx \frac{1}{N}\sum_{i=1}^N \left( \frac{1}{2}|\nabla u(x_i)|^2 - f(x_i)u(x_i) \right)
+			\]
+			\item 添加边界惩罚项：
+			\[
+			L(\theta) = I(u_\theta) + \beta \int_{\partial\Omega} u_\theta^2 ds
+			\]
+		\end{enumerate}
+	\end{frame}
+
+	\begin{frame}{Comparison of Methods}
+		\begin{table}[ht]
+		\centering
+		\begin{tabular}{|l|l|l|}
+		\hline
+		\textbf{方法} & \textbf{基础} & \textbf{挑战} \\
+		\hline
+		Ritz & 变分原理 & 边界条件处理 \\
+		Galerkin & 弱形式 & 测试函数选择 \\
+		Least Square & 残差最小化 & 条件数恶化 \\
+		\hline
+		\end{tabular}
+		\end{table}
+
+		\textbf{Galerkin与WGAN的类比}：
+		\[
+		\min_G \max_D \left| \mathbb{E}[\phi(G(z))] - \mathbb{E}[\phi(x)] \right|
+		\]
+		生成器$G$对应试函数，判别器$D$对应测试函数
+	\end{frame}
+
+	\section{Chapter 6: Multilevel Picard Methods}
+	\begin{frame}{MLP核心思想}
+		\textbf{三步法}：
+		\begin{enumerate}
+			\item PDE转化为随机固定点方程：
+			\[
+			u(t,x) = \mathbb{E}\left[ u(0,x+\sqrt{2}W_t) + \int_0^t f(u(s,x+W_{t-s}))ds \right]
+			\]
+			\item Picard迭代：
+			\[
+			u_{n} = \Phi(u_{n-1})
+			\]
+			\item 多级蒙特卡洛近似：
+			\[
+			U_{n,M}^{d,\theta} = \sum_{k=1}^{n-1} \frac{t}{M^{n-k}} \sum_{m=1}^{M^{n-k}} [f(U_k) - f(U_{k-1})] 
+			\]
+		\end{enumerate}
+	\end{frame}
+
+	\begin{frame}{复杂度分析}
+		\textbf{定理3的核心结论}：
+		\begin{itemize}
+			\item 计算复杂度：$\mathcal{C} \leq cd^c \varepsilon^{-3}$
+			\item 逼近误差：$\mathbb{E}[|U_{\mathfrak{N}_\varepsilon}(T,0)-u_d(T,0)|^2]^{1/2} \leq \varepsilon$
+		\end{itemize}
+
+		\textbf{关键创新点}：
+		\begin{itemize}
+			\item 全历史递归结构避免维数灾难
+			\item 多级精度采样平衡误差与计算量
+			\item 适用于半线性抛物型PDE的广泛类别
+		\end{itemize}
+
+		\begin{exampleblock}{优势对比}
+		传统蒙特卡洛：$\mathcal{O}(e^d)$ vs MLP：$\mathcal{O}(d^c)$
+		\end{exampleblock}
+	\end{frame}
+
+	\section{Key Derivations}
+	\begin{frame}{From PDE to Stochastic Fixed Point}
+		\textbf{半线性热方程}：
+		\[
+		\partial_t u = \Delta u + f(u)
+		\]
+
+		\textbf{Feynman-Kac公式推广}：
+		\[
+		u(t,x) = \mathbb{E}\left[ u(0,x+\sqrt{2}W_t) + \int_0^t f(u(s,x+\sqrt{2}W_{t-s}))ds \right]
+		\]
+
+		\textbf{证明思路}：
+		\begin{enumerate}
+			\item 应用Ito公式于$u(t,X_t)$
+			\item 利用BSDE理论建立对应关系
+			\item 构造压缩映射$\Phi$保证收敛性
+		\end{enumerate}
+	\end{frame}
+
+	\begin{frame}{MLP Approximation Construction}
+		\textbf{递归展开}：
+		\[
+		u_n = \Phi(u_{n-1}) = \Phi(0) + \sum_{k=1}^{n-1} [\Phi(u_k) - \Phi(u_{k-1})]
+		\]
+
+		\textbf{多级展开示意图}：
+		% figure
+	\end{frame}
+
+	\iffalse
 	\section{数学公式解析}
 	\begin{frame}{关键数学公式解析}
 		\begin{itemize}
@@ -117,6 +291,7 @@
 				\end{equation*}
 		\end{itemize}
 	\end{frame}
+	\fi
 
 	\section{结论与未来展望}
 	\begin{frame}{结论与未来展望}
