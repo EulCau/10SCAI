@@ -107,27 +107,43 @@
 		\end{itemize}
 	\end{frame}
 
-	\section{Chapter 4: Control Problems in High Dimensions}
-	\begin{frame}{Open-Loop vs Closed-Loop Control}
-		\textbf{控制问题定义}：
-		\[
-		\min_{u} \mathbb{E}\left[ g(x(T)) + \int_0^T L(t,x,u) dt \right]
-		\]
+	\section{高维控制问题}
+	\begin{frame}{高维控制问题}
 		\begin{itemize}
-			\item \textbf{开环控制}：$u(t) = u^*(t,x^*(t))$，仅沿最优路径定义
-			\item \textbf{闭环控制}：$u(t) = u^*(t,x)$，全局状态空间定义
+			\item 传统控制理论中, 最优控制问题的解往往受到维数灾难的限制
+			\item 我们考虑下面的最优控制问题:
+				\begin{equation*}
+					\min_{u} \mathbb{E}_{x_{0}\sim\mu}\left[g\left(x\left(T\right)\right) + \int_{0}^{T} L\left(t, x\left(t\right), u\left(t, x\left(t\right)\right)\right) dt \right]
+				\end{equation*}
+				受限于动态系统
+				\begin{equation*}
+					\dot{x} = f\left(t, x, u\right) \quad x\left(0\right) = x_{0}
+				\end{equation*}
+			\item 对于开环控制, 仅沿最优路径定义控制函数 $u\left(t, x\right) = u^{*}\left(t, x^{*}\left(t\right)\right)$. 其自变量仅为时间, 维数灾难并不是主要问题
+			\item 对于闭环控制, 控制函数 $u\left(t, x\right) = u^{*}\left(t, x\right)$ 在全局状态空间定义, 维数灾难成为主要问题
 		\end{itemize}
+	\end{frame}
 
-		\textbf{维数灾难来源}：闭环控制需要在高维状态空间中求解值函数$V(t,x)$
-
-		\textbf{Pontryagin极小原理}：
-		\[
-		\begin{cases}
-		\dot{x} = \frac{\partial \tilde{H}}{\partial \lambda} \\
-		\dot{\lambda} = -\frac{\partial \tilde{H}}{\partial x} \\
-		\tilde{H} = L + \lambda^T f
-		\end{cases}
-		\]
+	\begin{frame}
+		\begin{itemize}
+			\item Pontryagin 极小原理给出了最优控制问题的理论基础
+			\item 令扩展哈密顿量为 $\tilde{H} = L + \lambda^{\top} f$, $u^{*}\left(t, x; \lambda\right) = \arg\min_{u\in U} \tilde{H}\left(t, x, \lambda, u\right)$ 则由 Pontryagin 极小原理, 下面的方程组有解
+				\begin{equation*}
+					\left\{
+						\begin{array}{ll}
+							\left.\dot{x} = \frac{\partial \tilde{H}}{\partial \lambda}\right|_{u = u^{*}}	& x\left(0\right) = x_{0}										\\
+							\left.\dot{\lambda} = -\frac{\partial \tilde{H}}{\partial x}\right|_{u = u^{*}}	& \lambda\left(T\right) = \nabla g\left(x\left(T\right)\right)	\\
+							\left.\dot{v} = -L\right|_{u = u^{*}}											& v\left(T\right) = g\left(x\left(T\right)\right)
+						\end{array}
+					\right.
+				\end{equation*}
+				其中, $x$ 为状态变量, $\lambda$ 为伴随变量, $\tilde{H}$ 为 Hamilton 函数
+			\item 通过参数化策略函数，利用随机梯度下降等方法，实现高效求解
+			\item 通过开环控制和闭环控制的结合，实现对高维控制问题的全局优化
+			\item Pontryagin 极小原理提供了理论基础，深度学习方法提供了实际求解手段
+			\item 通过实例验证，证明了该方法的有效性和可行性
+			\item 未来工作：进一步完善算法，提高收敛速度和精度
+		\end{itemize}
 	\end{frame}
 
 	\begin{frame}{Deep Learning Approach for Control}
