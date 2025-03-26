@@ -6,9 +6,9 @@
 
 \def\dif{\mathinner{\mathrm{d}}\hphantom{\mskip-\thinmuskip}}
 
-\title{高维 PDE 求解算法：\\从非线性蒙特卡罗到机器学习}
-\author{Weinan E \and Jiequn Han \and Arnulf Jentzen}
-\date{2020年9月14日}
+\title{高维 PDE 求解算法:\\从非线性蒙特卡罗到机器学习}
+\author{刘行}
+\date{\today}
 
 \begin{document}
 
@@ -24,7 +24,7 @@
 	\begin{frame}{引言与背景}
 		\begin{itemize}
 			\item 高维偏微分方程 (PDEs) 在控制理论, 金融工程, 量子力学等领域有重要应用
-			\item 传统数值方法 (如有限差分、有限元) 在高维情况下受``维数灾难''限制
+			\item 传统数值方法 (如有限差分, 有限元) 在高维情况下受``维数灾难''限制
 			\item 本论文提出利用非线性蒙特卡罗方法和深度学习技术求解高维 PDE, 从而突破维数灾难
 		\end{itemize}
 	\end{frame}
@@ -79,36 +79,6 @@
 		\end{itemize}
 
 	\end{frame}
-
-	\iffalse
-	\subsection{多层皮卡德方法 (MLP)}
-	\begin{frame}{多层皮卡德方法 (MLP)}
-		\begin{itemize}
-			\item 针对半线性热方程
-				\begin{equation*}
-				\frac{\partial u}{\partial t}(t,x)=\Delta u(t,x)+f(u(t,x))
-				\end{equation*}
-			\item 将 PDE 写成不动点形式 \(u = \Phi(u)\)，并构造 Picard 迭代
-				\begin{equation*}
-				u_n = \Phi(0) + \sum_{l=1}^{n-1} \bigl[\Phi(u_l)-\Phi(u_{l-1})\bigr].
-				\end{equation*}
-			\item 利用多层次蒙特卡罗采样逼近期望值，每层使用不同精度的蒙特卡罗估计
-			\item 理论证明：在一定条件下，计算复杂度仅呈多项式增长，克服了维数灾难问题
-		\end{itemize}
-	\end{frame}
-
-	\subsection{传统方法与神经网络结合}
-	\begin{frame}{传统方法与神经网络结合}
-		\begin{itemize}
-			\item 利用 Ritz、Galerkin 以及最小二乘方法构造数值方案
-			\item 例如，深度 Ritz 方法将问题转化为求解变分问题：
-				\begin{equation*}
-				\min_{u\in H} I(u),\quad I(u)=\int_\Omega \Bigl(\frac{1}{2}|\nabla u(x)|^2 - f(x)u(x)\Bigr)dx.
-				\end{equation*}
-			\item 通过神经网络表示试探函数，实现无网格（mesh-free）的近似，具有自然的自适应性
-		\end{itemize}
-	\end{frame}
-	\fi
 
 	\section{高维控制问题}
 	\begin{frame}{高维控制问题}
@@ -176,189 +146,120 @@
 		\end{itemize}
 	\end{frame}
 
-	\iffalse
-	\begin{frame}{Deep Learning Approach for Control}
-		\textbf{策略函数参数化}：
-		\[
-		a_t(s_t) \approx a_t(s_t|\theta_t) \quad (\text{神经网络近似})
-		\]
-
-		\textbf{损失函数}：
-		\[
-		L(\{\theta_t\}) = \mathbb{E}\left[ \sum_{t=0}^{T-1} c_t(s_t,a_t) + c_T(s_T) \right]
-		\]
-
-		\textbf{关键创新}：
-		\begin{itemize}
-			\item 使用SGD优化高维策略空间
-			\item 自适应采样技术选择训练数据
-			\item "Warm start"初始化提升收敛性
-		\end{itemize}
-	\end{frame}
-
-	\section{Chapter 5: Ritz, Galerkin \& Least Squares}
+	\section{Ritz, Galerkin 和最小二乘法}
+	\subsection{Ritz 方法}
 	\begin{frame}{Deep Ritz Method}
-		\textbf{变分问题}：
-		\[
-		\min_{u \in H} \int_\Omega \left( \frac{1}{2}|\nabla u|^2 - fu \right) dx
-		\]
-
-		\textbf{实现步骤}：
-		\begin{enumerate}
-			\item 用DNN参数化$u(x;\theta)$
-			\item 蒙特卡洛离散积分：
-			\[
-			I(u) \approx \frac{1}{N}\sum_{i=1}^N \left( \frac{1}{2}|\nabla u(x_i)|^2 - f(x_i)u(x_i) \right)
-			\]
-			\item 添加边界惩罚项：
-			\[
-			L(\theta) = I(u_\theta) + \beta \int_{\partial\Omega} u_\theta^2 ds
-			\]
-		\end{enumerate}
-	\end{frame}
-
-	\begin{frame}{Comparison of Methods}
-		\begin{table}[ht]
-		\centering
-		\begin{tabular}{|l|l|l|}
-		\hline
-		\textbf{方法} & \textbf{基础} & \textbf{挑战} \\
-		\hline
-		Ritz & 变分原理 & 边界条件处理 \\
-		Galerkin & 弱形式 & 测试函数选择 \\
-		Least Square & 残差最小化 & 条件数恶化 \\
-		\hline
-		\end{tabular}
-		\end{table}
-
-		\textbf{Galerkin与WGAN的类比}：
-		\[
-		\min_G \max_D \left| \mathbb{E}[\phi(G(z))] - \mathbb{E}[\phi(x)] \right|
-		\]
-		生成器$G$对应试函数，判别器$D$对应测试函数
-	\end{frame}
-
-	\section{Chapter 6: Multilevel Picard Methods}
-	\begin{frame}{MLP核心思想}
-		\textbf{三步法}：
-		\begin{enumerate}
-			\item PDE转化为随机固定点方程：
-			\[
-			u(t,x) = \mathbb{E}\left[ u(0,x+\sqrt{2}W_t) + \int_0^t f(u(s,x+W_{t-s}))ds \right]
-			\]
-			\item Picard迭代：
-			\[
-			u_{n} = \Phi(u_{n-1})
-			\]
-			\item 多级蒙特卡洛近似：
-			\[
-			U_{n,M}^{d,\theta} = \sum_{k=1}^{n-1} \frac{t}{M^{n-k}} \sum_{m=1}^{M^{n-k}} [f(U_k) - f(U_{k-1})] 
-			\]
-		\end{enumerate}
-	\end{frame}
-
-	\begin{frame}{复杂度分析}
-		\textbf{定理3的核心结论}：
 		\begin{itemize}
-			\item 计算复杂度：$\mathcal{C} \leq cd^c \varepsilon^{-3}$
-			\item 逼近误差：$\mathbb{E}[|U_{\mathfrak{N}_\varepsilon}(T,0)-u_d(T,0)|^2]^{1/2} \leq \varepsilon$
-		\end{itemize}
-
-		\textbf{关键创新点}：
-		\begin{itemize}
-			\item 全历史递归结构避免维数灾难
-			\item 多级精度采样平衡误差与计算量
-			\item 适用于半线性抛物型PDE的广泛类别
-		\end{itemize}
-
-		\begin{exampleblock}{优势对比}
-		传统蒙特卡洛：$\mathcal{O}(e^d)$ vs MLP：$\mathcal{O}(d^c)$
-		\end{exampleblock}
-	\end{frame}
-
-	\section{Key Derivations}
-	\begin{frame}{From PDE to Stochastic Fixed Point}
-		\textbf{半线性热方程}：
-		\[
-		\partial_t u = \Delta u + f(u)
-		\]
-
-		\textbf{Feynman-Kac公式推广}：
-		\[
-		u(t,x) = \mathbb{E}\left[ u(0,x+\sqrt{2}W_t) + \int_0^t f(u(s,x+\sqrt{2}W_{t-s}))ds \right]
-		\]
-
-		\textbf{证明思路}：
-		\begin{enumerate}
-			\item 应用Ito公式于$u(t,X_t)$
-			\item 利用BSDE理论建立对应关系
-			\item 构造压缩映射$\Phi$保证收敛性
-		\end{enumerate}
-	\end{frame}
-
-	\begin{frame}{MLP Approximation Construction}
-		\textbf{递归展开}：
-		\[
-		u_n = \Phi(u_{n-1}) = \Phi(0) + \sum_{k=1}^{n-1} [\Phi(u_k) - \Phi(u_{k-1})]
-		\]
-
-		\textbf{多级展开示意图}：
-		% figure
-	\end{frame}
-	\fi
-
-	\iffalse
-	\section{数学公式解析}
-	\begin{frame}{关键数学公式解析}
-		\begin{itemize}
-			\item \textbf{Hamilton-Jacobi-Bellman (HJB) 方程:}
+			\item 考虑如下变分问题:
 				\begin{equation*}
-				\frac{\partial u}{\partial t}+H(x,\nabla u)=0.
+					\min_{u \in H}I\left(u\right), \quad I\left(u\right) = \int_{\Omega}\left(\frac{1}{2}\left\lvert\nabla u\left(x\right)\right\rvert^{2} - f\left(x\right)u\left(x\right)\right) \dif x
 				\end{equation*}
-				描述最优控制问题中价值函数的动态规划原理
-			\item \textbf{Black-Scholes 方程:}
+			\item Deep Ritz 方法主要包括:
+				\begin{enumerate}
+					\item 使用 DNN 参数化试探函数
+					\item 对 $I\left(u\right)$ 采取数值积分进行离散化
+					\item 设计最终算法
+				\end{enumerate}
+			\item 处理边界条件时可能会遇到一些问题, 可以对泛函进行修正:
 				\begin{equation*}
-				\frac{\partial u}{\partial t}+\frac{1}{2}\sigma^2 \sum_{i=1}^{d}x_i^2 \frac{\partial^2 u}{\partial x_i^2}+r\langle \nabla u,x\rangle-ru+f(u)=0.
+					I\left(u\right) = \int_{\Omega}\left(\frac{1}{2} u_{x}^{2} - fu\right) \dif x + \beta\int_{\partial\Omega}u^{2} \dif x
 				\end{equation*}
-				用于金融衍生品定价，考虑违约风险、交易成本等非线性效应
-			\item \textbf{蒙特卡罗积分:}
-				\begin{equation*}
-				I(g)=\int_{[0,1]^d}g(x)dx,\quad I_n(g)=\frac{1}{n}\sum_{j=1}^n g(x_j),
-				\end{equation*}
-				误差分析：
-				\begin{equation*}
-				\mathbb{E}\Bigl[|I(g)-I_n(g)|^2\Bigr]=\frac{\mathrm{Var}(g)}{n}.
-				\end{equation*}
-			\item \textbf{神经网络近似表达式:}
-				\begin{equation*}
-				f_m(x,\theta)=\frac{1}{m}\sum_{j=1}^{m}a_j\,\sigma\bigl(\langle w_j,x\rangle\bigr),
-				\end{equation*}
-				以及 ResNet 形式：
-				\begin{equation*}
-				z_{l+1}=z_l+\frac{1}{L}\sum_{j=1}^{M}a_{j,l}\,\sigma\bigl(\langle z_l,w_{j,l}\rangle\bigr).
-				\end{equation*}
+				通常可选 $\beta = 500$.
 		\end{itemize}
 	\end{frame}
-	\fi
+
+	\subsection{最小二乘法}
+	\begin{frame}{最小二乘法}
+		\begin{itemize}
+			\item 考虑在区域 $\Omega \in \mathbb{R}^{d}$ 上求解 PDE
+				\begin{equation*}
+					Lu=f
+				\end{equation*}
+			\item 可等价的转化为变分问题
+				\begin{equation*}
+					\min_{u} J\left(u\right) = \int_{\Omega}\left\lVert Lu - f\right\rVert^{2}\mu\left(\dif x\right)
+				\end{equation*}
+				其中 $\mu$ 是 $\Omega$ 上选取的非退化易于采样的概率分布. 于是问题与前面变得类似.
+		\end{itemize}
+	\end{frame}
+
+	\subsection{Galerkin 方法}
+	\begin{frame}{Galerkin 方法}
+		\begin{itemize}
+			\item 考虑弱形式: 寻找 $u \in H_{1}$ 使得对任意 $\varphi \in H_{2}$ 有
+				\begin{equation*}
+					a\left(u, \varphi\right) = \left\langle Lu, \varphi\right\rangle = \left\langle f, \varphi\right\rangle
+				\end{equation*}
+			\item 通常进行分部积分使其仅涉及一阶导数.
+			\item 类似 WGAN 方法, 可以将其改写为
+				\begin{equation*}
+					\min_{u \in H_{1}} \max_{\left\lVert\varphi\right\rVert _{H_{2} \leq 1}} \left(a\left(u, \varphi\right) - \left\langle f, \varphi\right\rangle\right)^{2}
+				\end{equation*}
+			\item 然而这种形式的公式很难求解
+		\end{itemize}
+	\end{frame}
+
+	\subsection{多层皮卡德方法 (MLP)}
+	\begin{frame}{多层皮卡德方法 (MLP)}
+		\begin{itemize}
+			\item 定理3主要提供了多层 Picard 近似方法 (MLP 方法) 在求解半线性热偏微分方程 (具有 Lipschitz 连续的非线性项) 时的误差估计和计算复杂度分析. 
+			\item 假设 PDE 由半线性热方程
+				\begin{equation*}
+					\frac{\partial}{\partial t} u_{d}\left(t, x\right) = \Delta_{x} u_{d}\left(t, x\right) + f\left(u_{d}\left(t,x\right)\right)
+				\end{equation*}
+				给出, 其中 $u_{d}\left(t, x\right)$ 是精确解, $f\left(u\right)$ 是 Lipschitz 连续的非线性项.
+			\item 设定精度阈值  $\varepsilon$, 则 MLP 方法所需的计算成本 $\mathfrak{C}_{d,\mathfrak{N}_{\varepsilon}, \mathfrak{N}_{\varepsilon}}$ 满足:
+				\begin{equation*}
+					\mathfrak{C}_{d,\mathfrak{N}_{\varepsilon}, \mathfrak{N}_{\varepsilon}} \leq cd^{c}\varepsilon^{-3},
+				\end{equation*}
+     			其中 $c$ 是一个与维数 $d$ 和精度 $\varepsilon$ 无关的常数. 这表明 MLP 方法的计算成本仅呈多项式增长, 相比于传统方法的指数增长 (即``维数灾难''), MLP 方法在一定程度上克服了维数灾难.
+			\end{itemize}
+		\end{frame}
+
+		\begin{frame}{多层皮卡德方法 (MLP)}
+			\begin{itemize}
+			\item 该方法的 $L^2$ 误差估计满足:
+				\begin{equation*}
+					\left(\mathbb{E}\left[\left\lvert U^{d,0}_{\mathfrak{N}_{\varepsilon}, \mathfrak{N}_\varepsilon}\left(T, 0\right) - u_{d}\left(T, 0\right)\right\rvert^2\right]\right)^{\frac{1}{2}} \leq \varepsilon
+				\end{equation*}
+				这意味着, MLP 方法可以在计算成本受控的情况下, 将误差控制在 $\varepsilon$ 以内.
+			\item 定理 3 的核心贡献
+				\begin{enumerate}
+					\item 提供了 MLP 方法对 PDE 逼近的严格误差分析, 证明了该方法能够在多项式计算复杂度下达到高精度解
+					\item 明确了计算复杂度的上界, 即计算成本随维度 $d$ 线性增长, 随误差 $\varepsilon^{-3}$ 级增长
+					\item 支持 MLP 方法在高维 PDE 计算中的可行性, 理论上证明了该方法在高维问题中比传统网格方法 (如有限差分, 有限元) 更具优势
+				\end{enumerate}
+			\item 总的来说, 定理 3 证明了 MLP 方法是一种在计算效率和逼近精度之间具有良好平衡的数值方法, 特别适用于高维 PDE 计算
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}{神经网络近似逼近 PDEs 数值解的数学结果}
+		\begin{itemize}
+			\item 截至今日, 尚没有完整的严格数学分析能够证明 (或证伪) 以下猜想: 存在一种基于深度学习的近似方法能够在偏微分方程 (PDE) 的数值逼近中克服维度诅咒 (curse of dimensionality). 然而, 已经有一些数学结果证明, DNN 具备在不引入维度诅咒的条件下近似 PDE 解的能力.
+			\item 定理 4 表明, 设 $u_{d}\left(t, x\right)$ 满足非线性热方程:
+				\begin{equation*}
+					\frac{\partial u_d}{\partial t} = \Delta_x u_d + f(u_d), \quad u_d(0,x)\text{初值}
+				\end{equation*}
+    			若初值可用 DNN 以多项式复杂度逼近, 则
+				\begin{enumerate}
+					\item 存在神经网络 $\mathfrak{u}_{d,\varepsilon}$, 其参数数量 $\mathcal{P}\left(\mathfrak{u}_{d,\varepsilon}\right)$ 至多以多项式速率增长于维度 $d$ 和精度倒数 $\varepsilon^{-1}$
+					\item 在超立方体 $[0,1]^d$ 上, 神经网络实现的 $L^{2}$-逼近误差不超过 $\varepsilon$
+				\end{enumerate}
+		\end{itemize}
+	\end{frame}
 
 	\section{结论与未来展望}
 	\begin{frame}{结论与未来展望}
 		\begin{itemize}
-			\item 利用非线性蒙特卡罗和深度学习方法，设计出不受维数灾难影响的高效数值算法
-			\item 理论与数值实验均证明：对于控制、金融、量子等领域的高维问题，这些方法具有显著优势
-			\item 未来工作：进一步完善理论证明、改进算法效率以及扩展到更广泛的应用场景
+			\item 利用非线性蒙特卡罗和深度学习方法, 设计出不受维数灾难影响的高效数值算法
+			\item 理论与数值实验均证明: 对于控制, 金融, 量子等领域的高维问题, 这些方法具有显著优势
+			\item 未来工作: 进一步完善理论证明, 改进算法效率以及扩展到更广泛的应用场景
 		\end{itemize}
 	\end{frame}
 
-	\begin{frame}{参考文献}
-		\begin{itemize}
-			\item Weinan E, Jiequn Han, Arnulf Jentzen. \emph{Algorithms for Solving High Dimensional PDEs: From Nonlinear Monte Carlo to Machine Learning}, 2020.
-			\item 其他相关文献……
-		\end{itemize}
-	\end{frame}
-
-	\begin{frame}
-		\centering \Large 谢谢大家！
+	\section{结束页}
+	\begin{frame}{结束页}
+		\centering \Huge 谢谢！
 	\end{frame}
 
 \end{document}

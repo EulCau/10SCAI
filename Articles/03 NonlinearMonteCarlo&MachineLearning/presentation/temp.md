@@ -227,7 +227,7 @@ $$
 
 在本章余下部分中，我们将大致描述 MLP 近似方法的主要思想。为使表述尽可能简明易懂，下面的讨论将限制在具有有界初值且非线性项为 Lipschitz 连续、仅依赖于偏微分方程解本身的半线性热偏微分方程情形下。接下来的结果，即定理 3，为在上述条件下使用 MLP 近似方法求解半线性热偏微分方程提供了复杂度分析。定理 3 的证明主要基于 Hutzenthaler 等人 [89, Theorem 1.1] 与 Beck 等人 [7, Theorem 1.1] 的工作。
 
->### 定理 3
+>**定理 3**
 >
 >设 $T \in (0,\infty)$，令
 >
@@ -281,8 +281,6 @@ $$
 >\end{aligned}
 >$$
 >
->（公式中的下标和上标表示对独立随机变量的不同取值，具体定义参见 [87, Corollary 4.4]。）
->
 >对于每个 $d, M \in \mathbb{N}$ 和 $n \in \mathbb{N}_0$，令 $C^{d}_{n,M} \in \mathbb{N}_0$ 表示计算 $U^{d,0}_{n,M}(T,0) : \Omega \to \mathbb{R}$ 时所需要的 $f$ 和 $u_d(0,\cdot)$ 的函数值的计算次数以及标量随机变量生成的次数。则存在一个函数
 >
 >$$
@@ -322,3 +320,62 @@ $$
 - 指标 $C^{d}_{n,M}$ 用来衡量在计算 $U^{d,0}_{n,M}(T,0)$ 时所需的计算资源（包括函数计算次数和随机变量生成次数）。定理 3 表明，当所要求的近似精度为 $\varepsilon$ 时，其计算成本最多以 $d$ 和 $\varepsilon^{-3}$ 的多项式级别增长。
 
 文献中还进一步讨论了在更一般条件下，MLP 近似方法如何适用于更广泛的偏微分方程问题，并给出了更加精确的误差常数和参数依赖的指数。与传统的 Monte Carlo 方法相比，MLP 方法在一定条件下能够有效地克服维数灾难，其计算复杂度仅呈多项式增长。
+
+更一般的 MLP 近似方法（参见文献 [7, 89, 90, 53, 86, 87]）在若干方面改进了定理 3 中的结论。首先，上述参考文献中的主要近似结果不仅仅局限于在空间点 $x=0$ 处逼近 PDE 的解，而是可以扩展到在任意给定的空间点处近似 PDE 的解。其次，这些结果提供了明确的误差常数以及关于假设中涉及的常数参数依赖的指数。例如，在某些情形下，可以给出精确的 $L^2$ 误差估计，其中误差界不仅明确依赖于时间终点 $T$ 和非线性函数 $f$ 的 Lipschitz 常数，还显示出其在维数 $d$ 和精度 $\varepsilon$ 上的多项式增长关系。
+
+此外，更一般的结果还允许对具有非 Lipschitz 连续性或非线性项依赖于时间 $t$、空间变量 $x$ 以及 PDE 解的导数的情况进行讨论。这样的扩展使得 MLP 方法不仅在理论上具有普适性，而且在实际应用中也能适用于更广泛的 PDE 问题。例如，在半线性热方程中，如果非线性函数 $f$ 的依赖关系更为复杂，则相关的 MLP 分析可以通过适当的技术改进得到相应的误差估计和复杂度分析。
+
+总的来说，MLP 近似方法的核心思想在于利用全历史递归的 Picard 迭代，将原本非线性的期望问题分解为一系列较低层次的计算任务，再通过多层 Monte Carlo 平均方法来逼近每一层次中的期望值。通过这种方法，尽管问题本质上是高维且非线性的，但计算复杂度仅呈多项式级别增长，从而有效地克服了“维数灾难”。
+
+最后需要指出的是，上述理论结果中的计算复杂度估计 $C^{d}_{N_\varepsilon, N_\varepsilon} \le c\, d\, \varepsilon^{-3}$ 是在一定假设条件下的上界估计。实际应用中，为了提高算法的效率，研究者还在不断探索如何优化各层 Monte Carlo 样本数的分配、改进随机数生成和降低方差的方法。这些改进都有助于进一步降低 MLP 方法在高维 PDE 数值求解中的实际计算成本。
+
+## 第七章 偏微分方程神经网络近似的数学结果
+
+截至今日，尚没有完整的严格数学分析能够证明（或证伪）以下猜想：存在一种基于深度学习的近似方法能够在偏微分方程（PDE）的数值逼近中克服维度诅咒（curse of dimensionality）。然而，科学文献中已有一些数学结果（例如 [17, 42, 61, 64, 65, 88, 93, 104, 129, 82]）证明，深度神经网络（DNN）具备在不引入维度诅咒的条件下近似 PDE 解的能力。
+
+特别地，Grohs 等人的文章 [64] 证明存在一类神经网络，其参数数量至多以多项式速率增长于逼近精度倒数 \(1/\varepsilon\) 和 PDE 维度 \(d \in \mathbb{N}\)，从而能够近似线性 Black-Scholes PDE 的解。文献 [17, 42, 61, 65, 93, 104, 129, 82] 将 [64] 的结果推广到更一般的线性 PDE，而 Hutzenthaler 等人的文章 [88] 则将其扩展到具有 Lipschitz 连续非线性项的非线性热方程。为了更好地阐述 [88] 的结果，我们在以下定理 4 中呈现其 [88, 定理 1.1] 的一个特例。
+
+>**定理 4**
+>设 \(\rho\colon \left(\bigcup_{d\in\mathbb{N}}\mathbb{R}^d\right) \to \left(\bigcup_{d\in\mathbb{N}}\mathbb{R}^d\right)\) 满足对所有 \(d\in\mathbb{N}\) 和 \(x=(x_1,\ldots,x_d)\in\mathbb{R}^d\) 有 \(\rho(x)=(\max\{x_1,0\},\ldots,\max\{x_d,0\})\)，设 \(\mathbf{N}=\bigcup_{L\in\mathbb{N}}\bigcup_{l_0,l_1,\ldots,l_L\in\mathbb{N}}\left(\times_{k=1}^L(\mathbb{R}^{l_k\times l_{k-1}}\times\mathbb{R}^{l_k})\right)\)，设 \(\mathcal{R}\colon \mathbf{N} \to \left(\bigcup_{k,l\in\mathbb{N}}C(\mathbb{R}^k,\mathbb{R}^l)\right)\) 和 \(\mathcal{P}\colon \mathbf{N} \to \mathbb{N}\) 满足：对所有 \(L\in\mathbb{N}\)、\(l_0,l_1,\ldots,l_L\in\mathbb{N}\)、\(\Phi=((W_1,B_1),(W_2,B_2),\ldots,(W_L,B_L))\in\left(\times_{k=1}^L(\mathbb{R}^{l_k\times l_{k-1}}\times\mathbb{R}^{l_k})\right)\)、\(x_0\in\mathbb{R}^{l_0}\)、\(x_1\in\mathbb{R}^{l_1}\)、...、\(x_L\in\mathbb{R}^{l_L}\) 且满足 \(\forall k\in\{1,2,\ldots,L-1\}\colon x_k=\rho(W_kx_{k-1}+B_k)\)，有 \(\mathcal{R}(\Phi)\in C(\mathbb{R}^{l_0},\mathbb{R}^{l_L})\)、\((\mathcal{R}(\Phi))(x_0)=W_Lx_{L-1}+B_L\)，且 \(\mathcal{P}(\Phi)=\sum_{k=1}^L l_k(l_{k-1}+1)\)。设 \(T,\kappa\in(0,\infty)\)、\((\mathfrak{g}_{d,\varepsilon})_{(d,\varepsilon)\in\mathbb{N}\times(0,1]}\subseteq\mathbf{N}\)，设 \(f\colon\mathbb{R}\to\mathbb{R}\) 为 Lipschitz 连续函数，设 \(u_d\in C^{1,2}([0,T]\times\mathbb{R}^d,\mathbb{R})\)（\(d\in\mathbb{N}\)），并假设对所有 \(d\in\mathbb{N}\)、\(x=(x_1,\ldots,x_d)\in\mathbb{R}^d\)、\(\varepsilon\in(0,1]\)、\(t\in[0,T]\) 有：  
+>- \(\mathcal{R}(\mathfrak{g}_{d,\varepsilon})\in C(\mathbb{R}^d,\mathbb{R})\)，  
+>- \(\varepsilon|u_d(t,x)| + |u_d(0,x) - (\mathcal{R}(\mathfrak{g}_{d,\varepsilon}))(x)| \leq \varepsilon\kappa d^\kappa\left(1+\sum_{i=1}^d |x_i|^\kappa\right)\)，  
+>- \(\mathcal{P}(\mathfrak{g}_{d,\varepsilon}) \leq \kappa d^\kappa \varepsilon^{-\kappa}\)，  
+>- \((\partial u_d/\partial t)(t,x) = (\Delta_x u_d)(t,x) + f(u_d(t,x))\)。  
+>
+>则存在 \((\mathfrak{u}_{d,\varepsilon})_{(d,\varepsilon)\in\mathbb{N}\times(0,1]}\subseteq\mathbf{N}\) 和常数 \(c\in\mathbb{R}\)，使得对所有 \(d\in\mathbb{N}\)、\(\varepsilon\in(0,1]\) 有：  
+>- \(\mathcal{R}(\mathfrak{u}_{d,\varepsilon})\in C(\mathbb{R}^d,\mathbb{R})\)，  
+>- \(\mathcal{P}(\mathfrak{u}_{d,\varepsilon}) \leq c d^c \varepsilon^{-c}\)，  
+>- \(\left[\int_{[0,1]^d} |u_d(T,x) - (\mathcal{R}(\mathfrak{u}_{d,\varepsilon}))(x)|^2 dx\right]^{1/2} \leq \varepsilon\)。
+
+**定理 4 的说明**  
+定理 4 是 Hutzenthaler 等人 [88, 定理 1.1] 的直接推论。以下对定理 4 中数学对象的含义及其结论进行说明：  
+
+1. **激活函数与神经网络结构**  
+   - 函数 \(\rho\) 表示多维修正线性单元（ReLU）激活函数。  
+   - 集合 \(\mathbf{N}\) 表示所有神经网络的集合。  
+   - 函数 \(\mathcal{R}\colon \mathbf{N} \to \left(\bigcup_{k,l\in\mathbb{N}}C(\mathbb{R}^k,\mathbb{R}^l)\right)\) 将神经网络映射为其实现函数。  
+   - 函数 \(\mathcal{P}\colon \mathbf{N} \to \mathbb{N}\) 统计神经网络的参数数量。  
+
+2. **假设条件**  
+   - 时间范围 \(T\in(0,\infty)\) 和常数 \(\kappa\in(0,\infty)\) 用于刻画 PDE 解的正则性和逼近假设。  
+   - 初始值函数 \(u_d(0,x)\) 可由神经网络 \(\mathfrak{g}_{d,\varepsilon}\) 以多项式复杂度逼近，即参数数量 \(\mathcal{P}(\mathfrak{g}_{d,\varepsilon}) \leq \kappa d^\kappa \varepsilon^{-\kappa}\)。  
+   - PDE 解 \(u_d(t,x)\) 在空间变量和维度上至多多项式增长，即 \(|u_d(t,x)| \leq \kappa d^\kappa\left(1+\sum_{i=1}^d |x_i|^\kappa\right)\)。  
+
+3. **结论**  
+   - 存在神经网络 \(\mathfrak{u}_{d,\varepsilon}\)，其参数数量 \(\mathcal{P}(\mathfrak{u}_{d,\varepsilon})\) 至多以多项式速率增长于维度 \(d\) 和精度倒数 \(\varepsilon^{-1}\)。  
+   - 在超立方体 \([0,1]^d\) 上，神经网络实现的 \(L^2\)-逼近误差不超过 \(\varepsilon\)。  
+
+**证明策略的核心思想**  
+尽管定理 4 是一个确定性神经网络逼近结果，其证明基于人工概率空间上的概率论证，并运用以下引理：  
+
+>**引理 1.**  
+>设 \(\varepsilon\in(0,\infty)\)，\((\Omega,\mathcal{F},\mathbb{P})\) 为概率空间，\(E\colon\Omega\to\mathbb{R}\) 为满足 \((\mathbb{E}[|E|^2])^{1/2}\leq \varepsilon\) 的随机变量，则存在 \(\omega\in\Omega\) 使得 \(|E(\omega)| \leq \varepsilon\)。  
+
+该引理用于在人工概率空间上构造具有所需逼近性质的随机实现。具体证明步骤包括：  
+1. **构造随机神经网络**：在人工概率空间上设计权重和偏置为随机变量的神经网络，使其逼近 PDE 解。  
+2. **均方误差分析**：证明随机神经网络的实现函数在均方意义下接近 PDE 解。  
+3. **参数复杂度控制**：证明随机神经网络的参数数量以多项式速率增长。  
+4. **应用引理 1**：通过误差随机变量的 \(L^2\)-范数界，结合引理 1 导出确定性逼近结果。  
+
+**总结**  
+定理 4 及其证明表明，即使面对高维非线性 PDE，深度神经网络仍能以多项式复杂度的参数数量实现有效逼近。这一结果为基于神经网络的 PDE 求解器提供了理论保障，并揭示了其克服维度诅咒的潜力。

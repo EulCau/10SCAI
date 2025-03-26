@@ -6,7 +6,7 @@ empheq,graphicx,subcaption,algorithm,algorithmic,
 mathtools,color,cases,tikz,multirow,hyperref,
 comment,enumerate,authblk}
 
-\usepackage{xeCJK}				% CJK语言环境，使用XeLaTex进行编译
+\usepackage{xeCJK}				% CJK语言环境, 使用XeLaTex进行编译
 	\setCJKmonofont{宋体}
 \usepackage{fontspec}			% 字体设置
 	\setCJKmainfont{宋体}
@@ -176,7 +176,7 @@ comment,enumerate,authblk}
 	\section{介绍}
 	\label{sec:intro}
 
-	许多我们周围问题的数学模型是高维偏微分方程（PDEs）的形式. 一些著名的例子包括:
+	许多我们周围问题的数学模型是高维偏微分方程 (PDEs) 的形式. 一些著名的例子包括:
 	\bi
 		\item
 			控制理论中的Hamilton-Jacobi-Bellman (HJB) 方程
@@ -796,7 +796,7 @@ comment,enumerate,authblk}
 			\label{eq:PDE}
 			\frac{ \partial u}{ \partial t } + \frac{1}{2} \! \Tr\!\big( \sigma \sigma^{\operatorname{T}} (\operatorname{Hess}_{\bx} u) \big) +\left< \nabla u, \mu \right> +f\big( t, \bx, u, \sigma^{\operatorname{T}} (\nabla_x u) \big) = 0, \quad u(T, \bx) = g(\bx).
 		\end{equation}
-		与上文第 \ref{sec:general_remarks} 节中的方法相同，我们考虑扩散过程
+		与上文第 \ref{sec:general_remarks} 节中的方法相同, 我们考虑扩散过程
 		\begin{equation}
 			\bX_t = \xi + \int_0^t\mu( s, \bX_s )\, ds +\int_0^t \sigma( s, \bX_s ) \, d W_s.
 		\end{equation}
@@ -808,7 +808,7 @@ comment,enumerate,authblk}
 					&~+ \int_0^t [ \nabla u( s, \bX_s ) ]^{ \operatorname{T} } \,\sigma( s, \bX_s )\, d W_s.
 			\end{split}
 		\end{equation}
-		接下来，我们回顾一下由 Pardoux 和 Peng \cite{Pardoux1992} 提出的后向随机微分方程 (BSDE) 的概念 
+		接下来, 我们回顾一下由 Pardoux 和 Peng \cite{Pardoux1992} 提出的后向随机微分方程 (BSDE) 的概念 
 		\begin{empheq}[left=\empheqlbrace]{align}
 		\label{eq:BSDE_1}
 			&\bX_t = \xi + \int_0^t\mu( s, \bX_s )\, ds +\int_0^t \sigma( s, X_s ) \, dW_s, \\
