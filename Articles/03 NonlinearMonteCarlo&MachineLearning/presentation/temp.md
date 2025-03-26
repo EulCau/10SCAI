@@ -62,7 +62,7 @@ $$
 记控制问题的值函数为
 
 $$
-V(t,x)=\inf_{u\in U} \Big\{ g(y(T))+\int_{t}^{T} L(\tau,y,u)d\tau \Big\},
+V(t,x)=\inf_{u\in U} \{ g(y(T))+\int_{t}^{T} L(\tau,y,u)d\tau \},
 $$
 
 其中状态轨迹 $y(\tau)$ 满足动态约束
