@@ -34,8 +34,8 @@ $$
 其中 $\lambda$ 为伴随变量。一个重要的结论是，最优控制问题的解满足庞特里亚金极小值原理，即存在满足下列条件的解：
 $$
 \begin{cases}
-\dot{x}(t)=\frac{\partial \tilde{H}}{\partial \lambda}(t,x,\lambda,u^*(t,x,\lambda))=f(t,x,u^*(t,x,\lambda)),\$$1mm]
-\dot{\lambda}(t)=-\frac{\partial \tilde{H}}{\partial x}(t,x,\lambda,u^*(t,x,\lambda)),\$$1mm]
+\dot{x}(t)=\frac{\partial \tilde{H}}{\partial \lambda}(t,x,\lambda,u^*(t,x,\lambda))=f(t,x,u^*(t,x,\lambda)),\\[1mm]
+\dot{\lambda}(t)=-\frac{\partial \tilde{H}}{\partial x}(t,x,\lambda,u^*(t,x,\lambda)),\\[1mm]
 \dot{v}(t)=-L(t,x,u^*(t,x,\lambda)),
 \end{cases}
 \quad (54)
