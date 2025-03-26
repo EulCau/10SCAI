@@ -1,5 +1,6 @@
 \documentclass[aspectratio=169]{beamer}
 \usetheme{Madrid}
+\usefonttheme[onlymath]{serif}
 \usepackage{ctex, amsmath, amsfonts, amssymb}
 \usepackage{graphicx}
 
@@ -79,6 +80,7 @@
 
 	\end{frame}
 
+	\iffalse
 	\subsection{多层皮卡德方法 (MLP)}
 	\begin{frame}{多层皮卡德方法 (MLP)}
 		\begin{itemize}
@@ -106,6 +108,7 @@
 			\item 通过神经网络表示试探函数，实现无网格（mesh-free）的近似，具有自然的自适应性
 		\end{itemize}
 	\end{frame}
+	\fi
 
 	\section{高维控制问题}
 	\begin{frame}{高维控制问题}
@@ -113,7 +116,7 @@
 			\item 传统控制理论中, 最优控制问题的解往往受到维数灾难的限制
 			\item 我们考虑下面的最优控制问题:
 				\begin{equation*}
-					\min_{u} \mathbb{E}_{x_{0}\sim\mu}\left[g\left(x\left(T\right)\right) + \int_{0}^{T} L\left(t, x\left(t\right), u\left(t, x\left(t\right)\right)\right) dt \right]
+					\min_{u} g\left(x\left(T\right)\right) + \int_{0}^{T} L\left(t, x\left(t\right), u\left(t, x\left(t\right)\right)\right) \dif t
 				\end{equation*}
 				受限于动态系统
 				\begin{equation*}
@@ -124,28 +127,56 @@
 		\end{itemize}
 	\end{frame}
 
-	\begin{frame}
+	\begin{frame}{高维控制问题}
 		\begin{itemize}
 			\item Pontryagin 极小原理给出了最优控制问题的理论基础
 			\item 令扩展哈密顿量为 $\tilde{H} = L + \lambda^{\top} f$, $u^{*}\left(t, x; \lambda\right) = \arg\min_{u\in U} \tilde{H}\left(t, x, \lambda, u\right)$ 则由 Pontryagin 极小原理, 下面的方程组有解
 				\begin{equation*}
 					\left\{
 						\begin{array}{ll}
-							\left.\dot{x} = \frac{\partial \tilde{H}}{\partial \lambda}\right|_{u = u^{*}}	& x\left(0\right) = x_{0}										\\
-							\left.\dot{\lambda} = -\frac{\partial \tilde{H}}{\partial x}\right|_{u = u^{*}}	& \lambda\left(T\right) = \nabla g\left(x\left(T\right)\right)	\\
+							\left.\dot{x} = \tilde{H}_{\lambda}\right|_{u = u^{*}}	& x\left(0\right) = x_{0}										\\
+							\left.\dot{\lambda} = -\tilde{H}_{x}\right|_{u = u^{*}}	& \lambda\left(T\right) = \nabla g\left(x\left(T\right)\right)	\\
 							\left.\dot{v} = -L\right|_{u = u^{*}}											& v\left(T\right) = g\left(x\left(T\right)\right)
 						\end{array}
 					\right.
 				\end{equation*}
 				其中, $x$ 为状态变量, $\lambda$ 为伴随变量, $\tilde{H}$ 为 Hamilton 函数
-			\item 通过参数化策略函数，利用随机梯度下降等方法，实现高效求解
-			\item 通过开环控制和闭环控制的结合，实现对高维控制问题的全局优化
-			\item Pontryagin 极小原理提供了理论基础，深度学习方法提供了实际求解手段
-			\item 通过实例验证，证明了该方法的有效性和可行性
-			\item 未来工作：进一步完善算法，提高收敛速度和精度
 		\end{itemize}
 	\end{frame}
 
+	\begin{frame}{高维控制问题}
+		\begin{itemize}
+			\item 记
+				\begin{equation*}
+					V\left(t, x\right) = \inf_{u \in U}\{g\left(y\left(T\right)\right) + \int_{t}^{T}L\left(\tau, y, u\right) \dif \tau\}
+				\end{equation*}
+				其中 $\dot{y}\left(\tau\right) = f\left(\tau, y, u\right), y\left(t\right) = x$,
+				\begin{equation*}
+					H^{*}\left(t, x, \lambda\right) = \tilde{H}\left(t, x, \lambda, u^{*}\left(t, x; \lambda\right)\right)
+				\end{equation*}
+				则 $V$ 满足 HJB 方程 $V_{t} + H^{*}\left(t, x, V_{x}\right) = 0$, 且有终端条件 $V\left(T, x\right) = g\left(x\right)$ 通过数值方法求解 HJB 方程, 可以得到最优控制函数 $u^{*}$
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}{高维控制问题}
+		\begin{itemize}
+			\item 想通过机器学习方法求解高维控制问题, 需要推广到所有初值条件. 于是考虑如下问题
+				\begin{equation*}
+					\min_{u} \mathbb{E}_{x_{0}\sim\mu}\left[g\left(x\left(T\right)\right) + \int_{0}^{T} L\left(t, x\left(t\right), u\left(t, x\left(t\right)\right)\right) \dif t \right]
+				\end{equation*}
+				\begin{equation*}
+					\dot{x} = f\left(t, x, u\right),\quad x\left(0\right) = x_{0},\quad \mu = \frac{1}{Z}e^{-\beta V}
+				\end{equation*}
+			\item 为解决数据生成问题, 需要采用如下策略:
+				\begin{enumerate}
+					\item 求解前面的两点边值问题来生成训练数据
+					\item 利用生成的数据训练神经网络, 以逼近值函数 $V$ 和最优控制函数 $u^{*}$
+				\end{enumerate}
+			\item 然而, 这个两点边值问题的求解也不简单, 具体可以采用 ``热启动'' 策略或者自适应采样方法.
+		\end{itemize}
+	\end{frame}
+
+	\iffalse
 	\begin{frame}{Deep Learning Approach for Control}
 		\textbf{策略函数参数化}：
 		\[
@@ -274,6 +305,7 @@
 		\textbf{多级展开示意图}：
 		% figure
 	\end{frame}
+	\fi
 
 	\iffalse
 	\section{数学公式解析}

@@ -123,11 +123,11 @@ $$
 1. “热启动”策略。其基本思想是，为 (54)–(55) 的迭代算法选择合适的初始化，从而有助于保证算法收敛。例如，可以先从较短的时间区间 $T$ 开始，此时迭代收敛性问题较轻，然后将得到的解简单外推到更长的时间区间，作为后续求解的初值，如此迭代进行；
 2. 自适应采样。类似的思想也在 [147] 中有所探讨。对于自适应算法而言，关键在于设计误差指示器：误差较大时，需要采集更多数据。文献 [147] 中采用来自多个相似机器学习模型预测值的方差作为误差指示器；而 [117] 则提出了一种基于损失函数梯度方差的精细误差指示方法，另有观点认为可以直接使用值函数梯度的幅值作为误差指标。
 
+---
+
 ## 5 Ritz、Galerkin 和最小二乘法
 
 Ritz 公式、Galerkin 公式以及最小二乘法是设计求解偏微分方程（PDE）数值算法中常用的几种框架。其中，Ritz 公式基于变分原理；Galerkin 公式则基于 PDE 的弱形式，涉及试探函数与测试函数；而最小二乘法是一种将 PDE 问题转化为变分问题的方法，其基本思路是最小化 PDE 残差的平方。最小二乘法具有通用性和直观性，但在传统数值分析中往往不被优先选择，因为由此得到的数值问题通常比 Ritz 或 Galerkin 公式的条件更差。利用变分原理构造基于机器学习的算法（例如将试探函数空间替换为机器学习模型的假设空间）较为直接，而采用 Galerkin 公式则不同，它依赖于弱形式和测试函数。实际上，与 Galerkin 公式最为接近的机器学习模型是 Wasserstein GAN（WGAN）：在 WGAN 中，判别器承担了测试函数的角色，而生成器则相当于试探函数。
-
----
 
 ## 5.1 Deep Ritz 方法
 
@@ -175,8 +175,6 @@ $$
 
 关于 Deep Ritz 方法的一些理论分析可参见文献 [116]。
 
----
-
 ## 5.2 最小二乘法公式
 
 最小二乘法方法最初在文献 [22] 中用于求解动态 Schrödinger 方程，随后在 [132] 中被更系统地发展（虽然 [132] 将其称为 Galerkin 方法）。其基本思路十分简单：考虑在区域 $\Omega\subset \mathbb{R}^d$ 上求解 PDE
@@ -192,8 +190,6 @@ J(u) = \int_{\Omega} \|Lu - f\|^2 \, \mu(dx) \quad \text{(68)}
 $$
 
 的最小值，其中 $\mu$ 是在 $\Omega$ 上选取的一个适当的概率分布。要求 $\mu$ 非退化且易于采样。从形式上看，最小二乘法的变分问题与 Ritz 方法中的泛函 $I(u)$ 类似，只是此处用 $J(u)$ 替换了 $I(u)$。
-
----
 
 ## 5.3 Galerkin 公式
 
@@ -222,3 +218,107 @@ $$
 $$
 
 但遗憾的是，这种形式的公式较难直接求解，其遇到的问题与 WGAN 中类似。尽管如此，一些令人鼓舞的进展已经取得，有关具体细节可参考文献 [143]。
+
+---
+
+## 第六章 用于非线性偏微分方程的多层 Picard 近似方法
+
+在文章 [37]（E 等人）和 [89]（Hutzenthaler 等人）中，提出并分析了所谓的全历史递归多层 Picard 近似方法（以下简称 MLP 方法）。在 [89] 中，对半线性热偏微分方程（具有 Lipschitz 非线性）的误差分析仅限于这一类问题。然而，在科学文献中，现已有一系列关于 MLP 近似方法的进一步文章（参见 [90, 7, 53, 6, 9, 86, 91, 38, 87]），这些文章分析、扩展或推广了在 [37, 89] 中提出的 MLP 近似方法，使其适用于更大类的偏微分方程问题，例如半线性 Black-Scholes 偏微分方程（参见 [90, 9]）、具有梯度依赖非线性项的半线性热偏微分方程（参见 [86, 91]）、半线性椭圆偏微分方程问题（参见 [6]）、具有非 Lipschitz 连续非线性项的半线性热偏微分方程（参见 [7, 9]），以及系数函数变化的半线性二阶偏微分方程（参见 [90, 87]）。
+
+在本章余下部分中，我们将大致描述 MLP 近似方法的主要思想。为使表述尽可能简明易懂，下面的讨论将限制在具有有界初值且非线性项为 Lipschitz 连续、仅依赖于偏微分方程解本身的半线性热偏微分方程情形下。接下来的结果，即定理 3，为在上述条件下使用 MLP 近似方法求解半线性热偏微分方程提供了复杂度分析。定理 3 的证明主要基于 Hutzenthaler 等人 [89, Theorem 1.1] 与 Beck 等人 [7, Theorem 1.1] 的工作。
+
+>### 定理 3
+>
+>设 $T \in (0,\infty)$，令
+>
+>$$
+>\Theta = \bigcup_{n \in \mathbb{N}} \mathbb{Z}^n,
+>$$
+>
+>设 $f: \mathbb{R} \to \mathbb{R}$ 为 Lipschitz 连续函数，对于每个 $d \in \mathbb{N}$，令
+>
+>$$
+>u_d \in C^{1,2}([0,T] \times \mathbb{R}^d, \mathbb{R})
+>$$
+>
+>满足多项式增长条件，并且对所有 $d \in \mathbb{N}$、$t \in [0,T]$ 及 $x \in \mathbb{R}^d$ 有
+>
+>$$
+>\frac{\partial}{\partial t} u_d(t,x) = \Delta_x u_d(t,x) + f(u_d(t,x)).
+>$$
+>
+>设 $(\Omega, \mathcal{F}, \mathbb{P})$ 为概率空间，对于每个 $\theta \in \Theta$，令
+>
+>$$
+>R_{\theta} : \Omega \to [0,1]
+>$$
+>
+>为独立的 $\mathrm{U}[0,1]$ 分布随机变量，且对于每个 $d \in \mathbb{N}$ 和 $\theta \in \Theta$，令
+>
+>$$
+>W^{d,\theta} : [0,T] \times \Omega \to \mathbb{R}^d
+>$$
+>
+>为独立的标准布朗运动，并假设 $\{ R_{\theta} \}_{\theta \in \Theta}$ 与 $\{ W^{d,\theta} \}_{(d,\theta) \in \mathbb{N} \times \Theta}$ 相互独立。对于每个 $d \in \mathbb{N}$、$s \in [0,T]$、$t \in [s,T]$、$x \in \mathbb{R}^d$ 及 $\theta \in \Theta$，令 $X^{d,\theta}_{s,t,x} : \Omega \to \mathbb{R}^d$ 定义为
+>
+>$$
+>X^{d,\theta}_{s,t,x} = x + \sqrt{2}\, \bigl( W^{d,\theta}_t - W^{d,\theta}_s \bigr).
+>$$
+>
+>设对于每个 $d, M \in \mathbb{N}$、$n \in \mathbb{N}_0$ 及 $\theta \in \Theta$，有随机函数
+>
+>$$
+>U^{d,\theta}_{n,M} : [0,T] \times \mathbb{R}^d \times \Omega \to \mathbb{R},
+>$$
+>
+>满足对于所有 $d, M \in \mathbb{N}$、$n \in \mathbb{N}_0$、$\theta \in \Theta$、$t \in [0,T]$ 和 $x \in \mathbb{R}^d$ 有
+>
+>$$
+>\begin{aligned}
+>U^{d,\theta}_{n,M}(t,x) = {} & \sum_{k=1}^{n-1} \Biggl[ \frac{1}{M^{n-k}} \sum_{m=1}^{M^{n-k}} \Bigl( f\Bigl( U^{d,(\theta,k,m)}_{k,M}\bigl(tR_{(\theta,k,m)}, X^{d,(\theta,k,m)}_{tR_{(\theta,k,m)},t,x}\bigr) \Bigr) \\
+>& \quad - f\Bigl( U^{d,(\theta,-k,m)}_{k-1,M}\bigl(tR_{(\theta,k,m)}, X^{d,(\theta,k,m)}_{tR_{(\theta,k,m)},t,x}\bigr) \Bigr) \Bigr) \Biggr] \\
+>& \quad + \frac{1}{M^n} \sum_{m=1}^{M^n} \Bigl( u_d\bigl(0, X^{d,(\theta,0,-m)}_{0,t,x} \bigr) + t\, f(0) \Bigr).
+>\end{aligned}
+>$$
+>
+>（公式中的下标和上标表示对独立随机变量的不同取值，具体定义参见 [87, Corollary 4.4]。）
+>
+>对于每个 $d, M \in \mathbb{N}$ 和 $n \in \mathbb{N}_0$，令 $C^{d}_{n,M} \in \mathbb{N}_0$ 表示计算 $U^{d,0}_{n,M}(T,0) : \Omega \to \mathbb{R}$ 时所需要的 $f$ 和 $u_d(0,\cdot)$ 的函数值的计算次数以及标量随机变量生成的次数。则存在一个函数
+>
+>$$
+>N: (0,1] \to \mathbb{N}
+>$$
+>
+>和常数 $c \in \mathbb{R}$，使得对于所有 $d \in \mathbb{N}$ 和 $\varepsilon \in (0,1]$ 有
+>
+>$$
+>C^{d}_{N_{\varepsilon},N_{\varepsilon}} \le c\, d\, \varepsilon^{-3}
+>$$
+>
+>且
+>
+>$$
+>\Bigl( \mathbb{E}\Bigl[ \bigl| U^{d,0}_{N_{\varepsilon},N_{\varepsilon}}(T,0) - u_d(T,0) \bigr|^2 \Bigr] \Bigr)^{\frac{1}{2}} \le \varepsilon.
+>$$
+
+接下来，我们对定理 3 中所涉及的符号和定义做一些说明：
+
+- 定理 3 中描述的 MLP 近似旨在逼近偏微分方程
+  
+  $$
+  \frac{\partial}{\partial t} u_d(t,x) = \Delta_x u_d(t,x) + f(u_d(t,x))
+  $$
+
+  的精确解，其中 $T \in (0,\infty)$ 表示时间终点。
+  
+- 函数 $f: \mathbb{R} \to \mathbb{R}$ 描述了偏微分方程中的非线性项，此处为简化讨论，我们假设 $f$ 仅依赖于 $u_d(t,x)$，而不依赖于时间 $t$、空间变量 $x$ 或偏微分方程解的导数。
+
+- 对于更一般的情况（例如非线性项可以依赖于 $t$、$x$ 以及 $u_d$ 的导数），相关的 MLP 分析见文献 [86] 和 [7, 9]。
+
+- 函数 $u_d : [0,T] \times \mathbb{R}^d \to \mathbb{R}$ 表示偏微分方程的精确解。
+
+- MLP 近似方法是一种非线性 Monte Carlo 算法，其主要思想是通过引入大量独立同分布的随机变量（利用索引集 $\Theta$）来构造多层递归的 Picard 迭代，从而在一定条件下克服维数灾难。
+
+- 指标 $C^{d}_{n,M}$ 用来衡量在计算 $U^{d,0}_{n,M}(T,0)$ 时所需的计算资源（包括函数计算次数和随机变量生成次数）。定理 3 表明，当所要求的近似精度为 $\varepsilon$ 时，其计算成本最多以 $d$ 和 $\varepsilon^{-3}$ 的多项式级别增长。
+
+文献中还进一步讨论了在更一般条件下，MLP 近似方法如何适用于更广泛的偏微分方程问题，并给出了更加精确的误差常数和参数依赖的指数。与传统的 Monte Carlo 方法相比，MLP 方法在一定条件下能够有效地克服维数灾难，其计算复杂度仅呈多项式增长。
