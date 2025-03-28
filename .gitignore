@@ -5,5 +5,7 @@ Tmp/
 libtorch support/
 Eigen/
 
+.idea
+.venv
 .vscode
 Thumbs.db
