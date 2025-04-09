@@ -1,0 +1,247 @@
+\begin{thebibliography}{10}
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+\providecommand{\bibinfo}[2]{#2}
+\providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem{Bellman1957}
+\bibinfo{author}{Bellman, R.~E.}
+\newblock \emph{\bibinfo{title}{Dynamic Programming}}
+  (\bibinfo{publisher}{Princeton University Press}, \bibinfo{year}{1957}).
+
+\bibitem{Goodfellow2016}
+\bibinfo{author}{Goodfellow, I.}, \bibinfo{author}{Bengio, Y.} \&
+  \bibinfo{author}{Courville, A.}
+\newblock \emph{\bibinfo{title}{Deep Learning}} (\bibinfo{publisher}{MIT
+  Press}, \bibinfo{year}{2016}).
+
+\bibitem{LeCun2015}
+\bibinfo{author}{LeCun, Y.}, \bibinfo{author}{Bengio, Y.} \&
+  \bibinfo{author}{Hinton, G.}
+\newblock \bibinfo{title}{Deep learning}.
+\newblock \emph{\bibinfo{journal}{Nature}} \textbf{\bibinfo{volume}{521}},
+  \bibinfo{pages}{436--444} (\bibinfo{year}{2015}).
+
+\bibitem{Krizhevsky2012}
+\bibinfo{author}{Krizhevsky, A.}, \bibinfo{author}{Sutskever, I.} \&
+  \bibinfo{author}{Hinton, G.~E.}
+\newblock \bibinfo{title}{Imagenet classification with deep convolutional
+  neural networks}.
+\newblock In \emph{\bibinfo{booktitle}{Advances in Neural Information
+  Processing Systems 25}}, \bibinfo{pages}{1097--1105} (\bibinfo{year}{2012}).
+
+\bibitem{Hinton2012}
+\bibinfo{author}{Hinton, G.} \emph{et~al.}
+\newblock \bibinfo{title}{Deep neural networks for acoustic modeling in speech
+  recognition: The shared views of four research groups}.
+\newblock \emph{\bibinfo{journal}{IEEE Signal Processing Magazine}}
+  \textbf{\bibinfo{volume}{29}}, \bibinfo{pages}{82--97}
+  (\bibinfo{year}{2012}).
+
+\bibitem{Silver2016}
+\bibinfo{author}{Silver, D.}, \bibinfo{author}{Huang, A.},
+  \bibinfo{author}{Maddison, C.~J.}, \bibinfo{author}{Guez, A.} \emph{et~al.}
+\newblock \bibinfo{title}{Mastering the game of {G}o with deep neural networks
+  and tree search}.
+\newblock \emph{\bibinfo{journal}{Nature}} \textbf{\bibinfo{volume}{529}},
+  \bibinfo{pages}{484--489} (\bibinfo{year}{2016}).
+
+\bibitem{Pinkus1999}
+\bibinfo{author}{Pinkus, A.}
+\newblock \bibinfo{title}{Approximation theory of the {MLP} model in neural
+  networks}.
+\newblock \emph{\bibinfo{journal}{Acta Numerica}} \textbf{\bibinfo{volume}{8}},
+  \bibinfo{pages}{143--195} (\bibinfo{year}{1999}).
+
+\bibitem{Pardoux1992}
+\bibinfo{author}{Pardoux, {\'E}.} \& \bibinfo{author}{Peng, S.}
+\newblock \bibinfo{title}{Backward stochastic differential equations and
+  quasilinear parabolic partial differential equations}.
+\newblock In \emph{\bibinfo{booktitle}{Stochastic Partial Differential
+  Equations and their Applications ({C}harlotte, {NC}, 1991)}}, vol.
+  \bibinfo{volume}{176} of \emph{\bibinfo{series}{Lecture Notes in Control and
+  Inform. Sci.}}, \bibinfo{pages}{200--217} (\bibinfo{publisher}{Springer},
+  \bibinfo{address}{Berlin}, \bibinfo{year}{1992}).
+
+\bibitem{Pardoux1999}
+\bibinfo{author}{Pardoux, {\'E}.} \& \bibinfo{author}{Tang, S.}
+\newblock \bibinfo{title}{Forward-backward stochastic differential equations
+  and quasilinear parabolic {PDE}s}.
+\newblock \emph{\bibinfo{journal}{Probability Theory and Related Fields}}
+  \textbf{\bibinfo{volume}{114}}, \bibinfo{pages}{123--150}
+  (\bibinfo{year}{1999}).
+
+\bibitem{Darbon2016}
+\bibinfo{author}{Darbon, J.} \& \bibinfo{author}{Osher, S.}
+\newblock \bibinfo{title}{Algorithms for overcoming the curse of dimensionality
+  for certain {H}amilton--{J}acobi equations arising in control theory and
+  elsewhere}.
+\newblock \emph{\bibinfo{journal}{Research in the Mathematical Sciences}}
+  \textbf{\bibinfo{volume}{3}}, \bibinfo{pages}{19} (\bibinfo{year}{2016}).
+
+\bibitem{Weinan2016}
+\bibinfo{author}{E, W.}, \bibinfo{author}{Hutzenthaler, M.},
+  \bibinfo{author}{Jentzen, A.} \& \bibinfo{author}{Kruse, T.}
+\newblock \bibinfo{title}{{On multilevel Picard numerical approximations for
+  high-dimensional nonlinear parabolic partial differential equations and
+  high-dimensional nonlinear backward stochastic differential equations}}.
+\newblock \emph{\bibinfo{journal}{arXiv:1607.03295}}  (\bibinfo{year}{2016}).
+
+\bibitem{Henry-Labordere2012}
+\bibinfo{author}{Henry-Labord{\`e}re, P.}
+\newblock \bibinfo{title}{Counterparty risk valuation: a marked branching
+  diffusion approach}.
+\newblock \emph{\bibinfo{journal}{arXiv:1203.2369}}  (\bibinfo{year}{2012}).
+
+\bibitem{Henry-Labordere2014}
+\bibinfo{author}{Henry-Labord{\`e}re, P.}, \bibinfo{author}{Tan, X.} \&
+  \bibinfo{author}{Touzi, N.}
+\newblock \bibinfo{title}{A numerical algorithm for a class of {BSDE}s via the
+  branching process}.
+\newblock \emph{\bibinfo{journal}{Stochastic Processes and their Applications}}
+  \textbf{\bibinfo{volume}{124}}, \bibinfo{pages}{1112--1140}
+  (\bibinfo{year}{2014}).
+
+\bibitem{Kingma2015}
+\bibinfo{author}{Kingma, D.} \& \bibinfo{author}{Ba, J.}
+\newblock \bibinfo{title}{Adam: a method for stochastic optimization}.
+\newblock In \emph{\bibinfo{booktitle}{Proceedings of the International
+  Conference on Learning Representations (ICLR)}} (\bibinfo{year}{2015}).
+
+\bibitem{Black2012}
+\bibinfo{author}{Black, F.} \& \bibinfo{author}{Scholes, M.}
+\newblock \bibinfo{title}{The pricing of options and corporate liabilities
+  [reprint of {J}. {P}olit. {E}con. {81} (1973), no. 3, 637--654]}.
+\newblock In \emph{\bibinfo{booktitle}{Financial Risk Measurement and
+  Management}}, vol. \bibinfo{volume}{267}, \bibinfo{pages}{100--117}
+  (\bibinfo{year}{2012}).
+
+\bibitem{Duffie1996}
+\bibinfo{author}{Duffie, D.}, \bibinfo{author}{Schroder, M.} \&
+  \bibinfo{author}{Skiadas, C.}
+\newblock \bibinfo{title}{Recursive valuation of defaultable securities and the
+  timing of resolution of uncertainty}.
+\newblock \emph{\bibinfo{journal}{The Annals of Applied Probability}}
+  \textbf{\bibinfo{volume}{6}}, \bibinfo{pages}{1075--1090}
+  (\bibinfo{year}{1996}).
+
+\bibitem{Bender2017}
+\bibinfo{author}{Bender, C.}, \bibinfo{author}{Schweizer, N.} \&
+  \bibinfo{author}{Zhuo, J.}
+\newblock \bibinfo{title}{A primal--dual algorithm for {BSDEs}}.
+\newblock \emph{\bibinfo{journal}{Mathematical Finance}}
+  \textbf{\bibinfo{volume}{27}}, \bibinfo{pages}{866--901}
+  (\bibinfo{year}{2017}).
+
+\bibitem{Bergman1995}
+\bibinfo{author}{Bergman, Y.~Z.}
+\newblock \bibinfo{title}{Option pricing with differential interest rates}.
+\newblock \emph{\bibinfo{journal}{Review of Financial Studies}}
+  \textbf{\bibinfo{volume}{8}}, \bibinfo{pages}{475--500}
+  (\bibinfo{year}{1995}).
+
+\bibitem{Leland1985}
+\bibinfo{author}{Leland, H.}
+\newblock \bibinfo{title}{Option pricing and replication with transaction
+  costs}.
+\newblock \emph{\bibinfo{journal}{The Journal of Finance}}
+  \textbf{\bibinfo{volume}{40}}, \bibinfo{pages}{1283--1301}
+  (\bibinfo{year}{1985}).
+
+\bibitem{Avellaneda1995}
+\bibinfo{author}{Avellaneda, M.}, \bibinfo{author}{Levy, A.} \&
+  \bibinfo{author}{Par{\'a}s, A.}
+\newblock \bibinfo{title}{Pricing and hedging derivative securities in markets
+  with uncertain volatilities}.
+\newblock \emph{\bibinfo{journal}{Applied Mathematical Finance}}
+  \textbf{\bibinfo{volume}{2}}, \bibinfo{pages}{73--88} (\bibinfo{year}{1995}).
+
+\bibitem{Crepey2013}
+\bibinfo{author}{Cr\'{e}pey, S.}, \bibinfo{author}{Gerboud, R.},
+  \bibinfo{author}{Grbac, Z.} \& \bibinfo{author}{Ngor, N.}
+\newblock \bibinfo{title}{Counterparty risk and funding: the four wings of the
+  {TVA}}.
+\newblock \emph{\bibinfo{journal}{International Journal of Theoretical and
+  Applied Finance}} \textbf{\bibinfo{volume}{16}}, \bibinfo{pages}{1350006}
+  (\bibinfo{year}{2013}).
+
+\bibitem{Forsyth2001}
+\bibinfo{author}{Forsyth, P.~A.} \& \bibinfo{author}{Vetzal, K.~R.}
+\newblock \bibinfo{title}{Implicit solution of uncertain volatility/transaction
+  cost option pricing models with discretely observed barriers}.
+\newblock \emph{\bibinfo{journal}{Applied Numerical Mathematics}}
+  \textbf{\bibinfo{volume}{36}}, \bibinfo{pages}{427--445}
+  (\bibinfo{year}{2001}).
+
+\bibitem{Powell2011}
+\bibinfo{author}{Powell, W.~B.}
+\newblock \emph{\bibinfo{title}{Approximate {D}ynamic {P}rogramming: {S}olving
+  the {C}urses of {D}imensionality}} (\bibinfo{publisher}{John Wiley \& Sons},
+  \bibinfo{year}{2011}).
+
+\bibitem{Yong1999}
+\bibinfo{author}{Yong, J.} \& \bibinfo{author}{Zhou, X.}
+\newblock \emph{\bibinfo{title}{Stochastic Controls}}
+  (\bibinfo{publisher}{Springer New York}, \bibinfo{year}{1999}).
+
+\bibitem{Emmerich2003}
+\bibinfo{author}{Emmerich, H.}
+\newblock \emph{\bibinfo{title}{The Diffuse Interface Approach in Materials
+  Science: Thermodynamic Concepts and Applications of Phase-Field Models}},
+  vol.~\bibinfo{volume}{73} (\bibinfo{publisher}{Springer Science \& Business
+  Media}, \bibinfo{year}{2003}).
+
+\bibitem{ElKaroui1997}
+\bibinfo{author}{El~Karoui, N.}, \bibinfo{author}{Peng, S.} \&
+  \bibinfo{author}{Quenez, M.-C.}
+\newblock \bibinfo{title}{Backward stochastic differential equations in
+  finance}.
+\newblock \emph{\bibinfo{journal}{Mathematical Finance}}
+  \textbf{\bibinfo{volume}{7}}, \bibinfo{pages}{1--71} (\bibinfo{year}{1997}).
+
+\bibitem{Gobet2016}
+\bibinfo{author}{Gobet, E.}
+\newblock \emph{\bibinfo{title}{Monte-Carlo Methods and Stochastic Processes:
+  From Linear to Non-linear}} (\bibinfo{publisher}{CRC Press},
+  \bibinfo{year}{2016}).
+
+\bibitem{Heinrich2006}
+\bibinfo{author}{Heinrich, S.}
+\newblock \bibinfo{title}{The randomized information complexity of elliptic
+  {PDE}}.
+\newblock \emph{\bibinfo{journal}{Journal of Complexity}}
+  \textbf{\bibinfo{volume}{22}}, \bibinfo{pages}{220--249}
+  (\bibinfo{year}{2006}).
+
+\bibitem{Geiss2014}
+\bibinfo{author}{Geiss, S.} \& \bibinfo{author}{Ylinen, J.}
+\newblock \bibinfo{title}{Decoupling on the {Wiener} space, related {Besov}
+  spaces, and applications to {BSDEs}}.
+\newblock \emph{\bibinfo{journal}{arXiv:1409.5322}}  (\bibinfo{year}{2014}).
+
+\bibitem{Ioffe2015}
+\bibinfo{author}{Ioffe, S.} \& \bibinfo{author}{Szegedy, C.}
+\newblock \bibinfo{title}{Batch normalization: Accelerating deep network
+  training by reducing internal covariate shift}.
+\newblock In \emph{\bibinfo{booktitle}{Proceedings of the 32nd International
+  Conference on Machine Learning, {(ICML)}}}, \bibinfo{pages}{448--456}
+  (\bibinfo{year}{2015}).
+
+\bibitem{Abadi2016}
+\bibinfo{author}{Abadi, M.} \emph{et~al.}
+\newblock \bibinfo{title}{Tensorflow: A system for large-scale machine
+  learning}.
+\newblock In \emph{\bibinfo{booktitle}{12th USENIX Symposium on Operating
+  Systems Design and Implementation}}, \bibinfo{pages}{265--283}
+  (\bibinfo{year}{2016}).
+
+\bibitem{Gobet2017}
+\bibinfo{author}{Gobet, E.} \& \bibinfo{author}{Turkedjiev, P.}
+\newblock \bibinfo{title}{Adaptive importance sampling in least-squares {Monte}
+  {Carlo} algorithms for backward stochastic differential equations}.
+\newblock \emph{\bibinfo{journal}{Stochastic Processes and their Applications}}
+  \textbf{\bibinfo{volume}{127}}, \bibinfo{pages}{1171--1203}
+  (\bibinfo{year}{2017}).
+
+\end{thebibliography}
