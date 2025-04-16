@@ -4,6 +4,7 @@ libs/
 Tmp/
 libtorch support/
 Eigen/
+__pycache__/
 
 .idea
 .venv
