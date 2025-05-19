@@ -1,4 +1,4 @@
-# Solving High-Dimensional Partial Differential Equations Using Deep Learning
+# 用深度学习求解高维偏微分方程
 
 ## 摘要
 
