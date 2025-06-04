@@ -18,7 +18,7 @@ NonSharedModelImpl::NonSharedModelImpl(const Config& config, const std::shared_p
     // 初始化每个时间步的子网
     for (int i = 0; i < eqn_config_.num_time_interval - 1; ++i)
     {
-        auto subnet = MLP(net_config_, dim, dim);
+        auto subnet = MLP(config);
         subnets_.push_back(register_module("subnet_" + std::to_string(i), subnet));
     }
 }

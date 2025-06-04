@@ -9,8 +9,13 @@ MLPImpl::MLPImpl(const Config& config)
     for (size_t i = 0; i < num_hiddens.size(); ++i)
     {
         int hidden = num_hiddens[i];
-        dense_layers_.push_back(register_module("dense_" + std::to_string(i), torch::nn::Linear(input_dim, hidden, false)));
-        bn_layers_.push_back(register_module("bn_" + std::to_string(i), torch::nn::BatchNorm1d(hidden)));
+
+        auto linear = torch::nn::Linear(torch::nn::LinearOptions(input_dim, hidden).bias(false));
+        dense_layers_.push_back(register_module("dense_" + std::to_string(i), linear));
+
+        auto bn = torch::nn::BatchNorm1d(hidden);
+        bn_layers_.push_back(register_module("bn_" + std::to_string(i), bn));
+
         input_dim = hidden;
     }
 
