@@ -1,4 +1,5 @@
 #include "equation.h"
+#include "register_equation.h"
 #include <cmath>
 
 class AllenCahn : public Equation
@@ -48,3 +49,5 @@ private:
 	double sigma_;
 	double lambda_;
 };
+
+REGISTER_EQUATION_CLASS(AllenCahn)
