@@ -9,11 +9,11 @@
 class Equation
 {
 public:
-	Equation(const EqnConfig& config)
-		: dim_(config.dim),
-		  total_time_(config.total_time),
-		  num_time_interval_(config.num_time_interval),
-		  delta_t_(config.total_time / config.num_time_interval),
+	Equation(const EqnConfig& eqn_config)
+		: dim_(eqn_config.dim),
+		  total_time_(eqn_config.total_time),
+		  num_time_interval_(eqn_config.num_time_interval),
+		  delta_t_(eqn_config.total_time / eqn_config.num_time_interval),
 		  sqrt_delta_t_(std::sqrt(delta_t_)) {}
 
 	virtual ~Equation() = default;

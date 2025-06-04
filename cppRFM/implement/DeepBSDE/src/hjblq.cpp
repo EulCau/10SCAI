@@ -5,8 +5,8 @@
 class HJBLQ : public Equation
 {
 public:
-	HJBLQ(const EqnConfig& config)
-		: Equation(config),
+	HJBLQ(const EqnConfig& eqn_config)
+		: Equation(eqn_config),
 		  sigma_(std::sqrt(2.0)),
 		  lambda_(1.0),
 		  x_init_(torch::zeros({dim_}))
