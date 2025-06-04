@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(BSDE_Libtorch)
+project(bsde_solver)
 
 # 设置 C++ 标准
 set(CMAKE_CXX_STANDARD 17)
