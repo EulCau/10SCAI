@@ -8,7 +8,7 @@ int main()
 
     try
     {
-        auto eqn = EquationFactory::instance().create("HJBLQ", cfg.eqn_config);
+        auto eqn = EquationFactory::instance().create(cfg.eqn_config.eqn_name, cfg.eqn_config);
         auto [dw, x] = eqn->sample(2);
         std::cout << "Sample success. Shape of x: " << x.sizes() << std::endl;
     }
