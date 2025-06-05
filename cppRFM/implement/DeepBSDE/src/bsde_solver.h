@@ -9,7 +9,8 @@
 #include <memory>
 #include <torch/torch.h>
 
-class BSDESolver {
+class BSDESolver
+{
 public:
     BSDESolver(const Config& config, std::shared_ptr<Equation> bsde);
 

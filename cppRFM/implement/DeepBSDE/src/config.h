@@ -7,23 +7,23 @@
 struct EqnConfig
 {
     std::string eqn_name;
-    double total_time;
-    int dim;
-    int num_time_interval;
+    float total_time;
+    int64_t dim;
+    int64_t num_time_interval;
 };
 
 struct NetConfig
 {
-    std::vector<double> y_init_range;
-    std::vector<int> num_hiddens;
-    std::vector<double> lr_values;
-    std::vector<int> lr_boundaries;
-    int num_iterations;
-    int batch_size;
-    int valid_size;
+    std::vector<float> y_init_range;
+    std::vector<int64_t> num_hiddens;
+    std::vector<float> lr_values;
+    std::vector<int64_t> lr_boundaries;
+    int64_t num_iterations;
+    int64_t batch_size;
+    int64_t valid_size;
     std::string dtype;
     bool verbose;
-    int logging_frequency;
+    int64_t logging_frequency;
 };
 
 struct Config

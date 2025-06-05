@@ -4,7 +4,7 @@ NonSharedModelImpl::NonSharedModelImpl(const Config& config, const std::shared_p
     : eqn_config_(config.eqn_config), net_config_(config.net_config), bsde_(bsde)
 {
 
-    int dim = eqn_config_.dim;
+    int64_t dim = eqn_config_.dim;
 
     // 初始化 y_init 和 z_init 参数
     y_init_ = register_parameter(
@@ -13,12 +13,12 @@ NonSharedModelImpl::NonSharedModelImpl(const Config& config, const std::shared_p
 
     z_init_ = register_parameter(
         "z_init",
-        torch::empty({ 1, dim }).uniform_(-0.1, 0.1));
+        torch::empty({ 1, dim }).uniform_(-0.1f, 0.1f));
 
     // 初始化每个时间步的子网
-    for (int i = 0; i < eqn_config_.num_time_interval - 1; ++i)
+    for (int64_t i = 0; i < eqn_config_.num_time_interval - 1; ++i)
     {
-        auto subnet = MLP(config);
+        auto subnet = MLP(std::make_shared<MLPImpl>(config));
         subnets_.push_back(register_module("subnet_" + std::to_string(i), subnet));
     }
 }
@@ -28,8 +28,8 @@ torch::Tensor NonSharedModelImpl::forward(const std::pair<torch::Tensor, torch::
     torch::Tensor dw = inputs.first;  // shape: [batch_size, dim, N]
     torch::Tensor x = inputs.second; // shape: [batch_size, dim, N+1]
 
-    int batch_size = dw.size(0);
-    int dim = eqn_config_.dim;
+    int64_t batch_size = dw.size(0);
+    int64_t dim = eqn_config_.dim;
     int64_t N = eqn_config_.num_time_interval;
 
     torch::Tensor all_one = torch::ones({ batch_size, 1 });
@@ -38,7 +38,7 @@ torch::Tensor NonSharedModelImpl::forward(const std::pair<torch::Tensor, torch::
 
     for (int64_t t = 0; t < N - 1; ++t)
     {
-        double time = t * bsde_->delta_t();
+        float time = t * bsde_->delta_t();
 
         auto x_t = x.select(2, t);       // x[:,:,t]
         auto dw_t = dw.select(2, t);     // dw[:,:,t]
@@ -50,7 +50,7 @@ torch::Tensor NonSharedModelImpl::forward(const std::pair<torch::Tensor, torch::
     }
 
     // 最后一个时间步
-    double final_time = (N - 1) * bsde_->delta_t();
+    float final_time = (N - 1) * bsde_->delta_t();
     auto x_last = x.select(2, N - 2);   // x[:,:,N-2]
     auto dw_last = dw.select(2, N - 1); // dw[:,:,N-1]
 

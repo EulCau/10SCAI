@@ -24,16 +24,16 @@ public:
 
 	virtual torch::Tensor g(const torch::Tensor& t, const torch::Tensor& x) const = 0;
 
-	int dim() const { return dim_; }
-	double total_time() const { return total_time_; }
-	int num_time_interval() const { return num_time_interval_; }
-	double delta_t() const { return delta_t_; }
-	double sqrt_delta_t() const { return sqrt_delta_t_; }
+	int64_t dim() const { return dim_; }
+	float total_time() const { return total_time_; }
+	int64_t num_time_interval() const { return num_time_interval_; }
+	float delta_t() const { return delta_t_; }
+	float sqrt_delta_t() const { return sqrt_delta_t_; }
 
 protected:
-	int dim_;
-	double total_time_;
-	int num_time_interval_;
-	double delta_t_;
-	double sqrt_delta_t_;
+	int64_t dim_;
+	float total_time_;
+	int64_t num_time_interval_;
+	float delta_t_;
+	float sqrt_delta_t_;
 };

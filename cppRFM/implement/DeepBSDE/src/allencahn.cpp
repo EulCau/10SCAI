@@ -17,10 +17,10 @@ public:
 	std::pair<torch::Tensor, torch::Tensor> sample(int64_t num_sample) const override
 	{
 		// dW ~ N(0, delta_t)
-		torch::Tensor dw = torch::randn({num_sample, dim_, num_time_interval_}, torch::kFloat64) * sqrt_delta_t_;
+		torch::Tensor dw = torch::randn({num_sample, dim_, num_time_interval_}, torch::kFloat) * sqrt_delta_t_;
 
 		// 初始化 X: x_0 = x_init
-		torch::Tensor x = torch::zeros({num_sample, dim_, num_time_interval_ + 1}, torch::kFloat64);
+		torch::Tensor x = torch::zeros({num_sample, dim_, num_time_interval_ + 1}, torch::kFloat);
 		x.index_put_({torch::indexing::Slice(), torch::indexing::Slice(), 0}, x_init_.expand({num_sample, dim_}));
 
 		for (int64_t i = 0; i < num_time_interval_; ++i)
@@ -46,8 +46,8 @@ public:
 
 private:
 	torch::Tensor x_init_;
-	double sigma_;
-	double lambda_;
+	float sigma_;
+	float lambda_;
 };
 
 REGISTER_EQUATION_CLASS(AllenCahn)

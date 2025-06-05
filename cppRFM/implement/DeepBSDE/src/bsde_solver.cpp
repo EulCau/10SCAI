@@ -1,12 +1,12 @@
 #include "bsde_solver.h"
 
-constexpr double DELTA_CLIP = 50.0;
+constexpr float DELTA_CLIP = 50.0f;
 
 BSDESolver::BSDESolver(const Config& config, std::shared_ptr<Equation> bsde)
     : eqn_config_(config.eqn_config),
     net_config_(config.net_config),
     bsde_(bsde),
-    model_(NonSharedModel(config, bsde))
+    model_(std::make_shared<NonSharedModelImpl>(config, bsde))
 {
 
     // 设置 Piecewise Constant LR Scheduler
@@ -15,7 +15,7 @@ BSDESolver::BSDESolver(const Config& config, std::shared_ptr<Equation> bsde)
         torch::optim::OptimizerParamGroup(model_->parameters_flattened())
     };
 
-    optimizer_ = std::make_unique<torch::optim::Adam>(param_groups, torch::optim::AdamOptions(net_config_.lr_values[0]).eps(1e-8));
+    optimizer_ = std::make_unique<torch::optim::Adam>(param_groups, torch::optim::AdamOptions(net_config_.lr_values[0]).eps(1e-8f));
 }
 
 torch::Tensor BSDESolver::loss_fn(const std::pair<torch::Tensor, torch::Tensor>& inputs, bool training)
@@ -38,17 +38,17 @@ void BSDESolver::train()
     auto start_time = std::chrono::steady_clock::now();
     auto valid_data = bsde_->sample(net_config_.valid_size);
 
-    for (int step = 0; step <= net_config_.num_iterations; ++step)
+    for (int64_t step = 0; step < net_config_.num_iterations; ++step)
     {
-        if (step % net_config_.logging_frequency == 0)
+        if ((step + 1) % net_config_.logging_frequency == 0)
         {
-            auto loss = loss_fn(valid_data, false).item<double>();
-            auto y0 = model_->y_init().item<double>();
+            auto loss = loss_fn(valid_data, false).item<float>();
+            auto y0 = model_->y_init().item<float>();
             auto now = std::chrono::steady_clock::now();
             auto elapsed_sec = std::chrono::duration_cast<std::chrono::seconds>(now - start_time).count();
 
             std::cout << std::fixed << std::setprecision(4)
-                << "step: " << std::setw(5) << step
+                << "step: " << std::setw(5) << step + 1
                 << ", loss: " << loss
                 << ", Y0: " << y0
                 << ", elapsed time: " << elapsed_sec << "s\n";
