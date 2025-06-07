@@ -12,13 +12,13 @@
 class BSDESolver
 {
 public:
-    BSDESolver(const Config& config, std::shared_ptr<Equation> bsde);
+	BSDESolver(const Config& config, std::shared_ptr<Equation> bsde);
 
-    void train();
+	void train();
 
 private:
-    torch::Tensor loss_fn(const std::pair<torch::Tensor, torch::Tensor>& inputs, bool training);
-    void train_step(const std::pair<torch::Tensor, torch::Tensor>& batch);
+	torch::Tensor loss_fn(const std::pair<torch::Tensor, torch::Tensor>& inputs, bool training);
+	void train_step(const std::pair<torch::Tensor, torch::Tensor>& batch);
 
     EqnConfig eqn_config_;
     NetConfig net_config_;
