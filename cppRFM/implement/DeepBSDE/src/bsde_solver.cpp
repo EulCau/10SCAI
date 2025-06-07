@@ -54,12 +54,13 @@ void BSDESolver::train()
 			auto loss = loss_fn(valid_data, false).item<float>();
 			auto y0 = model_->y_init().item<float>();
 			auto now = std::chrono::steady_clock::now();
-			auto elapsed_sec = std::chrono::duration_cast<std::chrono::seconds>(now - start_time).count();
+			auto elapsed_sec = std::chrono::duration<double>(now - start_time).count();
 
-			std::cout << std::fixed << std::setprecision(4)
+			std::cout << std::fixed << std::setprecision(6)
 				<< "step: " << std::setw(5) << step + 1
 				<< ", loss: " << loss
 				<< ", Y0: " << y0
+				<< std::fixed << std::setprecision(3)
 				<< ", elapsed time: " << elapsed_sec << "s\n";
 		}
 
