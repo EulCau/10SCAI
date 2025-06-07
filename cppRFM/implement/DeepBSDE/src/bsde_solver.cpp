@@ -18,6 +18,14 @@ BSDESolver::BSDESolver(const Config& config, std::shared_ptr<Equation> bsde)
 	auto& options = torch::optim::AdamWOptions(net_config_.lr_values[0]).eps(1e-8f);
 
 	optimizer_ = std::make_unique<torch::optim::AdamW>(param_groups, options);
+
+	// 构建 LambdaLR 调度器
+	int64_t warmup_steps = 500;  // 你可以改成 config 传入
+	int64_t total_steps = net_config_.num_iterations;
+
+	auto lr_lambda = create_lr_lambda(warmup_steps, total_steps);
+
+	lr_scheduler_ = std::make_unique<LambdaLRScheduler>(*optimizer_, lr_lambda);
 }
 
 torch::Tensor BSDESolver::loss_fn(const std::pair<torch::Tensor, torch::Tensor>& inputs, bool training)
