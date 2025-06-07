@@ -24,6 +24,7 @@ struct NetConfig
     std::string dtype;
     bool verbose;
     int64_t logging_frequency;
+	int64_t warmup_steps;
 };
 
 struct Config

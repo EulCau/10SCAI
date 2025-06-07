@@ -33,7 +33,8 @@ Config load_config(const std::string& json_path)
         j["net_config"]["valid_size"],
         j["net_config"]["dtype"],
         j["net_config"]["verbose"],
-        j["net_config"]["logging_frequency"]
+        j["net_config"]["logging_frequency"],
+        j["net_config"]["warmup_steps"]
     };
 
     return Config{ eqn_cfg, net_cfg };
