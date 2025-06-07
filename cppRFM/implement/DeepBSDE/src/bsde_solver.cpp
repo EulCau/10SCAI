@@ -15,7 +15,9 @@ BSDESolver::BSDESolver(const Config& config, std::shared_ptr<Equation> bsde)
 		torch::optim::OptimizerParamGroup(model_->parameters_flattened())
 	};
 
-    optimizer_ = std::make_unique<torch::optim::Adam>(param_groups, torch::optim::AdamOptions(net_config_.lr_values[0]).eps(1e-8f));
+	auto& options = torch::optim::AdamWOptions(net_config_.lr_values[0]).eps(1e-8f);
+
+	optimizer_ = std::make_unique<torch::optim::AdamW>(param_groups, options);
 }
 
 torch::Tensor BSDESolver::loss_fn(const std::pair<torch::Tensor, torch::Tensor>& inputs, bool training)
