@@ -34,7 +34,7 @@ public:
 	LambdaLRScheduler(torch::optim::Optimizer& optimizer, std::function<float(int64_t)> lr_lambda)
 		: optimizer_(optimizer), lr_lambda_(lr_lambda), step_count_(0)
 	{
-		// 保存 base_lr
+		// Save base_lr
 		for (auto& group : optimizer_.param_groups())
 		{
 			float base_lr = static_cast<torch::optim::AdamWOptions&>(group.options()).lr();
@@ -50,7 +50,7 @@ public:
 			auto& group = optimizer_.param_groups()[i];
 			auto& options = static_cast<torch::optim::AdamWOptions&>(group.options());
 
-			// 正确写法：absolute lr 更新
+			// Update lr
 			options.lr(base_lrs_[i] * factor);
 		}
 		++step_count_;

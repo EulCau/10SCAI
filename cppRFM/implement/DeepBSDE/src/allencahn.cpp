@@ -13,13 +13,13 @@ public:
 	{
 	}
 
-	// 采样函数，生成 dW 和 X 路径
+	// Sample function, Generate path of dW & X
 	std::pair<torch::Tensor, torch::Tensor> sample(int64_t num_sample) const override
 	{
 		// dW ~ N(0, delta_t)
 		torch::Tensor dw = torch::randn({num_sample, dim_, num_time_interval_}, torch::kFloat) * sqrt_delta_t_;
 
-		// 初始化 X: x_0 = x_init
+		// Init X: x_0 = x_init
 		torch::Tensor x = torch::zeros({num_sample, dim_, num_time_interval_ + 1}, torch::kFloat);
 		x.index_put_({torch::indexing::Slice(), torch::indexing::Slice(), 0}, x_init_.expand({num_sample, dim_}));
 

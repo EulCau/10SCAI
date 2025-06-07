@@ -8,8 +8,6 @@ BSDESolver::BSDESolver(const Config& config, std::shared_ptr<Equation> bsde)
 	bsde_(bsde),
 	model_(std::make_shared<NonSharedModelImpl>(config, bsde))
 {
-
-	// 设置 Piecewise Constant LR Scheduler
 	std::vector<torch::optim::OptimizerParamGroup> param_groups =
 	{
 		torch::optim::OptimizerParamGroup(model_->parameters_flattened())
