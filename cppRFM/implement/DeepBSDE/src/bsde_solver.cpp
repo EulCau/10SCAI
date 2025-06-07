@@ -19,8 +19,7 @@ BSDESolver::BSDESolver(const Config& config, std::shared_ptr<Equation> bsde)
 
 	optimizer_ = std::make_unique<torch::optim::AdamW>(param_groups, options);
 
-	// 构建 LambdaLR 调度器
-	int64_t warmup_steps = 500;  // 你可以改成 config 传入
+	int64_t warmup_steps = net_config_.warmup_steps;
 	int64_t total_steps = net_config_.num_iterations;
 
 	auto lr_lambda = create_lr_lambda(warmup_steps, total_steps);
