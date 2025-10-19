@@ -1,0 +1,832 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>高维 PDE 求解算法:从非线性蒙特卡罗到机器学习</title>
+<!--Generated on Tue Sep 16 15:34:47 2025 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+<!--Document created on September 16, 2025.-->
+
+<link rel="stylesheet" href="LaTeXML.css" type="text/css">
+<link rel="stylesheet" href="ltx-article.css" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+<div class="ltx_page_main">
+<div class="ltx_page_content">
+<article class="ltx_document">
+<section id="frame1.slide1" class="ltx_slide">
+<div class="ltx_titlepage">
+<h1 class="ltx_title ltx_title_titlepage">高维 PDE 求解算法:
+<br class="ltx_break">从非线性蒙特卡罗到机器学习</h1>
+<div class="ltx_authors">
+<span class="ltx_creator ltx_role_author">
+<span class="ltx_personname">刘行
+</span></span>
+</div>
+<div class="ltx_dates">(September 16, 2025)</div>
+
+</div>
+</section>
+<section id="frame1.frame1.slide1" class="ltx_slide">
+<h1 class="ltx_title ltx_frame_title ltx_title_slide">大纲</h1>
+
+<nav class="ltx_TOC ltx_list_toc ltx_toc_toc"><h6 class="ltx_title ltx_title_contents">Contents</h6>
+<ol class="ltx_toclist">
+<li class="ltx_tocentry ltx_tocentry_section">
+<a href="#S1" title="" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">1 </span>引言与背景</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_section">
+<a href="#S2" title="In 1 引言与背景" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">2 </span>主要方法与技术</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection">
+<a href="#S2.SS1" title="In 2 主要方法与技术 ‣ 1 引言与背景" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">2.1 </span>深度 BSDE 方法 (Deep BSDE)</span></a>
+<ol class="ltx_toclist ltx_toclist_subsection">
+<li class="ltx_tocentry ltx_tocentry_section">
+<a href="#S3" title="In 2.1 深度 BSDE 方法 (Deep BSDE) ‣ 2 主要方法与技术 ‣ 1 引言与背景" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">3 </span>高维控制问题</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_section">
+<a href="#S4" title="In 3 高维控制问题 ‣ 2.1 深度 BSDE 方法 (Deep BSDE) ‣ 2 主要方法与技术 ‣ 1 引言与背景" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4 </span>Ritz, Galerkin 和最小二乘法</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a href="#S4.SS1" title="In 4 Ritz, Galerkin 和最小二乘法 ‣ 3 高维控制问题 ‣ 2.1 深度 BSDE 方法 (Deep BSDE) ‣ 2 主要方法与技术 ‣ 1 引言与背景" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.1 </span>Ritz 方法</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a href="#S4.SS2" title="In 4 Ritz, Galerkin 和最小二乘法 ‣ 3 高维控制问题 ‣ 2.1 深度 BSDE 方法 (Deep BSDE) ‣ 2 主要方法与技术 ‣ 1 引言与背景" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.2 </span>最小二乘法</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a href="#S4.SS3" title="In 4 Ritz, Galerkin 和最小二乘法 ‣ 3 高维控制问题 ‣ 2.1 深度 BSDE 方法 (Deep BSDE) ‣ 2 主要方法与技术 ‣ 1 引言与背景" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.3 </span>Galerkin 方法</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection">
+<a href="#S4.SS4" title="In 4 Ritz, Galerkin 和最小二乘法 ‣ 3 高维控制问题 ‣ 2.1 深度 BSDE 方法 (Deep BSDE) ‣ 2 主要方法与技术 ‣ 1 引言与背景" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.4 </span>多层皮卡德方法 (MLP)</span></a>
+<ol class="ltx_toclist ltx_toclist_subsection">
+<li class="ltx_tocentry ltx_tocentry_section">
+<a href="#S5" title="In 4.4 多层皮卡德方法 (MLP) ‣ 4 Ritz, Galerkin 和最小二乘法 ‣ 3 高维控制问题 ‣ 2.1 深度 BSDE 方法 (Deep BSDE) ‣ 2 主要方法与技术 ‣ 1 引言与背景" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">5 </span>结论与未来展望</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_section"><a href="#S6" title="In 5 结论与未来展望 ‣ 4.4 多层皮卡德方法 (MLP) ‣ 4 Ritz, Galerkin 和最小二乘法 ‣ 3 高维控制问题 ‣ 2.1 深度 BSDE 方法 (Deep BSDE) ‣ 2 主要方法与技术 ‣ 1 引言与背景" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">6 </span>结束页</span></a></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol></nav>
+</section>
+<section id="S1" class="ltx_section">
+<h2 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_section">1 </span>引言与背景</h2>
+
+<section id="S1.frame1.slide1" class="ltx_slide">
+<h3 class="ltx_title ltx_frame_title ltx_title_slide">引言与背景</h3>
+
+<div id="S1.frame1.slide1.p1" class="ltx_para">
+<ul id="S1.I1" class="ltx_itemize">
+<li id="S1.I1.i1" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S1.I1.i1.p1" class="ltx_para">
+<p class="ltx_p">高维偏微分方程 (PDEs) 在控制理论, 金融工程, 量子力学等领域有重要应用</p>
+</div>
+</li>
+<li id="S1.I1.i2" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S1.I1.i2.p1" class="ltx_para">
+<p class="ltx_p">传统数值方法 (如有限差分, 有限元) 在高维情况下受“维数灾难”限制</p>
+</div>
+</li>
+<li id="S1.I1.i3" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S1.I1.i3.p1" class="ltx_para">
+<p class="ltx_p">本论文提出利用非线性蒙特卡罗方法和深度学习技术求解高维 PDE, 从而突破维数灾难</p>
+</div>
+</li>
+</ul>
+</div>
+</section>
+<section id="S2" class="ltx_section">
+<h2 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_section">2 </span>主要方法与技术</h2>
+
+<section id="S2.frame1.slide1" class="ltx_slide">
+<h3 class="ltx_title ltx_frame_title ltx_title_slide">深度 BSDE 方法 (Deep BSDE)</h3>
+
+<div id="S2.frame1.slide1.p1" class="ltx_para">
+<ul id="S2.I1" class="ltx_itemize">
+<li id="S2.I1.i1" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S2.I1.i1.p1" class="ltx_para">
+<p class="ltx_p">将非线性抛物型 PDE</p>
+<table id="S2.Ex1" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="S2.Ex1.m1" class="ltx_Math" alttext="\frac{\partial u}{\partial t}+\frac{1}{2}\mathrm{Tr}\left(\sigma\sigma^{\top}%
+\,\mathrm{Hess}_{x}u\right)+\langle\nabla u,\mu\rangle+f\left(t,x,u,\sigma^{%
+\top}\nabla u\right)=0,\quad u\left(T,x\right)=g\left(x\right)" display="block"><mrow><mrow><mrow><mfrac><mrow><mo rspace="0em">∂</mo><mi>u</mi></mrow><mrow><mo rspace="0em">∂</mo><mi>t</mi></mrow></mfrac><mo>+</mo><mrow><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>⁢</mo><mi>Tr</mi><mo>⁢</mo><mrow><mo>(</mo><mrow><mi>σ</mi><mo>⁢</mo><msup><mi>σ</mi><mo>⊤</mo></msup><mo>⁢</mo><msub><mi>Hess</mi><mi>x</mi></msub><mo>⁢</mo><mi>u</mi></mrow><mo>)</mo></mrow></mrow><mo>+</mo><mrow><mo stretchy="false">⟨</mo><mrow><mo rspace="0.167em">∇</mo><mi>u</mi></mrow><mo>,</mo><mi>μ</mi><mo stretchy="false">⟩</mo></mrow><mo>+</mo><mrow><mi>f</mi><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo>,</mo><mi>u</mi><mo>,</mo><mrow><msup><mi>σ</mi><mo>⊤</mo></msup><mo lspace="0.167em">⁢</mo><mrow><mo rspace="0.167em">∇</mo><mi>u</mi></mrow></mrow><mo>)</mo></mrow></mrow></mrow><mo>=</mo><mn>0</mn></mrow><mo rspace="1.167em">,</mo><mrow><mrow><mi>u</mi><mo>⁢</mo><mrow><mo>(</mo><mi>T</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow></mrow><mo>=</mo><mrow><mi>g</mi><mo>⁢</mo><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">与后向随机微分方程 (BSDE) 联系起来</p>
+</div>
+</li>
+<li id="S2.I1.i2" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S2.I1.i2.p1" class="ltx_para">
+<p class="ltx_p">通过 Itô 引理可得:</p>
+<table id="S2.Ex2" class="ltx_equationgroup ltx_eqn_table">
+
+<tbody id="S2.Ex2X"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="S2.Ex2X.m2" class="ltx_Math" alttext="\displaystyle u\left(t,X_{t}\right)-u\left(0,X_{0}\right)=" display="inline"><mrow><mrow><mrow><mi>u</mi><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><msub><mi>X</mi><mi>t</mi></msub><mo>)</mo></mrow></mrow><mo>−</mo><mrow><mi>u</mi><mo>⁢</mo><mrow><mo>(</mo><mn>0</mn><mo>,</mo><msub><mi>X</mi><mn>0</mn></msub><mo>)</mo></mrow></mrow></mrow><mo>=</mo><mi></mi></mrow></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="S2.Ex2X.m3" class="ltx_Math" alttext="\displaystyle-\int_{0}^{t}f\left(s,X_{s},u\left(s,X_{s}\right),\sigma^{\top}%
+\nabla u\left(s,X_{s}\right)\right)\mathinner{\mathrm{d}}\hphantom{\mskip-3.0%
+mu}s" display="inline"><mrow><mo>−</mo><mrow><mstyle displaystyle="true"><msubsup><mo>∫</mo><mn>0</mn><mi>t</mi></msubsup></mstyle><mrow><mi>f</mi><mo>⁢</mo><mrow><mo>(</mo><mi>s</mi><mo>,</mo><msub><mi>X</mi><mi>s</mi></msub><mo>,</mo><mrow><mi>u</mi><mo>⁢</mo><mrow><mo>(</mo><mi>s</mi><mo>,</mo><msub><mi>X</mi><mi>s</mi></msub><mo>)</mo></mrow></mrow><mo>,</mo><mrow><msup><mi>σ</mi><mo>⊤</mo></msup><mo lspace="0.167em">⁢</mo><mrow><mo rspace="0.167em">∇</mo><mi>u</mi></mrow><mo>⁢</mo><mrow><mo>(</mo><mi>s</mi><mo>,</mo><msub><mi>X</mi><mi>s</mi></msub><mo>)</mo></mrow></mrow><mo>)</mo></mrow><mo>⁢</mo><mpadded width="0.350em"><mi mathvariant="normal">d</mi></mpadded><mo>⁢</mo><mi>s</mi></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+<tbody id="S2.Ex2Xa"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="S2.Ex2Xa.m2" class="ltx_Math" alttext="\displaystyle+\int_{0}^{t}\left(\nabla u\left(s,X_{s}\right)\right)^{\top}%
+\sigma(s,X_{s})\mathinner{\mathrm{d}}\hphantom{\mskip-3.0mu}W_{s}." display="inline"><mrow><mrow><mo>+</mo><mrow><mstyle displaystyle="true"><msubsup><mo>∫</mo><mn>0</mn><mi>t</mi></msubsup></mstyle><mrow><msup><mrow><mo>(</mo><mrow><mrow><mo rspace="0.167em">∇</mo><mi>u</mi></mrow><mo>⁢</mo><mrow><mo>(</mo><mi>s</mi><mo>,</mo><msub><mi>X</mi><mi>s</mi></msub><mo>)</mo></mrow></mrow><mo>)</mo></mrow><mo>⊤</mo></msup><mo>⁢</mo><mi>σ</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><msub><mi>X</mi><mi>s</mi></msub><mo stretchy="false">)</mo></mrow><mo>⁢</mo><mpadded width="0.350em"><mi mathvariant="normal">d</mi></mpadded><mo>⁢</mo><msub><mi>W</mi><mi>s</mi></msub></mrow></mrow></mrow><mo lspace="0em">.</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+</div>
+</li>
+</ul>
+</div>
+</section>
+<section id="S2.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection">
+<span class="ltx_tag ltx_tag_subsection">2.1 </span>深度 BSDE 方法 (Deep BSDE)</h3>
+
+<section id="S2.SS1.frame1.slide1" class="ltx_slide">
+<h4 class="ltx_title ltx_frame_title ltx_title_slide">深度 BSDE 方法 (Deep BSDE)</h4>
+
+<div id="S2.SS1.frame1.slide1.p1" class="ltx_para">
+<ul id="S2.I2" class="ltx_itemize">
+<li id="S2.I2.i1" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S2.I2.i1.p1" class="ltx_para">
+<p class="ltx_p">Pardoux 和 Peng 提出如果令 <math id="S2.I2.i1.p1.m1" class="ltx_Math" alttext="Y_{t}=u\left(t,X_{t}\right),Z_{t}=\left[\sigma\left(t,X_{t}\right)\right]^{%
+\top}\left(\nabla_{x}u\right)\left(t,X_{t}\right)" display="inline"><mrow><mrow><msub><mi>Y</mi><mi>t</mi></msub><mo>=</mo><mrow><mi>u</mi><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><msub><mi>X</mi><mi>t</mi></msub><mo>)</mo></mrow></mrow></mrow><mo>,</mo><mrow><msub><mi>Z</mi><mi>t</mi></msub><mo>=</mo><mrow><msup><mrow><mo>[</mo><mrow><mi>σ</mi><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><msub><mi>X</mi><mi>t</mi></msub><mo>)</mo></mrow></mrow><mo>]</mo></mrow><mo>⊤</mo></msup><mo>⁢</mo><mrow><mo>(</mo><mrow><msub><mo rspace="0.167em">∇</mo><mi>x</mi></msub><mi>u</mi></mrow><mo>)</mo></mrow><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><msub><mi>X</mi><mi>t</mi></msub><mo>)</mo></mrow></mrow></mrow></mrow></math>, 则随机过程 <math id="S2.I2.i1.p1.m2" class="ltx_Math" alttext="\left(X_{t},Y_{t},Z_{t}\right)\in\mathbb{R}^{d}\times\mathbb{R}\times\mathbb{R%
+}^{d},t\in\left[0,T\right]" display="inline"><mrow><mrow><mrow><mo>(</mo><msub><mi>X</mi><mi>t</mi></msub><mo>,</mo><msub><mi>Y</mi><mi>t</mi></msub><mo>,</mo><msub><mi>Z</mi><mi>t</mi></msub><mo>)</mo></mrow><mo>∈</mo><mrow><msup><mi>ℝ</mi><mi>d</mi></msup><mo lspace="0.222em" rspace="0.222em">×</mo><mi>ℝ</mi><mo lspace="0.222em" rspace="0.222em">×</mo><msup><mi>ℝ</mi><mi>d</mi></msup></mrow></mrow><mo>,</mo><mrow><mi>t</mi><mo>∈</mo><mrow><mo>[</mo><mn>0</mn><mo>,</mo><mi>T</mi><mo>]</mo></mrow></mrow></mrow></math>, 满足下面的 BSDE:</p>
+<table id="S2.Ex3" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="S2.Ex3.m1" class="ltx_Math" alttext="\left\{\begin{array}[]{l}X_{t}=\xi+\int_{0}^{t}\mu\left(s,X_{s}\right)%
+\mathinner{\mathrm{d}}\hphantom{\mskip-3.0mu}s+\int_{0}^{t}\sigma\left(s,X_{s}%
+\right)\mathinner{\mathrm{d}}\hphantom{\mskip-3.0mu}W_{s}\\
+Y_{t}=g\left(X_{T}\right)+\int_{t}^{T}f\left(s,X_{s},Y_{s},Z_{s}\right)%
+\mathinner{\mathrm{d}}\hphantom{\mskip-3.0mu}s-\int_{t}^{T}\left(Z_{s}\right)^%
+{\top}\mathinner{\mathrm{d}}\hphantom{\mskip-3.0mu}W_{s}\end{array}\right." display="block"><mrow><mo>{</mo><mtable displaystyle="true" rowspacing="0pt"><mtr><mtd class="ltx_align_left" columnalign="left"><mrow><msub><mi>X</mi><mi>t</mi></msub><mo>=</mo><mrow><mi>ξ</mi><mo>+</mo><mrow><mstyle displaystyle="false"><msubsup><mo>∫</mo><mn>0</mn><mi>t</mi></msubsup></mstyle><mrow><mi>μ</mi><mo>⁢</mo><mrow><mo>(</mo><mi>s</mi><mo>,</mo><msub><mi>X</mi><mi>s</mi></msub><mo>)</mo></mrow><mo>⁢</mo><mpadded width="0.350em"><mi mathvariant="normal">d</mi></mpadded><mo>⁢</mo><mi>s</mi></mrow></mrow><mo>+</mo><mrow><mstyle displaystyle="false"><msubsup><mo>∫</mo><mn>0</mn><mi>t</mi></msubsup></mstyle><mrow><mi>σ</mi><mo>⁢</mo><mrow><mo>(</mo><mi>s</mi><mo>,</mo><msub><mi>X</mi><mi>s</mi></msub><mo>)</mo></mrow><mo>⁢</mo><mpadded width="0.350em"><mi mathvariant="normal">d</mi></mpadded><mo>⁢</mo><msub><mi>W</mi><mi>s</mi></msub></mrow></mrow></mrow></mrow></mtd></mtr><mtr><mtd class="ltx_align_left" columnalign="left"><mrow><msub><mi>Y</mi><mi>t</mi></msub><mo>=</mo><mrow><mrow><mrow><mi>g</mi><mo>⁢</mo><mrow><mo>(</mo><msub><mi>X</mi><mi>T</mi></msub><mo>)</mo></mrow></mrow><mo>+</mo><mrow><mstyle displaystyle="false"><msubsup><mo>∫</mo><mi>t</mi><mi>T</mi></msubsup></mstyle><mrow><mi>f</mi><mo>⁢</mo><mrow><mo>(</mo><mi>s</mi><mo>,</mo><msub><mi>X</mi><mi>s</mi></msub><mo>,</mo><msub><mi>Y</mi><mi>s</mi></msub><mo>,</mo><msub><mi>Z</mi><mi>s</mi></msub><mo>)</mo></mrow><mo>⁢</mo><mpadded width="0.350em"><mi mathvariant="normal">d</mi></mpadded><mo>⁢</mo><mi>s</mi></mrow></mrow></mrow><mo>−</mo><mrow><mstyle displaystyle="false"><msubsup><mo>∫</mo><mi>t</mi><mi>T</mi></msubsup></mstyle><mrow><msup><mrow><mo>(</mo><msub><mi>Z</mi><mi>s</mi></msub><mo>)</mo></mrow><mo>⊤</mo></msup><mo>⁢</mo><mpadded width="0.350em"><mi mathvariant="normal">d</mi></mpadded><mo>⁢</mo><msub><mi>W</mi><mi>s</mi></msub></mrow></mrow></mrow></mrow></mtd></mtr></mtable><mi></mi></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+</div>
+</li>
+<li id="S2.I2.i2" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S2.I2.i2.p1" class="ltx_para">
+<p class="ltx_p">利用深度神经网络逼近未知函数: 例如用网络 <math id="S2.I2.i2.p1.m1" class="ltx_Math" alttext="\psi_{0}" display="inline"><msub><mi>ψ</mi><mn>0</mn></msub></math> 表示 <math id="S2.I2.i2.p1.m2" class="ltx_Math" alttext="u(0,X_{0})" display="inline"><mrow><mi>u</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mn>0</mn><mo>,</mo><msub><mi>X</mi><mn>0</mn></msub><mo stretchy="false">)</mo></mrow></mrow></math>, 用子网络 <math id="S2.I2.i2.p1.m3" class="ltx_Math" alttext="\phi_{n}" display="inline"><msub><mi>ϕ</mi><mi>n</mi></msub></math> 逼近 <math id="S2.I2.i2.p1.m4" class="ltx_Math" alttext="Z_{t}" display="inline"><msub><mi>Z</mi><mi>t</mi></msub></math>. 通过离散化时间构建网络, 将末端误差作为损失函数进行训练.</p>
+</div>
+</li>
+</ul>
+</div>
+</section>
+<section id="S2.SS1.frame2.slide1" class="ltx_slide">
+<h4 class="ltx_title ltx_frame_title ltx_title_slide">深度 BSDE 方法 (Deep BSDE)</h4>
+
+<div id="S2.SS1.frame2.slide1.p1" class="ltx_para">
+<ul id="S2.I3" class="ltx_itemize">
+<li id="S2.I3.i1" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S2.I3.i1.p1" class="ltx_para">
+<p class="ltx_p">问题最终转化为</p>
+<table id="S6.EGx1" class="ltx_equationgroup ltx_eqn_align ltx_eqn_table">
+
+<tbody id="S2.E1"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="S2.E1.m1" class="ltx_Math" alttext="\displaystyle\inf_{\psi_{0},\left\{\phi_{n}\right\}_{n=0}^{N-1}}" display="inline"><munder><mo movablelimits="false">inf</mo><mrow><msub><mi>ψ</mi><mn>0</mn></msub><mo>,</mo><msubsup><mrow><mo>{</mo><msub><mi>ϕ</mi><mi>n</mi></msub><mo>}</mo></mrow><mrow><mi>n</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></msubsup></mrow></munder></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="S2.E1.m2" class="ltx_Math" alttext="\displaystyle\mathbb{E}\left\lvert g\left(X_{T}\right)-Y_{T}\right\rvert^{2}," display="inline"><mrow><mrow><mi>𝔼</mi><mo>⁢</mo><msup><mrow><mo>|</mo><mrow><mrow><mi>g</mi><mo>⁢</mo><mrow><mo>(</mo><msub><mi>X</mi><mi>T</mi></msub><mo>)</mo></mrow></mrow><mo>−</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><mo>|</mo></mrow><mn>2</mn></msup></mrow><mo>,</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td rowspan="1" class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right"><span class="ltx_tag ltx_tag_equation ltx_align_right">(1)</span></td>
+</tr></tbody>
+<tbody id="S2.E2"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="S2.E2.m1" class="ltx_Math" alttext="\displaystyle s.t.\quad" display="inline"><mrow><mrow><mi>s</mi><mo lspace="0em" rspace="0.167em">.</mo><mi>t</mi></mrow><mo lspace="0em">.</mo><mspace width="1.167em"></mspace></mrow></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="S2.E2.m2" class="ltx_Math" alttext="\displaystyle X_{0}=\xi,\quad Y_{0}=\psi_{0}\left(\xi\right)," display="inline"><mrow><mrow><mrow><msub><mi>X</mi><mn>0</mn></msub><mo>=</mo><mi>ξ</mi></mrow><mo rspace="1.167em">,</mo><mrow><msub><mi>Y</mi><mn>0</mn></msub><mo>=</mo><mrow><msub><mi>ψ</mi><mn>0</mn></msub><mo>⁢</mo><mrow><mo>(</mo><mi>ξ</mi><mo>)</mo></mrow></mrow></mrow></mrow><mo>,</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td rowspan="1" class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right"><span class="ltx_tag ltx_tag_equation ltx_align_right">(2)</span></td>
+</tr></tbody>
+<tbody id="S2.E3"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="S2.E3.m1" class="ltx_Math" alttext="\displaystyle X_{t_{n+1}}=X_{t_{i}}+\mu\left(t_{n},X_{t_{n}}\right)\Delta t+%
+\sigma\left(t_{n},X_{t_{n}}\right)\Delta W_{n}," display="inline"><mrow><mrow><msub><mi>X</mi><msub><mi>t</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub></msub><mo>=</mo><mrow><msub><mi>X</mi><msub><mi>t</mi><mi>i</mi></msub></msub><mo>+</mo><mrow><mi>μ</mi><mo>⁢</mo><mrow><mo>(</mo><msub><mi>t</mi><mi>n</mi></msub><mo>,</mo><msub><mi>X</mi><msub><mi>t</mi><mi>n</mi></msub></msub><mo>)</mo></mrow><mo>⁢</mo><mi mathvariant="normal">Δ</mi><mo>⁢</mo><mi>t</mi></mrow><mo>+</mo><mrow><mi>σ</mi><mo>⁢</mo><mrow><mo>(</mo><msub><mi>t</mi><mi>n</mi></msub><mo>,</mo><msub><mi>X</mi><msub><mi>t</mi><mi>n</mi></msub></msub><mo>)</mo></mrow><mo>⁢</mo><mi mathvariant="normal">Δ</mi><mo>⁢</mo><msub><mi>W</mi><mi>n</mi></msub></mrow></mrow></mrow><mo>,</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td rowspan="1" class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right"><span class="ltx_tag ltx_tag_equation ltx_align_right">(3)</span></td>
+</tr></tbody>
+<tbody id="S2.E4"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="S2.E4.m1" class="ltx_Math" alttext="\displaystyle Z_{t_{n}}=\phi_{n}\left(X_{t_{n}}\right)," display="inline"><mrow><mrow><msub><mi>Z</mi><msub><mi>t</mi><mi>n</mi></msub></msub><mo>=</mo><mrow><msub><mi>ϕ</mi><mi>n</mi></msub><mo>⁢</mo><mrow><mo>(</mo><msub><mi>X</mi><msub><mi>t</mi><mi>n</mi></msub></msub><mo>)</mo></mrow></mrow></mrow><mo>,</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td rowspan="1" class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right"><span class="ltx_tag ltx_tag_equation ltx_align_right">(4)</span></td>
+</tr></tbody>
+<tbody id="S2.E5"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="S2.E5.m1" class="ltx_Math" alttext="\displaystyle Y_{t_{n+1}}=Y_{t_{n}}-f\left(t_{n},X_{t_{n}},Y_{t_{n}},Z_{t_{n}}%
+\right)\Delta t+\left(Z_{t_{n}}\right)^{\top}\Delta W_{n}" display="inline"><mrow><msub><mi>Y</mi><msub><mi>t</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub></msub><mo>=</mo><mrow><mrow><msub><mi>Y</mi><msub><mi>t</mi><mi>n</mi></msub></msub><mo>−</mo><mrow><mi>f</mi><mo>⁢</mo><mrow><mo>(</mo><msub><mi>t</mi><mi>n</mi></msub><mo>,</mo><msub><mi>X</mi><msub><mi>t</mi><mi>n</mi></msub></msub><mo>,</mo><msub><mi>Y</mi><msub><mi>t</mi><mi>n</mi></msub></msub><mo>,</mo><msub><mi>Z</mi><msub><mi>t</mi><mi>n</mi></msub></msub><mo>)</mo></mrow><mo>⁢</mo><mi mathvariant="normal">Δ</mi><mo>⁢</mo><mi>t</mi></mrow></mrow><mo>+</mo><mrow><msup><mrow><mo>(</mo><msub><mi>Z</mi><msub><mi>t</mi><mi>n</mi></msub></msub><mo>)</mo></mrow><mo>⊤</mo></msup><mo>⁢</mo><mi mathvariant="normal">Δ</mi><mo>⁢</mo><msub><mi>W</mi><mi>n</mi></msub></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td rowspan="1" class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right"><span class="ltx_tag ltx_tag_equation ltx_align_right">(5)</span></td>
+</tr></tbody>
+</table>
+</div>
+</li>
+<li id="S2.I3.i2" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S2.I3.i2.p1" class="ltx_para">
+<p class="ltx_p">取误差函数为</p>
+<table id="S2.Ex4" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="S2.Ex4.m1" class="ltx_Math" alttext="l\left(\theta\right)=\mathbb{E}\left[\left\lvert g\left(X_{t_{N}}\right)-\hat{%
+u}\left(\left\{X_{t_{n}}\right\}_{0\leq n\leq N},\left\{W_{t_{n}}\right\}_{0%
+\leq n\leq N}\right)\right\rvert^{2}\right]." display="block"><mrow><mrow><mrow><mi>l</mi><mo>⁢</mo><mrow><mo>(</mo><mi>θ</mi><mo>)</mo></mrow></mrow><mo>=</mo><mrow><mi>𝔼</mi><mo>⁢</mo><mrow><mo>[</mo><msup><mrow><mo>|</mo><mrow><mrow><mi>g</mi><mo>⁢</mo><mrow><mo>(</mo><msub><mi>X</mi><msub><mi>t</mi><mi>N</mi></msub></msub><mo>)</mo></mrow></mrow><mo>−</mo><mrow><mover accent="true"><mi>u</mi><mo>^</mo></mover><mo>⁢</mo><mrow><mo>(</mo><msub><mrow><mo>{</mo><msub><mi>X</mi><msub><mi>t</mi><mi>n</mi></msub></msub><mo>}</mo></mrow><mrow><mn>0</mn><mo>≤</mo><mi>n</mi><mo>≤</mo><mi>N</mi></mrow></msub><mo>,</mo><msub><mrow><mo>{</mo><msub><mi>W</mi><msub><mi>t</mi><mi>n</mi></msub></msub><mo>}</mo></mrow><mrow><mn>0</mn><mo>≤</mo><mi>n</mi><mo>≤</mo><mi>N</mi></mrow></msub><mo>)</mo></mrow></mrow></mrow><mo>|</mo></mrow><mn>2</mn></msup><mo>]</mo></mrow></mrow></mrow><mo lspace="0em">.</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">其中 <math id="S2.I3.i2.p1.m1" class="ltx_Math" alttext="\hat{u}\left(\left\{X_{t_{n}}\right\}_{0\leq n\leq N},\left\{W_{t_{n}}\right\}%
+_{0\leq n\leq N}\right)" display="inline"><mrow><mover accent="true"><mi>u</mi><mo>^</mo></mover><mo>⁢</mo><mrow><mo>(</mo><msub><mrow><mo>{</mo><msub><mi>X</mi><msub><mi>t</mi><mi>n</mi></msub></msub><mo>}</mo></mrow><mrow><mn>0</mn><mo>≤</mo><mi>n</mi><mo>≤</mo><mi>N</mi></mrow></msub><mo>,</mo><msub><mrow><mo>{</mo><msub><mi>W</mi><msub><mi>t</mi><mi>n</mi></msub></msub><mo>}</mo></mrow><mrow><mn>0</mn><mo>≤</mo><mi>n</mi><mo>≤</mo><mi>N</mi></mrow></msub><mo>)</mo></mrow></mrow></math> 为网络的最后一个输出, 为 <math id="S2.I3.i2.p1.m2" class="ltx_Math" alttext="u\left(t_{N},X_{t_{N}}\right)" display="inline"><mrow><mi>u</mi><mo>⁢</mo><mrow><mo>(</mo><msub><mi>t</mi><mi>N</mi></msub><mo>,</mo><msub><mi>X</mi><msub><mi>t</mi><mi>N</mi></msub></msub><mo>)</mo></mrow></mrow></math> 的近似</p>
+</div>
+</li>
+</ul>
+</div>
+</section>
+<section id="S3" class="ltx_section">
+<h2 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_section">3 </span>高维控制问题</h2>
+
+<section id="S3.frame1.slide1" class="ltx_slide">
+<h3 class="ltx_title ltx_frame_title ltx_title_slide">高维控制问题</h3>
+
+<div id="S3.frame1.slide1.p1" class="ltx_para">
+<ul id="S3.I1" class="ltx_itemize">
+<li id="S3.I1.i1" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S3.I1.i1.p1" class="ltx_para">
+<p class="ltx_p">传统控制理论中, 最优控制问题的解往往受到维数灾难的限制</p>
+</div>
+</li>
+<li id="S3.I1.i2" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S3.I1.i2.p1" class="ltx_para">
+<p class="ltx_p">我们考虑下面的最优控制问题:</p>
+<table id="S3.Ex5" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="S3.Ex5.m1" class="ltx_Math" alttext="\min_{u}g\left(x\left(T\right)\right)+\int_{0}^{T}L\left(t,x\left(t\right),u%
+\left(t,x\left(t\right)\right)\right)\mathinner{\mathrm{d}}\hphantom{\mskip-3.%
+0mu}t" display="block"><mrow><mrow><mrow><munder><mi>min</mi><mi>u</mi></munder><mo lspace="0.167em">⁡</mo><mi>g</mi></mrow><mo>⁢</mo><mrow><mo>(</mo><mrow><mi>x</mi><mo>⁢</mo><mrow><mo>(</mo><mi>T</mi><mo>)</mo></mrow></mrow><mo>)</mo></mrow></mrow><mo rspace="0.055em">+</mo><mrow><msubsup><mo>∫</mo><mn>0</mn><mi>T</mi></msubsup><mrow><mi>L</mi><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mrow><mi>x</mi><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>)</mo></mrow></mrow><mo>,</mo><mrow><mi>u</mi><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mrow><mi>x</mi><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>)</mo></mrow></mrow><mo>)</mo></mrow></mrow><mo>)</mo></mrow><mo>⁢</mo><mpadded width="0.350em"><mi mathvariant="normal">d</mi></mpadded><mo>⁢</mo><mi>t</mi></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">受限于动态系统</p>
+<table id="S3.Ex6" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="S3.Ex6.m1" class="ltx_Math" alttext="\dot{x}=f\left(t,x,u\right)\quad x\left(0\right)=x_{0}" display="block"><mrow><mrow><mover accent="true"><mi>x</mi><mo>˙</mo></mover><mo>=</mo><mrow><mi>f</mi><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo>,</mo><mi>u</mi><mo>)</mo></mrow></mrow></mrow><mspace width="1em"></mspace><mrow><mrow><mi>x</mi><mo>⁢</mo><mrow><mo>(</mo><mn>0</mn><mo>)</mo></mrow></mrow><mo>=</mo><msub><mi>x</mi><mn>0</mn></msub></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+</div>
+</li>
+<li id="S3.I1.i3" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S3.I1.i3.p1" class="ltx_para">
+<p class="ltx_p">对于开环控制, 仅沿最优路径定义控制函数 <math id="S3.I1.i3.p1.m1" class="ltx_Math" alttext="u\left(t,x\right)=u^{*}\left(t,x^{*}\left(t\right)\right)" display="inline"><mrow><mrow><mi>u</mi><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow></mrow><mo>=</mo><mrow><msup><mi>u</mi><mo>∗</mo></msup><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mrow><msup><mi>x</mi><mo>∗</mo></msup><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>)</mo></mrow></mrow><mo>)</mo></mrow></mrow></mrow></math>. 其自变量仅为时间, 维数灾难并不是主要问题</p>
+</div>
+</li>
+<li id="S3.I1.i4" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S3.I1.i4.p1" class="ltx_para">
+<p class="ltx_p">对于闭环控制, 控制函数 <math id="S3.I1.i4.p1.m1" class="ltx_Math" alttext="u\left(t,x\right)=u^{*}\left(t,x\right)" display="inline"><mrow><mrow><mi>u</mi><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow></mrow><mo>=</mo><mrow><msup><mi>u</mi><mo>∗</mo></msup><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow></mrow></mrow></math> 在全局状态空间定义, 维数灾难成为主要问题</p>
+</div>
+</li>
+</ul>
+</div>
+</section>
+<section id="S3.frame2.slide1" class="ltx_slide">
+<h3 class="ltx_title ltx_frame_title ltx_title_slide">高维控制问题</h3>
+
+<div id="S3.frame2.slide1.p1" class="ltx_para">
+<ul id="S3.I2" class="ltx_itemize">
+<li id="S3.I2.i1" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S3.I2.i1.p1" class="ltx_para">
+<p class="ltx_p">Pontryagin 极小原理给出了最优控制问题的理论基础</p>
+</div>
+</li>
+<li id="S3.I2.i2" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S3.I2.i2.p1" class="ltx_para">
+<p class="ltx_p">令扩展哈密顿量为 <math id="S3.I2.i2.p1.m1" class="ltx_Math" alttext="\tilde{H}=L+\lambda^{\top}f" display="inline"><mrow><mover accent="true"><mi>H</mi><mo>~</mo></mover><mo>=</mo><mrow><mi>L</mi><mo>+</mo><mrow><msup><mi>λ</mi><mo>⊤</mo></msup><mo>⁢</mo><mi>f</mi></mrow></mrow></mrow></math>, <math id="S3.I2.i2.p1.m2" class="ltx_Math" alttext="u^{*}\left(t,x;\lambda\right)=\arg\min_{u\in U}\tilde{H}\left(t,x,\lambda,u\right)" display="inline"><mrow><mrow><msup><mi>u</mi><mo>∗</mo></msup><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo>;</mo><mi>λ</mi><mo>)</mo></mrow></mrow><mo>=</mo><mrow><mrow><mi>arg</mi><mo lspace="0.167em">⁡</mo><mrow><msub><mi>min</mi><mrow><mi>u</mi><mo>∈</mo><mi>U</mi></mrow></msub><mo lspace="0.167em">⁡</mo><mover accent="true"><mi>H</mi><mo>~</mo></mover></mrow></mrow><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo>,</mo><mi>λ</mi><mo>,</mo><mi>u</mi><mo>)</mo></mrow></mrow></mrow></math> 则由 Pontryagin 极小原理, 下面的方程组有解</p>
+<table id="S3.Ex7" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="S3.Ex7.m1" class="ltx_Math" alttext="\left\{\begin{array}[]{ll}\left.\dot{x}=\tilde{H}_{\lambda}\right|_{u=u^{*}}&amp;x%
+\left(0\right)=x_{0}\\
+\left.\dot{\lambda}=-\tilde{H}_{x}\right|_{u=u^{*}}&amp;\lambda\left(T\right)=%
+\nabla g\left(x\left(T\right)\right)\\
+\left.\dot{v}=-L\right|_{u=u^{*}}&amp;v\left(T\right)=g\left(x\left(T\right)\right%
+)\end{array}\right." display="block"><mrow><mo>{</mo><mtable columnspacing="5pt" displaystyle="true" rowspacing="0pt"><mtr><mtd class="ltx_align_left" columnalign="left"><mrow><mover accent="true"><mi>x</mi><mo>˙</mo></mover><mo>=</mo><msub><mrow><msub><mover accent="true"><mi>H</mi><mo>~</mo></mover><mi>λ</mi></msub><mo>|</mo></mrow><mrow><mi>u</mi><mo>=</mo><msup><mi>u</mi><mo>∗</mo></msup></mrow></msub></mrow></mtd><mtd class="ltx_align_left" columnalign="left"><mrow><mrow><mi>x</mi><mo>⁢</mo><mrow><mo>(</mo><mn>0</mn><mo>)</mo></mrow></mrow><mo>=</mo><msub><mi>x</mi><mn>0</mn></msub></mrow></mtd></mtr><mtr><mtd class="ltx_align_left" columnalign="left"><mrow><mover accent="true"><mi>λ</mi><mo>˙</mo></mover><mo>=</mo><mrow><mo>−</mo><msub><mrow><msub><mover accent="true"><mi>H</mi><mo>~</mo></mover><mi>x</mi></msub><mo>|</mo></mrow><mrow><mi>u</mi><mo>=</mo><msup><mi>u</mi><mo>∗</mo></msup></mrow></msub></mrow></mrow></mtd><mtd class="ltx_align_left" columnalign="left"><mrow><mrow><mi>λ</mi><mo>⁢</mo><mrow><mo>(</mo><mi>T</mi><mo>)</mo></mrow></mrow><mo>=</mo><mrow><mrow><mo rspace="0.167em">∇</mo><mi>g</mi></mrow><mo>⁢</mo><mrow><mo>(</mo><mrow><mi>x</mi><mo>⁢</mo><mrow><mo>(</mo><mi>T</mi><mo>)</mo></mrow></mrow><mo>)</mo></mrow></mrow></mrow></mtd></mtr><mtr><mtd class="ltx_align_left" columnalign="left"><mrow><mover accent="true"><mi>v</mi><mo>˙</mo></mover><mo>=</mo><mrow><mo>−</mo><msub><mrow><mi>L</mi><mo>|</mo></mrow><mrow><mi>u</mi><mo>=</mo><msup><mi>u</mi><mo>∗</mo></msup></mrow></msub></mrow></mrow></mtd><mtd class="ltx_align_left" columnalign="left"><mrow><mrow><mi>v</mi><mo>⁢</mo><mrow><mo>(</mo><mi>T</mi><mo>)</mo></mrow></mrow><mo>=</mo><mrow><mi>g</mi><mo>⁢</mo><mrow><mo>(</mo><mrow><mi>x</mi><mo>⁢</mo><mrow><mo>(</mo><mi>T</mi><mo>)</mo></mrow></mrow><mo>)</mo></mrow></mrow></mrow></mtd></mtr></mtable><mi></mi></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">其中, <math id="S3.I2.i2.p1.m3" class="ltx_Math" alttext="x" display="inline"><mi>x</mi></math> 为状态变量, <math id="S3.I2.i2.p1.m4" class="ltx_Math" alttext="\lambda" display="inline"><mi>λ</mi></math> 为伴随变量, <math id="S3.I2.i2.p1.m5" class="ltx_Math" alttext="\tilde{H}" display="inline"><mover accent="true"><mi>H</mi><mo>~</mo></mover></math> 为 Hamilton 函数</p>
+</div>
+</li>
+</ul>
+</div>
+</section>
+<section id="S3.frame3.slide1" class="ltx_slide">
+<h3 class="ltx_title ltx_frame_title ltx_title_slide">高维控制问题</h3>
+
+<div id="S3.frame3.slide1.p1" class="ltx_para">
+<ul id="S3.I3" class="ltx_itemize">
+<li id="S3.I3.i1" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S3.I3.i1.p1" class="ltx_para">
+<p class="ltx_p">记</p>
+<table id="S3.Ex8" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="S3.Ex8.m1" class="ltx_Math" alttext="V\left(t,x\right)=\inf_{u\in U}\{g\left(y\left(T\right)\right)+\int_{t}^{T}L%
+\left(\tau,y,u\right)\mathinner{\mathrm{d}}\hphantom{\mskip-3.0mu}\tau\}" display="block"><mrow><mrow><mi>V</mi><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow></mrow><mo rspace="0.1389em">=</mo><mrow><munder><mo lspace="0.1389em" movablelimits="false" rspace="0em">inf</mo><mrow><mi>u</mi><mo>∈</mo><mi>U</mi></mrow></munder><mrow><mo stretchy="false">{</mo><mrow><mrow><mi>g</mi><mo>⁢</mo><mrow><mo>(</mo><mrow><mi>y</mi><mo>⁢</mo><mrow><mo>(</mo><mi>T</mi><mo>)</mo></mrow></mrow><mo>)</mo></mrow></mrow><mo rspace="0.055em">+</mo><mrow><msubsup><mo>∫</mo><mi>t</mi><mi>T</mi></msubsup><mrow><mi>L</mi><mo>⁢</mo><mrow><mo>(</mo><mi>τ</mi><mo>,</mo><mi>y</mi><mo>,</mo><mi>u</mi><mo>)</mo></mrow><mo>⁢</mo><mpadded width="0.350em"><mi mathvariant="normal">d</mi></mpadded><mo>⁢</mo><mi>τ</mi></mrow></mrow></mrow><mo stretchy="false">}</mo></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">其中 <math id="S3.I3.i1.p1.m1" class="ltx_Math" alttext="\dot{y}\left(\tau\right)=f\left(\tau,y,u\right),y\left(t\right)=x" display="inline"><mrow><mrow><mrow><mover accent="true"><mi>y</mi><mo>˙</mo></mover><mo>⁢</mo><mrow><mo>(</mo><mi>τ</mi><mo>)</mo></mrow></mrow><mo>=</mo><mrow><mi>f</mi><mo>⁢</mo><mrow><mo>(</mo><mi>τ</mi><mo>,</mo><mi>y</mi><mo>,</mo><mi>u</mi><mo>)</mo></mrow></mrow></mrow><mo>,</mo><mrow><mrow><mi>y</mi><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>)</mo></mrow></mrow><mo>=</mo><mi>x</mi></mrow></mrow></math>,</p>
+<table id="S3.Ex9" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="S3.Ex9.m1" class="ltx_Math" alttext="H^{*}\left(t,x,\lambda\right)=\tilde{H}\left(t,x,\lambda,u^{*}\left(t,x;%
+\lambda\right)\right)" display="block"><mrow><mrow><msup><mi>H</mi><mo>∗</mo></msup><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo>,</mo><mi>λ</mi><mo>)</mo></mrow></mrow><mo>=</mo><mrow><mover accent="true"><mi>H</mi><mo>~</mo></mover><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo>,</mo><mi>λ</mi><mo>,</mo><mrow><msup><mi>u</mi><mo>∗</mo></msup><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo>;</mo><mi>λ</mi><mo>)</mo></mrow></mrow><mo>)</mo></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">则 <math id="S3.I3.i1.p1.m2" class="ltx_Math" alttext="V" display="inline"><mi>V</mi></math> 满足 HJB 方程 <math id="S3.I3.i1.p1.m3" class="ltx_Math" alttext="V_{t}+H^{*}\left(t,x,V_{x}\right)=0" display="inline"><mrow><mrow><msub><mi>V</mi><mi>t</mi></msub><mo>+</mo><mrow><msup><mi>H</mi><mo>∗</mo></msup><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo>,</mo><msub><mi>V</mi><mi>x</mi></msub><mo>)</mo></mrow></mrow></mrow><mo>=</mo><mn>0</mn></mrow></math>, 且有终端条件 <math id="S3.I3.i1.p1.m4" class="ltx_Math" alttext="V\left(T,x\right)=g\left(x\right)" display="inline"><mrow><mrow><mi>V</mi><mo>⁢</mo><mrow><mo>(</mo><mi>T</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow></mrow><mo>=</mo><mrow><mi>g</mi><mo>⁢</mo><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mrow></mrow></math> 通过数值方法求解 HJB 方程, 可以得到最优控制函数 <math id="S3.I3.i1.p1.m5" class="ltx_Math" alttext="u^{*}" display="inline"><msup><mi>u</mi><mo>∗</mo></msup></math></p>
+</div>
+</li>
+</ul>
+</div>
+</section>
+<section id="S3.frame4.slide1" class="ltx_slide">
+<h3 class="ltx_title ltx_frame_title ltx_title_slide">高维控制问题</h3>
+
+<div id="S3.frame4.slide1.p1" class="ltx_para">
+<ul id="S3.I4" class="ltx_itemize">
+<li id="S3.I4.i1" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S3.I4.i1.p1" class="ltx_para">
+<p class="ltx_p">想通过机器学习方法求解高维控制问题, 需要推广到所有初值条件. 于是考虑如下问题</p>
+<table id="S3.Ex10" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="S3.Ex10.m1" class="ltx_Math" alttext="\min_{u}\mathbb{E}_{x_{0}\sim\mu}\left[g\left(x\left(T\right)\right)+\int_{0}^%
+{T}L\left(t,x\left(t\right),u\left(t,x\left(t\right)\right)\right)\mathinner{%
+\mathrm{d}}\hphantom{\mskip-3.0mu}t\right]" display="block"><mrow><mrow><munder><mi>min</mi><mi>u</mi></munder><mo lspace="0.167em">⁡</mo><msub><mi>𝔼</mi><mrow><msub><mi>x</mi><mn>0</mn></msub><mo>∼</mo><mi>μ</mi></mrow></msub></mrow><mo>⁢</mo><mrow><mo>[</mo><mrow><mrow><mi>g</mi><mo>⁢</mo><mrow><mo>(</mo><mrow><mi>x</mi><mo>⁢</mo><mrow><mo>(</mo><mi>T</mi><mo>)</mo></mrow></mrow><mo>)</mo></mrow></mrow><mo rspace="0.055em">+</mo><mrow><msubsup><mo>∫</mo><mn>0</mn><mi>T</mi></msubsup><mrow><mi>L</mi><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mrow><mi>x</mi><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>)</mo></mrow></mrow><mo>,</mo><mrow><mi>u</mi><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mrow><mi>x</mi><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>)</mo></mrow></mrow><mo>)</mo></mrow></mrow><mo>)</mo></mrow><mo>⁢</mo><mpadded width="0.350em"><mi mathvariant="normal">d</mi></mpadded><mo>⁢</mo><mi>t</mi></mrow></mrow></mrow><mo>]</mo></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+<table id="S3.Ex11" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="S3.Ex11.m1" class="ltx_Math" alttext="\dot{x}=f\left(t,x,u\right),\quad x\left(0\right)=x_{0},\quad\mu=\frac{1}{Z}e^%
+{-\beta V}" display="block"><mrow><mrow><mover accent="true"><mi>x</mi><mo>˙</mo></mover><mo>=</mo><mrow><mi>f</mi><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo>,</mo><mi>u</mi><mo>)</mo></mrow></mrow></mrow><mo rspace="1.167em">,</mo><mrow><mrow><mrow><mi>x</mi><mo>⁢</mo><mrow><mo>(</mo><mn>0</mn><mo>)</mo></mrow></mrow><mo>=</mo><msub><mi>x</mi><mn>0</mn></msub></mrow><mo rspace="1.167em">,</mo><mrow><mi>μ</mi><mo>=</mo><mrow><mfrac><mn>1</mn><mi>Z</mi></mfrac><mo>⁢</mo><msup><mi>e</mi><mrow><mo>−</mo><mrow><mi>β</mi><mo>⁢</mo><mi>V</mi></mrow></mrow></msup></mrow></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+</div>
+</li>
+<li id="S3.I4.i2" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S3.I4.i2.p1" class="ltx_para">
+<p class="ltx_p">为解决数据生成问题, 需要采用如下策略:</p>
+<ol id="S3.I4.i2.I1" class="ltx_enumerate">
+<li id="S3.I4.i2.I1.i1" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">1.</span> 
+<div id="S3.I4.i2.I1.i1.p1" class="ltx_para">
+<p class="ltx_p">求解前面的两点边值问题来生成训练数据</p>
+</div>
+</li>
+<li id="S3.I4.i2.I1.i2" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">2.</span> 
+<div id="S3.I4.i2.I1.i2.p1" class="ltx_para">
+<p class="ltx_p">利用生成的数据训练神经网络, 以逼近值函数 <math id="S3.I4.i2.I1.i2.p1.m1" class="ltx_Math" alttext="V" display="inline"><mi>V</mi></math> 和最优控制函数 <math id="S3.I4.i2.I1.i2.p1.m2" class="ltx_Math" alttext="u^{*}" display="inline"><msup><mi>u</mi><mo>∗</mo></msup></math></p>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li id="S3.I4.i3" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S3.I4.i3.p1" class="ltx_para">
+<p class="ltx_p">然而, 这个两点边值问题的求解也不简单, 具体可以采用 “热启动” 策略或者自适应采样方法.</p>
+</div>
+</li>
+</ul>
+</div>
+</section>
+<section id="S4" class="ltx_section">
+<h2 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_section">4 </span>Ritz, Galerkin 和最小二乘法</h2>
+
+<section id="S4.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection">
+<span class="ltx_tag ltx_tag_subsection">4.1 </span>Ritz 方法</h3>
+
+<section id="S4.SS1.frame1.slide1" class="ltx_slide">
+<h4 class="ltx_title ltx_frame_title ltx_title_slide">Deep Ritz Method</h4>
+
+<div id="S4.SS1.frame1.slide1.p1" class="ltx_para">
+<ul id="S4.I1" class="ltx_itemize">
+<li id="S4.I1.i1" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S4.I1.i1.p1" class="ltx_para">
+<p class="ltx_p">考虑如下变分问题:</p>
+<table id="S4.Ex12" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="S4.Ex12.m1" class="ltx_Math" alttext="\min_{u\in H}I\left(u\right),\quad I\left(u\right)=\int_{\Omega}\left(\frac{1}%
+{2}\left\lvert\nabla u\left(x\right)\right\rvert^{2}-f\left(x\right)u\left(x%
+\right)\right)\mathinner{\mathrm{d}}\hphantom{\mskip-3.0mu}x" display="block"><mrow><mrow><mrow><mrow><munder><mi>min</mi><mrow><mi>u</mi><mo>∈</mo><mi>H</mi></mrow></munder><mo lspace="0.167em">⁡</mo><mi>I</mi></mrow><mo>⁢</mo><mrow><mo>(</mo><mi>u</mi><mo>)</mo></mrow></mrow><mo rspace="1.167em">,</mo><mrow><mi>I</mi><mo>⁢</mo><mrow><mo>(</mo><mi>u</mi><mo>)</mo></mrow></mrow></mrow><mo rspace="0.111em">=</mo><mrow><msub><mo rspace="0em">∫</mo><mi mathvariant="normal">Ω</mi></msub><mrow><mrow><mo>(</mo><mrow><mrow><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>⁢</mo><msup><mrow><mo>|</mo><mrow><mrow><mo rspace="0.167em">∇</mo><mi>u</mi></mrow><mo>⁢</mo><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mrow><mo>|</mo></mrow><mn>2</mn></msup></mrow><mo>−</mo><mrow><mi>f</mi><mo>⁢</mo><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow><mo>⁢</mo><mi>u</mi><mo>⁢</mo><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mrow></mrow><mo>)</mo></mrow><mo>⁢</mo><mpadded width="0.350em"><mi mathvariant="normal">d</mi></mpadded><mo>⁢</mo><mi>x</mi></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+</div>
+</li>
+<li id="S4.I1.i2" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S4.I1.i2.p1" class="ltx_para">
+<p class="ltx_p">Deep Ritz 方法主要包括:</p>
+<ol id="S4.I1.i2.I1" class="ltx_enumerate">
+<li id="S4.I1.i2.I1.i1" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">1.</span> 
+<div id="S4.I1.i2.I1.i1.p1" class="ltx_para">
+<p class="ltx_p">使用 DNN 参数化试探函数</p>
+</div>
+</li>
+<li id="S4.I1.i2.I1.i2" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">2.</span> 
+<div id="S4.I1.i2.I1.i2.p1" class="ltx_para">
+<p class="ltx_p">对 <math id="S4.I1.i2.I1.i2.p1.m1" class="ltx_Math" alttext="I\left(u\right)" display="inline"><mrow><mi>I</mi><mo>⁢</mo><mrow><mo>(</mo><mi>u</mi><mo>)</mo></mrow></mrow></math> 采取数值积分进行离散化</p>
+</div>
+</li>
+<li id="S4.I1.i2.I1.i3" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">3.</span> 
+<div id="S4.I1.i2.I1.i3.p1" class="ltx_para">
+<p class="ltx_p">设计最终算法</p>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li id="S4.I1.i3" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S4.I1.i3.p1" class="ltx_para">
+<p class="ltx_p">处理边界条件时可能会遇到一些问题, 可以对泛函进行修正:</p>
+<table id="S4.Ex13" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="S4.Ex13.m1" class="ltx_Math" alttext="I\left(u\right)=\int_{\Omega}\left(\frac{1}{2}u_{x}^{2}-fu\right)\mathinner{%
+\mathrm{d}}\hphantom{\mskip-3.0mu}x+\beta\int_{\partial\Omega}u^{2}\mathinner{%
+\mathrm{d}}\hphantom{\mskip-3.0mu}x" display="block"><mrow><mrow><mi>I</mi><mo>⁢</mo><mrow><mo>(</mo><mi>u</mi><mo>)</mo></mrow></mrow><mo rspace="0.111em">=</mo><mrow><mrow><msub><mo rspace="0em">∫</mo><mi mathvariant="normal">Ω</mi></msub><mrow><mrow><mo>(</mo><mrow><mrow><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>⁢</mo><msubsup><mi>u</mi><mi>x</mi><mn>2</mn></msubsup></mrow><mo>−</mo><mrow><mi>f</mi><mo>⁢</mo><mi>u</mi></mrow></mrow><mo>)</mo></mrow><mo>⁢</mo><mpadded width="0.350em"><mi mathvariant="normal">d</mi></mpadded><mo>⁢</mo><mi>x</mi></mrow></mrow><mo>+</mo><mrow><mi>β</mi><mo>⁢</mo><mrow><msub><mo>∫</mo><mrow><mo rspace="0em">∂</mo><mi mathvariant="normal">Ω</mi></mrow></msub><mrow><msup><mi>u</mi><mn>2</mn></msup><mo>⁢</mo><mpadded width="0.350em"><mi mathvariant="normal">d</mi></mpadded><mo>⁢</mo><mi>x</mi></mrow></mrow></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">通常可选 <math id="S4.I1.i3.p1.m1" class="ltx_Math" alttext="\beta=500" display="inline"><mrow><mi>β</mi><mo>=</mo><mn>500</mn></mrow></math>.</p>
+</div>
+</li>
+</ul>
+</div>
+</section>
+</section>
+<section id="S4.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection">
+<span class="ltx_tag ltx_tag_subsection">4.2 </span>最小二乘法</h3>
+
+<section id="S4.SS2.frame1.slide1" class="ltx_slide">
+<h4 class="ltx_title ltx_frame_title ltx_title_slide">最小二乘法</h4>
+
+<div id="S4.SS2.frame1.slide1.p1" class="ltx_para">
+<ul id="S4.I2" class="ltx_itemize">
+<li id="S4.I2.i1" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S4.I2.i1.p1" class="ltx_para">
+<p class="ltx_p">考虑在区域 <math id="S4.I2.i1.p1.m1" class="ltx_Math" alttext="\Omega\in\mathbb{R}^{d}" display="inline"><mrow><mi mathvariant="normal">Ω</mi><mo>∈</mo><msup><mi>ℝ</mi><mi>d</mi></msup></mrow></math> 上求解 PDE</p>
+<table id="S4.Ex14" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="S4.Ex14.m1" class="ltx_Math" alttext="Lu=f" display="block"><mrow><mrow><mi>L</mi><mo>⁢</mo><mi>u</mi></mrow><mo>=</mo><mi>f</mi></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+</div>
+</li>
+<li id="S4.I2.i2" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S4.I2.i2.p1" class="ltx_para">
+<p class="ltx_p">可等价的转化为变分问题</p>
+<table id="S4.Ex15" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="S4.Ex15.m1" class="ltx_Math" alttext="\min_{u}J\left(u\right)=\int_{\Omega}\left\lVert Lu-f\right\rVert^{2}\mu\left(%
+\mathinner{\mathrm{d}}\hphantom{\mskip-3.0mu}x\right)" display="block"><mrow><mrow><mrow><munder><mi>min</mi><mi>u</mi></munder><mo lspace="0.167em">⁡</mo><mi>J</mi></mrow><mo>⁢</mo><mrow><mo>(</mo><mi>u</mi><mo>)</mo></mrow></mrow><mo rspace="0.111em">=</mo><mrow><msub><mo rspace="0em">∫</mo><mi mathvariant="normal">Ω</mi></msub><mrow><msup><mrow><mo fence="true" lspace="0em" rspace="0em" stretchy="true">∥</mo><mrow><mrow><mi>L</mi><mo>⁢</mo><mi>u</mi></mrow><mo>−</mo><mi>f</mi></mrow><mo fence="true" lspace="0em" stretchy="true">∥</mo></mrow><mn>2</mn></msup><mo lspace="0em">⁢</mo><mi>μ</mi><mo>⁢</mo><mrow><mo>(</mo><mrow><mpadded width="0.350em"><mi mathvariant="normal">d</mi></mpadded><mo>⁢</mo><mi>x</mi></mrow><mo>)</mo></mrow></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">其中 <math id="S4.I2.i2.p1.m1" class="ltx_Math" alttext="\mu" display="inline"><mi>μ</mi></math> 是 <math id="S4.I2.i2.p1.m2" class="ltx_Math" alttext="\Omega" display="inline"><mi mathvariant="normal">Ω</mi></math> 上选取的非退化易于采样的概率分布. 于是问题与前面变得类似.</p>
+</div>
+</li>
+</ul>
+</div>
+</section>
+</section>
+<section id="S4.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection">
+<span class="ltx_tag ltx_tag_subsection">4.3 </span>Galerkin 方法</h3>
+
+<section id="S4.SS3.frame1.slide1" class="ltx_slide">
+<h4 class="ltx_title ltx_frame_title ltx_title_slide">Galerkin 方法</h4>
+
+<div id="S4.SS3.frame1.slide1.p1" class="ltx_para">
+<ul id="S4.I3" class="ltx_itemize">
+<li id="S4.I3.i1" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S4.I3.i1.p1" class="ltx_para">
+<p class="ltx_p">考虑弱形式: 寻找 <math id="S4.I3.i1.p1.m1" class="ltx_Math" alttext="u\in H_{1}" display="inline"><mrow><mi>u</mi><mo>∈</mo><msub><mi>H</mi><mn>1</mn></msub></mrow></math> 使得对任意 <math id="S4.I3.i1.p1.m2" class="ltx_Math" alttext="\varphi\in H_{2}" display="inline"><mrow><mi>φ</mi><mo>∈</mo><msub><mi>H</mi><mn>2</mn></msub></mrow></math> 有</p>
+<table id="S4.Ex16" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="S4.Ex16.m1" class="ltx_Math" alttext="a\left(u,\varphi\right)=\left\langle Lu,\varphi\right\rangle=\left\langle f,%
+\varphi\right\rangle" display="block"><mrow><mrow><mi>a</mi><mo>⁢</mo><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>φ</mi><mo>)</mo></mrow></mrow><mo>=</mo><mrow><mo>⟨</mo><mrow><mi>L</mi><mo>⁢</mo><mi>u</mi></mrow><mo>,</mo><mi>φ</mi><mo>⟩</mo></mrow><mo>=</mo><mrow><mo>⟨</mo><mi>f</mi><mo>,</mo><mi>φ</mi><mo>⟩</mo></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+</div>
+</li>
+<li id="S4.I3.i2" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S4.I3.i2.p1" class="ltx_para">
+<p class="ltx_p">通常进行分部积分使其仅涉及一阶导数.</p>
+</div>
+</li>
+<li id="S4.I3.i3" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S4.I3.i3.p1" class="ltx_para">
+<p class="ltx_p">类似 WGAN 方法, 可以将其改写为</p>
+<table id="S4.Ex17" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="S4.Ex17.m1" class="ltx_math_unparsed" alttext="\min_{u\in H_{1}}\max_{\left\lVert\varphi\right\rVert_{H_{2}\leq 1}}\left(a%
+\left(u,\varphi\right)-\left\langle f,\varphi\right\rangle\right)^{2}" display="block"><mrow><munder><mi>min</mi><mrow><mi>u</mi><mo>∈</mo><msub><mi>H</mi><mn>1</mn></msub></mrow></munder><munder><mi>max</mi><msub><mrow><mo fence="true" rspace="0em" stretchy="true">∥</mo><mi>φ</mi><mo fence="true" lspace="0em" stretchy="true">∥</mo></mrow><mrow><msub><mi>H</mi><mn>2</mn></msub><mo>≤</mo><mn>1</mn></mrow></msub></munder><msup><mrow><mo>(</mo><mi>a</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>φ</mi><mo>)</mo></mrow><mo>−</mo><mrow><mo>⟨</mo><mi>f</mi><mo>,</mo><mi>φ</mi><mo>⟩</mo></mrow><mo>)</mo></mrow><mn>2</mn></msup></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+</div>
+</li>
+<li id="S4.I3.i4" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S4.I3.i4.p1" class="ltx_para">
+<p class="ltx_p">然而这种形式的公式很难求解</p>
+</div>
+</li>
+</ul>
+</div>
+</section>
+</section>
+<section id="S4.SS4" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection">
+<span class="ltx_tag ltx_tag_subsection">4.4 </span>多层皮卡德方法 (MLP)</h3>
+
+<section id="S4.SS4.frame1.slide1" class="ltx_slide">
+<h4 class="ltx_title ltx_frame_title ltx_title_slide">多层皮卡德方法 (MLP)</h4>
+
+<div id="S4.SS4.frame1.slide1.p1" class="ltx_para">
+<ul id="S4.I4" class="ltx_itemize">
+<li id="S4.I4.i1" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S4.I4.i1.p1" class="ltx_para">
+<p class="ltx_p">定理3主要提供了多层 Picard 近似方法 (MLP 方法) 在求解半线性热偏微分方程 (具有 Lipschitz 连续的非线性项) 时的误差估计和计算复杂度分析.</p>
+</div>
+</li>
+<li id="S4.I4.i2" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S4.I4.i2.p1" class="ltx_para">
+<p class="ltx_p">假设 PDE 由半线性热方程</p>
+<table id="S4.Ex18" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="S4.Ex18.m1" class="ltx_Math" alttext="\frac{\partial}{\partial t}u_{d}\left(t,x\right)=\Delta_{x}u_{d}\left(t,x%
+\right)+f\left(u_{d}\left(t,x\right)\right)" display="block"><mrow><mrow><mfrac><mo>∂</mo><mrow><mo rspace="0em">∂</mo><mi>t</mi></mrow></mfrac><mo>⁢</mo><msub><mi>u</mi><mi>d</mi></msub><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow></mrow><mo>=</mo><mrow><mrow><msub><mi mathvariant="normal">Δ</mi><mi>x</mi></msub><mo>⁢</mo><msub><mi>u</mi><mi>d</mi></msub><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow></mrow><mo>+</mo><mrow><mi>f</mi><mo>⁢</mo><mrow><mo>(</mo><mrow><msub><mi>u</mi><mi>d</mi></msub><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow></mrow><mo>)</mo></mrow></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">给出, 其中 <math id="S4.I4.i2.p1.m1" class="ltx_Math" alttext="u_{d}\left(t,x\right)" display="inline"><mrow><msub><mi>u</mi><mi>d</mi></msub><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow></mrow></math> 是精确解, <math id="S4.I4.i2.p1.m2" class="ltx_Math" alttext="f\left(u\right)" display="inline"><mrow><mi>f</mi><mo>⁢</mo><mrow><mo>(</mo><mi>u</mi><mo>)</mo></mrow></mrow></math> 是 Lipschitz 连续的非线性项.</p>
+</div>
+</li>
+<li id="S4.I4.i3" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S4.I4.i3.p1" class="ltx_para">
+<p class="ltx_p">设定精度阈值 <math id="S4.I4.i3.p1.m1" class="ltx_Math" alttext="\varepsilon" display="inline"><mi>ε</mi></math>, 则 MLP 方法所需的计算成本 <math id="S4.I4.i3.p1.m2" class="ltx_Math" alttext="\mathfrak{C}_{d,\mathfrak{N}_{\varepsilon},\mathfrak{N}_{\varepsilon}}" display="inline"><msub><mi>ℭ</mi><mrow><mi>d</mi><mo>,</mo><msub><mi>𝔑</mi><mi>ε</mi></msub><mo>,</mo><msub><mi>𝔑</mi><mi>ε</mi></msub></mrow></msub></math> 满足:</p>
+<table id="S4.Ex19" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="S4.Ex19.m1" class="ltx_Math" alttext="\mathfrak{C}_{d,\mathfrak{N}_{\varepsilon},\mathfrak{N}_{\varepsilon}}\leq cd^%
+{c}\varepsilon^{-3}," display="block"><mrow><mrow><msub><mi>ℭ</mi><mrow><mi>d</mi><mo>,</mo><msub><mi>𝔑</mi><mi>ε</mi></msub><mo>,</mo><msub><mi>𝔑</mi><mi>ε</mi></msub></mrow></msub><mo>≤</mo><mrow><mi>c</mi><mo>⁢</mo><msup><mi>d</mi><mi>c</mi></msup><mo>⁢</mo><msup><mi>ε</mi><mrow><mo>−</mo><mn>3</mn></mrow></msup></mrow></mrow><mo>,</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">其中 <math id="S4.I4.i3.p1.m3" class="ltx_Math" alttext="c" display="inline"><mi>c</mi></math> 是一个与维数 <math id="S4.I4.i3.p1.m4" class="ltx_Math" alttext="d" display="inline"><mi>d</mi></math> 和精度 <math id="S4.I4.i3.p1.m5" class="ltx_Math" alttext="\varepsilon" display="inline"><mi>ε</mi></math> 无关的常数. 这表明 MLP 方法的计算成本仅呈多项式增长, 相比于传统方法的指数增长 (即“维数灾难”), MLP 方法在一定程度上克服了维数灾难.</p>
+</div>
+</li>
+</ul>
+</div>
+</section>
+<section id="S4.SS4.frame2.slide1" class="ltx_slide">
+<h4 class="ltx_title ltx_frame_title ltx_title_slide">多层皮卡德方法 (MLP)</h4>
+
+<div id="S4.SS4.frame2.slide1.p1" class="ltx_para">
+<ul id="S4.I5" class="ltx_itemize">
+<li id="S4.I5.i1" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S4.I5.i1.p1" class="ltx_para">
+<p class="ltx_p">该方法的 <math id="S4.I5.i1.p1.m1" class="ltx_Math" alttext="L^{2}" display="inline"><msup><mi>L</mi><mn>2</mn></msup></math> 误差估计满足:</p>
+<table id="S4.Ex20" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="S4.Ex20.m1" class="ltx_Math" alttext="\left(\mathbb{E}\left[\left\lvert U^{d,0}_{\mathfrak{N}_{\varepsilon},%
+\mathfrak{N}_{\varepsilon}}\left(T,0\right)-u_{d}\left(T,0\right)\right\rvert^%
+{2}\right]\right)^{\frac{1}{2}}\leq\varepsilon" display="block"><mrow><msup><mrow><mo>(</mo><mrow><mi>𝔼</mi><mo>⁢</mo><mrow><mo>[</mo><msup><mrow><mo>|</mo><mrow><mrow><msubsup><mi>U</mi><mrow><msub><mi>𝔑</mi><mi>ε</mi></msub><mo>,</mo><msub><mi>𝔑</mi><mi>ε</mi></msub></mrow><mrow><mi>d</mi><mo>,</mo><mn>0</mn></mrow></msubsup><mo>⁢</mo><mrow><mo>(</mo><mi>T</mi><mo>,</mo><mn>0</mn><mo>)</mo></mrow></mrow><mo>−</mo><mrow><msub><mi>u</mi><mi>d</mi></msub><mo>⁢</mo><mrow><mo>(</mo><mi>T</mi><mo>,</mo><mn>0</mn><mo>)</mo></mrow></mrow></mrow><mo>|</mo></mrow><mn>2</mn></msup><mo>]</mo></mrow></mrow><mo>)</mo></mrow><mfrac><mn>1</mn><mn>2</mn></mfrac></msup><mo>≤</mo><mi>ε</mi></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">这意味着, MLP 方法可以在计算成本受控的情况下, 将误差控制在 <math id="S4.I5.i1.p1.m2" class="ltx_Math" alttext="\varepsilon" display="inline"><mi>ε</mi></math> 以内.</p>
+</div>
+</li>
+<li id="S4.I5.i2" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S4.I5.i2.p1" class="ltx_para">
+<p class="ltx_p">定理 3 的核心贡献</p>
+<ol id="S4.I5.i2.I1" class="ltx_enumerate">
+<li id="S4.I5.i2.I1.i1" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">1.</span> 
+<div id="S4.I5.i2.I1.i1.p1" class="ltx_para">
+<p class="ltx_p">提供了 MLP 方法对 PDE 逼近的严格误差分析, 证明了该方法能够在多项式计算复杂度下达到高精度解</p>
+</div>
+</li>
+<li id="S4.I5.i2.I1.i2" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">2.</span> 
+<div id="S4.I5.i2.I1.i2.p1" class="ltx_para">
+<p class="ltx_p">明确了计算复杂度的上界, 即计算成本随维度 <math id="S4.I5.i2.I1.i2.p1.m1" class="ltx_Math" alttext="d" display="inline"><mi>d</mi></math> 线性增长, 随误差 <math id="S4.I5.i2.I1.i2.p1.m2" class="ltx_Math" alttext="\varepsilon^{-3}" display="inline"><msup><mi>ε</mi><mrow><mo>−</mo><mn>3</mn></mrow></msup></math> 级增长</p>
+</div>
+</li>
+<li id="S4.I5.i2.I1.i3" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">3.</span> 
+<div id="S4.I5.i2.I1.i3.p1" class="ltx_para">
+<p class="ltx_p">支持 MLP 方法在高维 PDE 计算中的可行性, 理论上证明了该方法在高维问题中比传统网格方法 (如有限差分, 有限元) 更具优势</p>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li id="S4.I5.i3" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S4.I5.i3.p1" class="ltx_para">
+<p class="ltx_p">总的来说, 定理 3 证明了 MLP 方法是一种在计算效率和逼近精度之间具有良好平衡的数值方法, 特别适用于高维 PDE 计算</p>
+</div>
+</li>
+</ul>
+</div>
+</section>
+<section id="S4.SS4.frame3.slide1" class="ltx_slide">
+<h4 class="ltx_title ltx_frame_title ltx_title_slide">神经网络近似逼近 PDEs 数值解的数学结果</h4>
+
+<div id="S4.SS4.frame3.slide1.p1" class="ltx_para">
+<ul id="S4.I6" class="ltx_itemize">
+<li id="S4.I6.i1" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S4.I6.i1.p1" class="ltx_para">
+<p class="ltx_p">截至今日, 尚没有完整的严格数学分析能够证明 (或证伪) 以下猜想: 存在一种基于深度学习的近似方法能够在偏微分方程 (PDE) 的数值逼近中克服维度诅咒 (curse of dimensionality). 然而, 已经有一些数学结果证明, DNN 具备在不引入维度诅咒的条件下近似 PDE 解的能力.</p>
+</div>
+</li>
+<li id="S4.I6.i2" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S4.I6.i2.p1" class="ltx_para">
+<p class="ltx_p">定理 4 表明, 设 <math id="S4.I6.i2.p1.m1" class="ltx_Math" alttext="u_{d}\left(t,x\right)" display="inline"><mrow><msub><mi>u</mi><mi>d</mi></msub><mo>⁢</mo><mrow><mo>(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow></mrow></math> 满足非线性热方程:</p>
+<table id="S4.Ex21" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="S4.Ex21.m1" class="ltx_Math" alttext="\frac{\partial u_{d}}{\partial t}=\Delta_{x}u_{d}+f(u_{d}),\quad u_{d}(0,x)%
+\text{初值}" display="block"><mrow><mfrac><mrow><mo rspace="0em">∂</mo><msub><mi>u</mi><mi>d</mi></msub></mrow><mrow><mo rspace="0em">∂</mo><mi>t</mi></mrow></mfrac><mo>=</mo><mrow><mrow><mrow><msub><mi mathvariant="normal">Δ</mi><mi>x</mi></msub><mo>⁢</mo><msub><mi>u</mi><mi>d</mi></msub></mrow><mo>+</mo><mrow><mi>f</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><msub><mi>u</mi><mi>d</mi></msub><mo stretchy="false">)</mo></mrow></mrow></mrow><mo rspace="1.167em">,</mo><mrow><msub><mi>u</mi><mi>d</mi></msub><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mn>0</mn><mo>,</mo><mi>x</mi><mo stretchy="false">)</mo></mrow><mo>⁢</mo><mtext>初值</mtext></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">若初值可用 DNN 以多项式复杂度逼近, 则</p>
+<ol id="S4.I6.i2.I1" class="ltx_enumerate">
+<li id="S4.I6.i2.I1.i1" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">1.</span> 
+<div id="S4.I6.i2.I1.i1.p1" class="ltx_para">
+<p class="ltx_p">存在神经网络 <math id="S4.I6.i2.I1.i1.p1.m1" class="ltx_Math" alttext="\mathfrak{u}_{d,\varepsilon}" display="inline"><msub><mi>𝔲</mi><mrow><mi>d</mi><mo>,</mo><mi>ε</mi></mrow></msub></math>, 其参数数量 <math id="S4.I6.i2.I1.i1.p1.m2" class="ltx_Math" alttext="\mathcal{P}\left(\mathfrak{u}_{d,\varepsilon}\right)" display="inline"><mrow><mi class="ltx_font_mathcaligraphic">𝒫</mi><mo>⁢</mo><mrow><mo>(</mo><msub><mi>𝔲</mi><mrow><mi>d</mi><mo>,</mo><mi>ε</mi></mrow></msub><mo>)</mo></mrow></mrow></math> 至多以多项式速率增长于维度 <math id="S4.I6.i2.I1.i1.p1.m3" class="ltx_Math" alttext="d" display="inline"><mi>d</mi></math> 和精度倒数 <math id="S4.I6.i2.I1.i1.p1.m4" class="ltx_Math" alttext="\varepsilon^{-1}" display="inline"><msup><mi>ε</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup></math></p>
+</div>
+</li>
+<li id="S4.I6.i2.I1.i2" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">2.</span> 
+<div id="S4.I6.i2.I1.i2.p1" class="ltx_para">
+<p class="ltx_p">在超立方体 <math id="S4.I6.i2.I1.i2.p1.m1" class="ltx_Math" alttext="[0,1]^{d}" display="inline"><msup><mrow><mo stretchy="false">[</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false">]</mo></mrow><mi>d</mi></msup></math> 上, 神经网络实现的 <math id="S4.I6.i2.I1.i2.p1.m2" class="ltx_Math" alttext="L^{2}" display="inline"><msup><mi>L</mi><mn>2</mn></msup></math>-逼近误差不超过 <math id="S4.I6.i2.I1.i2.p1.m3" class="ltx_Math" alttext="\varepsilon" display="inline"><mi>ε</mi></math></p>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ul>
+</div>
+</section>
+<section id="S5" class="ltx_section">
+<h2 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_section">5 </span>结论与未来展望</h2>
+
+<section id="S5.frame1.slide1" class="ltx_slide">
+<h3 class="ltx_title ltx_frame_title ltx_title_slide">结论与未来展望</h3>
+
+<div id="S5.frame1.slide1.p1" class="ltx_para">
+<ul id="S5.I1" class="ltx_itemize">
+<li id="S5.I1.i1" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S5.I1.i1.p1" class="ltx_para">
+<p class="ltx_p">利用非线性蒙特卡罗和深度学习方法, 设计出不受维数灾难影响的高效数值算法</p>
+</div>
+</li>
+<li id="S5.I1.i2" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S5.I1.i2.p1" class="ltx_para">
+<p class="ltx_p">理论与数值实验均证明: 对于控制, 金融, 量子等领域的高维问题, 这些方法具有显著优势</p>
+</div>
+</li>
+<li id="S5.I1.i3" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S5.I1.i3.p1" class="ltx_para">
+<p class="ltx_p">未来工作: 进一步完善理论证明, 改进算法效率以及扩展到更广泛的应用场景</p>
+</div>
+</li>
+</ul>
+</div>
+</section>
+<section id="S6" class="ltx_section">
+<h2 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_section">6 </span>结束页</h2>
+
+<section id="S6.frame1.slide1" class="ltx_slide">
+<div id="S6.frame1.slide1.p1" class="ltx_para">
+<p class="ltx_p"><span class="ltx_text" style="font-size:298%;">谢谢！</span></p>
+</div>
+<h3 class="ltx_title ltx_centering ltx_frame_title ltx_title_slide" style="font-size:298%;">结束页</h3>
+
+</section>
+</section>
+</section>
+</section>
+</section>
+</section>
+</section>
+</section>
+</section>
+</article>
+</div>
+<footer class="ltx_page_footer">
+<div class="ltx_page_logo">Generated  on Tue Sep 16 15:34:47 2025 by <a href="http://dlmf.nist.gov/LaTeXML/" class="ltx_LaTeXML_logo"><span style="letter-spacing:-0.2em; margin-right:0.1em;">L<span class="ltx_font_smallcaps" style="position:relative; bottom:2.2pt;">a</span>T<span class="ltx_font_smallcaps" style="font-size:120%;position:relative; bottom:-0.2ex;">e</span></span><span style="font-size:90%; position:relative; bottom:-0.2ex;">XML</span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAOCAYAAAD5YeaVAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wKExQZLWTEaOUAAAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAdpJREFUKM9tkL+L2nAARz9fPZNCKFapUn8kyI0e4iRHSR1Kb8ng0lJw6FYHFwv2LwhOpcWxTjeUunYqOmqd6hEoRDhtDWdA8ApRYsSUCDHNt5ul13vz4w0vWCgUnnEc975arX6ORqN3VqtVZbfbTQC4uEHANM3jSqXymFI6yWazP2KxWAXAL9zCUa1Wy2tXVxheKA9YNoR8Pt+aTqe4FVVVvz05O6MBhqUIBGk8Hn8HAOVy+T+XLJfLS4ZhTiRJgqIoVBRFIoric47jPnmeB1mW/9rr9ZpSSn3Lsmir1fJZlqWlUonKsvwWwD8ymc/nXwVBeLjf7xEKhdBut9Hr9WgmkyGEkJwsy5eHG5vN5g0AKIoCAEgkEkin0wQAfN9/cXPdheu6P33fBwB4ngcAcByHJpPJl+fn54mD3Gg0NrquXxeLRQAAwzAYj8cwTZPwPH9/sVg8PXweDAauqqr2cDjEer1GJBLBZDJBs9mE4zjwfZ85lAGg2+06hmGgXq+j3+/DsixYlgVN03a9Xu8jgCNCyIegIAgx13Vfd7vdu+FweG8YRkjXdWy329+dTgeSJD3ieZ7RNO0VAXAPwDEAO5VKndi2fWrb9jWl9Esul6PZbDY9Go1OZ7PZ9z/lyuD3OozU2wAAAABJRU5ErkJggg==" alt="Mascot Sammy"></a>
+</div></footer>
+</div>
+</body>
+</html>
