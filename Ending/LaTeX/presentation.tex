@@ -1,0 +1,174 @@
+\documentclass[aspectratio=169,10pt]{beamer}
+
+\usetheme{metropolis}
+\usefonttheme[onlymath]{serif}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath, amssymb, amsfonts, bm}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\def\dif{\mathinner{\mathrm{d}}\hphantom{\mskip-\thinmuskip}}
+
+\title{基于随机特征法的高维问题求解研究}
+\subtitle{大学生研究计划结题报告}
+\author{学生姓名: 刘行}
+\institute{中国科学技术大学大学\quad 少年班学院}
+\date{\today}
+
+\begin{document}
+    \begin{frame}
+        \titlepage
+    \end{frame}
+
+    \begin{frame}{报告提纲}
+        \tableofcontents
+    \end{frame}
+
+    \section{研究背景与意义}
+    \begin{frame}{研究背景}
+        \begin{itemize}
+            \item 高维偏微分方程在金融数学, 量子物理和控制问题中普遍存在.
+            \item 传统数值方法 (有限元法, 有限差分法) 在高维情形下计算复杂度指数增长, 出现 ``维度灾难''.
+            \item 随机特征法 (Random Feature Method, RFM)与深度学习相结合, 为高维问题提供了新的近似手段.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{研究意义}
+        \begin{itemize}
+            \item 探索基于随机特征的高维数值求解方法, 可突破传统网格法的限制.
+            \item 为高维抛物型方程提供新的数值框架.
+            \item 对比分析 Deep BSDE 方法与 RFM 方法的性能差异, 为后续研究提供参考.
+        \end{itemize}
+    \end{frame}
+
+    \section{研究目标与主要内容}
+    \begin{frame}{研究目标}
+        \begin{enumerate}
+            \item 构建随机特征法 (RFM) 求解高维 PDE 的通用框架.
+            \item 实现半线性抛物型方程的 Deep BSDE 求解器.
+            \item 设计线性抛物型方程的 RFM 求解器并进行实验验证.
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}{主要研究内容}
+        \begin{columns}[T]
+            \column{0.5\textwidth}
+            \begin{block}{理论部分}
+                \begin{itemize}
+                    \item PDE 与 BSDE 的等价关系
+                    \item 随机特征法的数学基础
+                \end{itemize}
+            \end{block}
+
+            \column{0.5\textwidth}
+            \begin{block}{实验部分}
+                \begin{itemize}
+                    \item Deep BSDE 求解器的实现与优化
+                    \item 线性 PDE 的 RFM 实验框架
+                    \item 加入非线性求解器以求解半线性 PDE
+                    \item 对比两种方法的性能
+                \end{itemize}
+            \end{block}
+        \end{columns}
+    \end{frame}
+
+    \section{相关方法简介}
+    \begin{frame}{PDE 与 BSDE 的关系}
+        考虑半线性抛物型方程:
+        \begin{equation*}
+            \frac{\partial u}{\partial t} + \frac{1}{2} \mathrm{Tr}\left(\sigma\sigma^{\top}\,\mathrm{Hess}_x u\right) + \langle\nabla u, \mu\rangle + f\left(t, x, u, \sigma^{\top} \nabla u\right)=0, \quad u\left(T,x\right)=g\left(x\right)
+        \end{equation*}
+        对应的后向随机微分方程 (BSDE) 为:
+        \begin{equation*}
+            \left\{\begin{array}{l}
+                X_{t} = \xi + \int_{0}^{t} \mu\left(s, X_{s}\right) \dif s + \int_{0}^{t} \sigma\left(s, X_{s}\right) \dif W_{s} \\
+                Y_{t} = g\left(X_{T}\right) + \int_{t}^{T} f\left(s, X_{s}, Y_{s}, Z_{s}\right) \dif s - \int_{t}^{T} \left(Z_{s}\right)^{\top} \dif W_{s}
+            \end{array}\right.
+        \end{equation*}
+        其中 $Y_{t} = u\left(t, X_{t}\right), Z_{t} = \left[\sigma\left(t, X_{t}\right)\right]^{\top} \left(\nabla_{x} u \right)\left(t, X_{t}\right)$, 则随机过程 $\left(X_{t}, Y_{t}, Z_{t}\right) \in \mathbb{R}^{d} \times \mathbb{R} \times \mathbb{R}^d, t \in \left[0, T\right]$.
+
+        为简化模型, 通常取 $\mu = 0$, $\sigma = I_d$ 或 $\sigma = \sqrt{2} I_d$ 等.
+    \end{frame}
+
+    \begin{frame}{随机特征法 (RFM) 简介}
+        \begin{itemize}
+            \item 基本思想: 用随机基函数近似高维空间中的未知函数.
+            \item 表示形式:
+            \begin{equation*}
+                u\left(x\right) \approx \sum_{i=1}^{m} a_{i} \, \phi\left(\omega_{i}^{\top} x + b_{i}\right)
+            \end{equation*}
+            其中参数 $\omega_{i}, b_{i}$ 随机生成，系数 $a_{i}$ 通过最小二乘拟合.
+            \item 优点: 避免高维网格划分, 训练速度快, 可扩展至非线性 PDE.
+        \end{itemize}
+    \end{frame}
+
+    \section{已完成工作}
+    \begin{frame}{Deep BSDE 求解器}
+        \begin{itemize}
+            \item 已完成半线性抛物型方程的 Deep BSDE 求解器实现, 使用时间离散 + 神经网络近似 $Z_{t}$.
+            \item 损失函数来源于终端条件误差: $\mathcal{L} = \mathbb{E}\left\lvert Y_{T} - g\left(X_{T}\right)\right\rvert^{2}$.
+            \item 下图展示了在 100 维空间中求解 HJB 方程的损失曲线, 可见损失迅速下降, 说明方法可行. 且使用 5070 显卡计算 2000 次迭代仅需约 25 秒, 计算效率符合预期.
+        \end{itemize}
+
+        \vspace{1em}
+        \begin{figure}[htbp]
+            \centering
+            \begin{subfigure}{0.32\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{figures/bsde_loss_curve.png}
+                \caption{Loss curve}
+            \end{subfigure}
+            \begin{subfigure}{0.32\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{figures/bsde_logloss_curve.png}
+                \caption{Log-loss curve}
+            \end{subfigure}
+        \end{figure}
+    \end{frame}
+
+    \begin{frame}{RFM 求解器}
+        已经完成线性求解器, 下面展示具体步骤:
+        \begin{enumerate}
+            \item 通过引入随机特征基函数并固定 (随机采样) 内层参数来近似 PDE 解的梯度 (即 $\left[\sigma\left(t, x\right)\right]^{\top} \left(\nabla_{x} u \right)\left(t, x\right)$), 随机特征函数记为 $\boldsymbol{\phi}\left(x, t\right) = \alpha\tanh\left(A \boldsymbol{x} + bt + c\right)$;
+            \item 取探测点 $x^{0}$ 并进行布朗运动采样得到 $\dif w^{k}$ 和 $x^{k}$, 目标为求解得到 $y^{0} = u\left(x^{0}\right)$;
+            \item 写出线性迭代过程如下:
+            \begin{equation*}
+                \begin{array}{l}
+                    \dif w^{k}, x^{k} = \mathrm{select()} \\
+                    \mathrm{for} \; n = 0, 1, \ldots, N-1: \\
+                    \quad \quad t_{n} = n \Delta t, \boldsymbol{x}_{n}^{k} = x^{k}\left[:,n\right], \dif \boldsymbol{w}_{n}^{k} = \dif w^{k}\left[:,n\right] \\
+                    \quad \quad \boldsymbol{z}_{n}^{k} = \boldsymbol{\phi}\left(\boldsymbol{x}_{n}^{k}, t_{n}\right) \\
+                    \quad \quad y_{n+1}^{k} = y_{n}^{k} - \Delta t \cdot f\left(t_{n}, \boldsymbol{x}_{n}^{k}, y_{n}^{k}, \boldsymbol{z}_{n}^{k}\right) + \left\langle \dif \boldsymbol{w}_{n}^{k}, \boldsymbol{z}_{n}^{k} \right\rangle \\
+                \end{array}
+            \end{equation*}
+            \item 将线性迭代过程写为矩阵乘法形式, 并通过最小二乘法求出外层系数及探测点的函数值.
+        \end{enumerate}
+    \end{frame}
+
+    \section{后续工作与计划}
+    \begin{frame}{后续工作计划}
+        由于大研总体时间有限, 未能完成此项目的全部内容, 计划后续研究作为本科毕业论文完成:
+        \begin{enumerate}
+            \item 将算法推广至非线性方程比如引入非线性求解器等.
+            \item 比较此算法与 Deep BSDE 方法.
+            \item 优化采样与正则化策略, 提高稳定性.
+            \item 撰写论文并准备毕业答辩.
+        \end{enumerate}
+    \end{frame}
+
+    \section{总结与展望}
+    \begin{frame}{总结与展望}
+        \begin{itemize}
+            \item 已构建 Deep BSDE 求解器并验证可行性;
+            \item RFM 求解器框架理论部分基本完成, 后续将完善实验;
+            \item 研究有望为高维 PDE 数值解提供新的高效思路.
+        \end{itemize}
+        \vfill
+        \centering
+        {\large 谢谢!}
+    \end{frame}
+\end{document}
