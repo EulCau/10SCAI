@@ -4,3 +4,4 @@
 [submodule "cppRFM/implement/rfm"]
 	path = cppRFM/implement/rfm
 	url = git@github.com:EulCau/random-feature-method.git
+	branch = main
